@@ -1,0 +1,84 @@
+# Assignment Next JS - Events Application Theme
+
+## Overview
+
+For the Assignment Next JS, you will work individually to build the front end of an application using Next JS. There will be 4 different themes for the Assignment Next JS, each with a different set of application flow and requirements. Each project will have general requirements as a minimum, including Admin Panel, Client Side, List of Items, Search, sorting, and pagination, User profile, Landing Page, Data seeding, etc.
+
+After developing the projects based on the requirements, you have to present your project in front of the other trainees. The presentation will have these guidelines:
+
+- Presentation Duration maximal 15 minutes
+- Before starting the demonstration, show the git status of your project
+- App Demonstration
+- Brief code explanation
+- Q&A Session
+
+Important things that you have to keep in mind when you do the final project:
+
+- Repository name: assignment-Nextjs-frontend-yourname
+- Add README.md put with how to run your apps smoothly and add some useful information there
+- Do frequent commit with meaningful commit messages
+- Only commits before the defined deadline will be accepted
+- Better to take a look and review your own MR
+- Attach a screenshot of your test coverage on your MR description.
+- You can use any components library for your Front End.
+- The objective of the requirement document is to explain in brief what will be the minimum requirement to be developed when you are developing the product. You are still expected to develop your product with good common process practices, as well as good user experience with necessary validation, sorting, pagination, etc, even if it is not described in the document.
+- Your application language should be presented in English.
+
+## Application Features
+
+### Features Admin Side
+
+- CMS (Content Management System) for managing content on the website.
+- Login and Logout functionality.
+- Profile page.
+- Manage users: View the user list (passwords are not displayed).
+- Manage events: View the event list with sorting options based on start time, duration, price, and category name. Ability to create a new event with information including name, image, description, start time, duration, ticket price, capacity, and category. Event images can be stored in the database as BLOBs. Ability to edit events.
+- View a list of participants who participated in an event along with the payment status of those participants.
+- View earnings reports by month, including the results of merchandise sales.
+- Manage merchandise: View a list of merchandise with sorting options based on event, price, and stock. Ability to add new merchandise for an event with information including name, stock, price, and event id. Ability to edit merchandise.
+- Implement search and pagination for possible pages.
+
+### Feature User Side
+
+- Login and Logout functionality.
+- Profile page.
+- Register page with input fields for email and passwords.
+- Membership page for increasing the user's membership level. Membership-level options are silver, gold, and platinum, with corresponding costs of Rp. 200,000, Rp. 250,000, and Rp. 300,000. Membership is lifetime.
+- Event list page to see available events with sorting options based on name, start time, duration, and category name. Ability to view event details and bookmark events.
+- Bookmarked event list page to display bookmarked events with the option to view event details, make payments, and delete previously bookmarked events.
+- Payments page for making payments to participate in an event. Users get a fee discount of 10% (silver member), 15% (gold member), and 20% (platinum member) for the next event payment after making a payment for the 5th event.
+- Merchandise purchase page for special merchandise related to an event. Users can choose merchandise, add to cart, and make a payment (checkout).
+- Purchase history page to view the history of previous purchases.
+- Top-up page for topping up user balances.
+- Implement search and pagination for possible pages.
+
+## Technical Requirements
+
+### Frontend
+
+- Using Next JS (with Typescript).
+- Separate clients for users with the User role and users with the Admin role.
+- Use state management like Redux, Zustand, or Redux toolkit for both user and admin sites.
+- Ensure every page is reactive and does not require a website refresh to change the display.
+- Use server-side rendering, static generation, or Incremental Static Regeneration appropriately.
+- Utilize CSS modules, frameworks, or style components (SCSS, styled-components).
+- Create reusable components like Table, TableRow/TableItem, Form (Add & Edit in one form), Button, footer, and Card/Item.
+- Communicate with JSON Server via REST API for frontend-backend communication.
+- Implement a mock authentication flow using JSON Server for pages based on logged-in user.
+- Upload images to an image sharing platform and save the image URL to the JSON Server.
+- Ensure Mobile Responsive design.
+- Deploy the web application to any provider of your choice.
+
+### Backend
+
+- Create a REST API server using JSON Server.
+- Define endpoints to fulfill application features with appropriate URL parameters, URL query, header, request body, response status, and response body.
+- Document API for each endpoint.
+- Simulate authentication and authorization flow using JSON Server.
+- Implement a custom route in a routes.json file for user login and user data retrieval.
+- Start JSON Server with the custom routes:
+  ```
+  json-server --watch db.json --routes routes.json
+  ```
+- Use POST request to /auth/login with username and password as query parameters to simulate user login.
+- Use GET request to /auth/user/:id to retrieve user data after login, where :id is the user's ID obtained from successful login.
