@@ -43,11 +43,11 @@ Important things that you have to keep in mind when you do the final project:
 - Login and Logout functionality.
 - Profile page.
 - Register page with input fields for email and passwords.
-- Membership page for increasing the user's membership level. Membership-level options are silver, gold, and platinum, with corresponding costs of Rp. 200,000, Rp. 250,000, and Rp. 300,000. Membership is lifetime.
+- Membership page for increasing the user's membership level. Membership-level options are silver, gold, and platinum, with price of Rp. 200,000, Rp. 250,000, and Rp. 300,000. Membership is lifetime.
 - Event list page to see available events with sorting options based on name, start time, duration, and category name. Ability to view event details and bookmark events.
 - Bookmarked event list page to display bookmarked events with the option to view event details, make payments, and delete previously bookmarked events.
-- Payments page for making payments to participate in an event. Users get a fee discount of 10% (silver member), 15% (gold member), and 20% (platinum member) for the next event payment after making a payment for the 5th event.
-- Merchandise purchase page for special merchandise related to an event. Users can choose merchandise, add to cart, and make a payment (checkout).
+- Merchandise purchase page ony appear after buying selected event for special merchandise related to an event. Users can choose merchandise, add to cart, and make a payment (checkout).
+- Payments page for making payments to participate in an event. Users get a fee discount of 10% (silver member), 15% (gold member), and 20% (platinum member) for every purchase event & merchandise.
 - Purchase history page to view the history of previous purchases.
 - Top-up page for topping up user balances.
 - Implement search and pagination for possible pages.
@@ -64,8 +64,8 @@ Important things that you have to keep in mind when you do the final project:
 - Utilize CSS modules, frameworks, or style components (SCSS, styled-components).
 - Create reusable components like Table, TableRow/TableItem, Form (Add & Edit in one form), Button, footer, and Card/Item.
 - Communicate with JSON Server via REST API for frontend-backend communication.
-- Implement a mock authentication flow using JSON Server for pages based on logged-in user.
-- Upload images to an image sharing platform and save the image URL to the JSON Server.
+- Implement a mock authentication flow using JSON Server Auth / google login for pages based on logged-in user.
+- Upload images to an cloudinary and save the image URL to the JSON Server.
 - Ensure Mobile Responsive design.
 - Deploy the web application to any provider of your choice.
 
