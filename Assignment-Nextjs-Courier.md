@@ -28,29 +28,29 @@ Important things that you have to keep in mind when you do the final project:
 
 ### Features Admin Side
 
-- CMS (Content Management System) for managing content on the website.
-- Login and Logout functionality.
-- Profile page with the ability to edit email addresses, long names, phone numbers, and add profile photo. Profile photo should be uploaded to a CDN (such as Cloudinary), then its URL can be saved to the database. Users can also see a referral code that can be shared with other potential users.
-- Manage addresses: View a list of addresses.
-- Manage shippings: View a list of shippings with sorting options based on size, category, payment, and status. Detailed information and reviews of each shipping can be viewed by clicking on it.
-- View earnings reports by month.
-- Update shipping status.
-- Manage promos: View the list of promos with sorting options based on quota and expiration date. Ability to update a promo.
-- Implement search and pagination for possible pages.
+- **CMS** (Content Management System) for managing content on the website.
+- **Login and Logout functionality**, add server auth or google login and then save to cookies.
+- **Admin Profile page** with the ability to edit email addresses, long names, phone numbers, and add profile photo. Profile photo should be uploaded to a CDN (such as Cloudinary), then its URL can be saved to JSON server database.
+- **Manage addresses**: View a list of addresses.
+- **Manage shippings**: View a list of shippings with sorting options based on size, category, payment, and status. Detailed information and reviews of each shipping can be viewed by clicking on it.
+- Page to view **earnings reports** by month.
+- Page to **Update shipping status**.
+- **Manage promos**: View the list of promos with sorting options based on quota and expiration date. Ability to update a promo.
+- Implement **search and pagination** for possible pages.
 
 ### Feature User Side
 
-- Login and Logout functionality.
-- Profile page with the ability to edit email addresses, long names, phone numbers, and add profile photo. Profile photo should be uploaded to a CDN (such as Cloudinary), then its URL can be saved to the database. Users can also see a referral code that can be shared with other potential users.
-- Register page with input fields for email, password, full name, phone number, and referral codes. A new user who registers using a referral code will get an additional balance of Rp. 50,000 after completing cumulative transactions amounting to Rp. 350,000. Existing users whose referral code is used are entitled to an additional balance of Rp. 25,000 when a new user has completed cumulative transactions of Rp. 500,000.
-- Create shipping page with input fields for package dimensions, weight, starting point address, category, add-ons, and shipping address. Price calculation for shipping will be done by the backend based on volume or weight, whichever is more expensive. City and Province input fields will be used to determine the price of a shipment using a third-party API Raja Ongkir.
-- Shipping list page to display created shippings and their status. Users can view shipping details and make payments.
-- Create addresses page to enter new shipping addresses. City and Province input fields will be used to determine the price of a shipment using a third-party API Raja Ongkir.
-- Address list page to display created addresses. 
-- Edit addresses page to edit saved addresses.
-- Payments page to make payments for a shipping. Users can choose which promotions to use (if available).
-- Top-up page to top-up user balances. The minimum top-up is Rp. 10,000 and the maximum is Rp. 10,000,000.
-- Gacha game feature to provide users with a chance to win discount vouchers after completing a shipment.
+- **Login and Logout** functionality.
+- **Profile page** with the ability to edit email addresses, long names, phone numbers, and add profile photo. Profile photo should be uploaded to a CDN (such as Cloudinary), then its URL can be saved to the database. User can use **their own** referral code to add balance ti their account.
+- **Register page** with input fields for email, password, full name, phone number, and referral codes. A new user who registers using a referral code will get an additional balance of Rp. 50,000 after completing cumulative transactions amounting to Rp. 350,000. Existing users whose referral code is used are entitled to an additional balance of Rp. 25,000 when a new user has completed cumulative transactions of Rp. 500,000.
+- **Shipping page** with input fields for package dimensions, weight, starting point address, category, add-ons, and shipping address. Calculate shipping price statically using static data (e.g: Jakarta to Bandung: Rp. 20,000. Bandung to Medan: Rp. 100,000) you can add static dummy data to contain the shipping price.
+- **Shipping list page** to display created shippings and their status. Users can view shipping details and make payments.
+- **Addresses page** to enter new shipping addresses. City and Province input fields will be used to determine the price of a shipment using a third-party API Raja Ongkir.
+- **Address list page** to display created addresses.
+- **Edit addresses page** to edit saved addresses.
+- **Payments page** to make payments for a shipping. Users can choose which promotions to use (if available).
+- **Top-up page** to top-up user balances. The minimum top-up is Rp. 10,000 and the maximum is Rp. 10,000,000.
+- **Gacha game** feature to provide users with a chance to "win" account balance (top up) and player will gain a chance to play the game after completing a shipment.
 
 ## Technical Requirements
 
