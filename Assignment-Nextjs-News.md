@@ -26,12 +26,17 @@ Important things that you have to keep in mind when you do the final project:
 
 ## Application Features
 
+## reference example :
+- medium.com with premium content
+- bisnis.com with premium content
+
 ### Features Admin Side (CMS)
 
 1. Login
 2. Logout
 3. Manage Subscription
-   - View the entire list of subscriptions
+   - View the entire list of subscriptions user
+   - deactive user subscriptions
 4. Manage Post
    - View the entire list of Posts
    - View Post details
@@ -43,16 +48,7 @@ Important things that you have to keep in mind when you do the final project:
    - Update Transaction Status from process to completed
    - Update Transaction Status from process to canceled
    - Filter by transaction date and Transaction status
-6. Manage voucher
-   - View all Voucher Programs
-7. Manage User Rewards
-   - Displays a list of all User Gift Tracking that has been generated from the System
-   - Updates Tracking Status from process to completed
-   - Updates Tracking Status from process to canceled
-8. Manage Gift
-   - Displays gift list
-   - Can update stock for gifts
-9. Perform authorization so that data can only be managed by users who have the admin role
+6. Perform authorization so that data can only be managed by users who have the admin role
 
 ### User Portal Features
 
@@ -72,6 +68,7 @@ Using the react.js tech stack, you are asked to create a website for the selecte
      - Referral
 4. Home Search All Posts
    - The main menu accessed by logged-in users
+   - Dispalys tag for premium post
    - Displays 5 trending posts in the week
    - Displays a section list of posts with filter features like title, dropdown category, and dropdown paid/unpaid.
    - Sorting feature based on the date the post was carried out (ascending/descending).
@@ -84,39 +81,16 @@ Using the react.js tech stack, you are asked to create a website for the selecte
      - Description
      - Count of user liked and shared
      - Like button and Share button
-   - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's reading history.
-6. My Reading History
-   - A separate menu that displays a list of news posts that have been read, sorted from the most recent.
-   - Each post can be clicked to display its details.
-7. Get Subscription Plan Payment
-   - In one transaction, the user can only upgrade/buy a subscription.
-   - Users can buy recurring subscriptions that will add quotas and increase the subscription validity period by 1 month.
-   - Users can enter a voucher code available in My Profile > Voucher tab before making a payment.
+   - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like.
+   - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan payment
+6. Get Subscription Plan Payment
+   - In one transaction, the user can buy subscription for one month or a year to be premium user.
    - Payment will be made via QR generate.
    - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed.
    - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment.
-8. Promo Referral Program
-   - If the user shares a referral code and invites someone to register and spend a subscription above 100,000, the user will get a voucher of 25,000.
-   - If the user shares the referral code and the person invited registers and buys posts above 200,000, the user will get a voucher of 50,000.
-   - If the user shares the referral code and invites someone to register and purchase posts above
-
- 250,000, the user will get a voucher of 75,000.
-   - Each user can only use a maximum of 1 voucher from each category (25k 1x, 50k 1x, 75k 1x).
-   - The validity period of the vouchers is 1 month from the reward given. If it is over, the vouchers will be forfeited and cannot be used.
-9. My History Subscription Menu
-   - Displays a list of the history of subscriptions that have been purchased.
-   - If the user makes a subscription transaction within 1 month with a nominal value above 50,000, they will get a glass mug gift (as long as supplies last).
-   - If within 1 month the user makes a subscription transaction with a nominal value above 150,000, they will get a coffee gift (as long as supplies last).
-   - If the user makes a subscription transaction within 1 month with a nominal value above 200,000, they will get a gift coffee brewing tool (as long as supplies last).
-   - Users can only get each gift in a maximum of 3 categories each month if qualified as per the above requirements, and the next month will be reset again.
-
-10. My Profile Menu
+7. My Profile Menu
     - A menu that can be accessed by the user to display the reward profile obtained from the application.
-    - Displays personal information, including name, username, email, phone number, address, and referral code.
-    - The referral tab displays a list of referrals from users who have successfully registered.
-    - The referral tab also displays spending information from users who become referrals.
-    - The vouchers tab displays a list of vouchers owned by the user, sorted from valid to expired validity that will expire.
-    - Expired vouchers are displayed separately and cannot be copied, while valid vouchers have a copy code button.
+    - Displays personal information, including name, username, email, phone number, and address.
     - The gift tab displays a list of gifts given from the application. Each gift can be clicked to display its details, including the status of gift delivery from the system to the user's address.
 
 ## Technical Requirements
