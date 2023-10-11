@@ -91,7 +91,6 @@ Using the react.js tech stack, you are asked to create a website for the selecte
 7. My Profile Menu
     - A menu that can be accessed by the user to display the reward profile obtained from the application.
     - Displays personal information, including name, username, email, phone number, and address.
-    - The gift tab displays a list of gifts given from the application. Each gift can be clicked to display its details, including the status of gift delivery from the system to the user's address.
 
 ## Technical Requirements
 
