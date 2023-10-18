@@ -52,7 +52,7 @@ Important things that you have to keep in mind when you do the final project:
 
 ### User Portal Features
 
-Using the react.js tech stack, you are asked to create a website for the selected display for users. The features that will be developed are:
+Using the next.js tech stack, you are asked to create a website for the selected display for users. The features that will be developed are:
 
 1. Login
    - A separate page that will display the login form
@@ -69,12 +69,12 @@ Using the react.js tech stack, you are asked to create a website for the selecte
 4. Home Search All Posts
    - The main menu accessed by logged-in users
    - Dispalys tag for premium post
-   - Displays 5 trending posts in the week
+   - Displays 5 trending posts the trending define by newest and most like.
    - Displays a section list of posts with filter features like title, dropdown category, and dropdown paid/unpaid.
    - Sorting feature based on the date the post was carried out (ascending/descending).
    - The default list of posts displayed will be sorted by the latest date the post was created.
    - Each News Post that is displayed will add to the reading history of the current user.
-   - If the news is not free, a cost_quota is required to read and it will reduce the current quota from the user.
+   - If the news is premium, guest or unsubribe user just can see the newes little bit.
 5. Details News Post
    - A separate page that displays detailed information about a post.
    - Details displayed will include:
@@ -89,7 +89,6 @@ Using the react.js tech stack, you are asked to create a website for the selecte
    - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed.
    - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment.
 7. My Profile Menu
-    - A menu that can be accessed by the user to display the reward profile obtained from the application.
     - Displays personal information, including name, username, email, phone number, and address.
 
 ## Technical Requirements
