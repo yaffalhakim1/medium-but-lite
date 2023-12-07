@@ -2,26 +2,26 @@
 
 ## Overview
 
-For the Assignment Next JS, you will work individually to build the front end of an application using Next JS. There will be 4 different themes for the Assignment Next JS, each with a different set of application flow and requirements. Each project will have general requirements as a minimum, including Admin Panel, Client Side, List of Items, Search, sorting, and pagination, User profile, Landing Page, Data seeding, etc.
+For the Assignment Next.js, you will work individually to build the front end of an application using Next.js. There will be three different themes for the Assignment Next.js, each with a different set of application flow and requirements. Each project will have general requirements as a minimum, including Admin Panel, Client Side, List of Items, Search, Sorting, and Pagination, User Profile, Landing Page, Data Seeding, etc.
 
-After developing the projects based on the requirements, you have to present your project in front of the other trainees. The presentation will have these guidelines:
+After developing the projects based on the requirements, you have to present your project in front of the trainers and the other trainees. The presentation will have the following guidelines:
 
-- Presentation Duration maximal 15 minutes
-- Before starting the demonstration, show the git status of your project
-- App Demonstration
-- Brief code explanation
-- Q&A Session
+- Presentation duration: maximum 15 minutes.
+- Before starting the demonstration, show the git status of your project and switch to the latest commit before the deadline.
+- App demonstration.
+- Brief code explanation.
+- Q&A session.
 
 Important things that you have to keep in mind when you do the final project:
 
-- Repository name: assignment-Nextjs-frontend-yourname
-- Add README.md put with how to run your apps smoothly and add some useful information there
-- Do frequent commit with meaningful commit messages
-- Only commits before the defined deadline will be accepted
-- Better to take a look and review your own MR
-- Attach a screenshot of your test coverage on your MR description.
-- You can use any components library for your Front End.
-- The objective of the requirement document is to explain in brief what will be the minimum requirement to be developed when you are developing the product. You are still expected to develop your product with good common process practices, as well as good user experience with necessary validation, sorting, pagination, etc, even if it is not described in the document.
+- Repository name: `assignment-nextjs-frontend-<yourname>`.
+- Add `README.md` with instructions on how to run your app smoothly and include some useful information.
+- Make frequent commits with meaningful commit messages.
+- Only commits before the defined deadline will be accepted.
+- It is better to review your own MR.
+- Attach a screenshot of your test coverage to your MR description.
+- You can use any component library for your front end.
+- The objective of the requirement document is to explain briefly what the minimum requirements are when developing the product. You are still expected to develop your product with good common process practices, as well as good user experience with necessary validation, sorting, pagination, etc., even if it is not described in the document.
 - Your application language should be presented in English.
 
 ## Application Features
@@ -67,7 +67,7 @@ Important things that you have to keep in mind when you do the final project:
 - Implement a mock authentication flow using JSON Server Auth / google login for pages based on logged-in user.
 - Upload images to an cloudinary and save the image URL to the JSON Server.
 - Ensure Mobile Responsive design.
-- Deploy the web application to any provider of your choice.
+- Deploy the web application
 
 ### Backend
 
@@ -75,10 +75,3 @@ Important things that you have to keep in mind when you do the final project:
 - Define endpoints to fulfill application features with appropriate URL parameters, URL query, header, request body, response status, and response body.
 - Document API for each endpoint.
 - Simulate authentication and authorization flow using JSON Server.
-- Implement a custom route in a routes.json file for user login and user data retrieval.
-- Start JSON Server with the custom routes:
-  ```
-  json-server --watch db.json --routes routes.json
-  ```
-- Use POST request to /auth/login with username and password as query parameters to simulate user login.
-- Use GET request to /auth/user/:id to retrieve user data after login, where :id is the user's ID obtained from successful login.
