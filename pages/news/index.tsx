@@ -31,7 +31,7 @@ const NewsList = () => {
             <NewsCard
               title={item.title}
               description={item.desc}
-              image={item.img}
+              image="https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg"
               category={item.category}
               isPremium={item.isPremium}
             />

@@ -25,7 +25,8 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <h2>{news.title}</h2>
         <p>{news.desc}</p>
 
-        <button className="btn btn-circle btn-outline">
+        <button className="btn">
+          Button
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -37,7 +38,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
             />
           </svg>
         </button>
@@ -51,10 +52,6 @@ export default NewsDetailPage;
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await fetch(`${BASE_URL}/news`);
   const news: INewsElement[] = await response.json();
-  console.log("path");
-  // const paths = news.map((item) => ({
-  //   params: { newsId: item.id.toString() },
-  // }));
 
   const paths = news.map((item) => {
     return {
@@ -68,12 +65,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {
-  // const { params } = context;
   const id = context.params?.id?.toString()!;
   if (!id) {
     return { notFound: true };
   }
-  //   console.log("server");
 
   const response = await fetch(`${BASE_URL}/news/${id}`);
   const news: INewsElement = await response.json();
