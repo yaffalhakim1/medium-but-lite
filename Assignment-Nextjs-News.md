@@ -27,6 +27,7 @@ Important things that you have to keep in mind when you do the final project:
 ## Application Features
 
 ## reference example :
+
 - medium.com with premium content
 - bisnis.com with premium content
 
@@ -82,14 +83,14 @@ Using the next.js tech stack, you are asked to create a website for the selected
      - Count of user liked and shared
      - Like button and Share button
    - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like.
-   - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan payment
+   - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan
 6. Get Subscription Plan Payment
    - In one transaction, the user can buy subscription for one month or a year to be premium user.
    - Payment will be made via QR generate.
    - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed.
    - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment.
 7. My Profile Menu
-    - Displays personal information, including name, username, email, phone number, and address.
+   - Displays personal information, including name, username, email, phone number, and address.
 
 ## Technical Requirements
 

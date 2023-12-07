@@ -17,7 +17,7 @@
   ],
   "news": [
     {
-      "news_id": 1,
+      "id": "1",
       "isPremium": true,
       "title": "Breaking News",
       "desc": "A major event occurred today.",
@@ -28,7 +28,7 @@
       "like": 150
     },
     {
-      "news_id": 2,
+      "id": "2",
       "isPremium": false,
       "title": "Sports Update",
       "desc": "Exciting sports news.",
@@ -39,6 +39,7 @@
       "like": 75
     }
   ],
+
   "admins": [
     {
       "email": "admin@example.com"

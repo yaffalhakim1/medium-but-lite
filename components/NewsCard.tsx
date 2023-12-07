@@ -5,14 +5,15 @@ interface INewsCardProps {
   title: string;
   description: string;
   image: string;
-  category: string;
+  category?: string[];
   isPremium: boolean;
+  onClick?: () => void;
 }
 
 const NewsCard = (props: INewsCardProps) => {
   return (
     <div>
-      <div className="card w-96 bg-base-100 shadow-xl">
+      <div className=" bg-base-100  w-80">
         <figure>
           <img
             src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
@@ -28,9 +29,13 @@ const NewsCard = (props: INewsCardProps) => {
           </h2>
           <p>{props.description}</p>
           <div className="card-actions justify-end">
-            <div className="badge badge-outline">Fashion</div>
-            <div className="badge badge-outline">Products</div>
+            {props.category?.map((cat, idx) => (
+              <div key={idx}>
+                <div className="badge badge-primary">{cat}</div>
+              </div>
+            ))}
           </div>
+          <button className="btn btn-primary">Read More</button>
         </div>
       </div>
     </div>
