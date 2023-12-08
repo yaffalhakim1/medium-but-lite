@@ -1,18 +1,36 @@
 {
-  "users": [
+  "profile": [
     {
-      "user_id": 1,
+      "id": 1,
       "name": "John Doe",
       "email": "john@example.com",
-      "like": [1, 2],
-      "expired_subs": "2023-01-15"
+      "expired_subs": "2023-01-15",
+      "role": "admin",
+      "password": "admin"
     },
     {
-      "user_id": 2,
+      "id": 2,
       "name": "Alice Smith",
       "email": "alice@example.com",
       "like": [3],
-      "expired_subs": "2022-12-31"
+      "expired_subs": "2022-12-31",
+      "role": "user",
+      "isPremiumUser": "true"
+    },
+    {
+      "id": 3,
+      "name": "Yafi Smith",
+      "email": "yafi@example.com",
+      "like": [3],
+      "expired_subs": "2022-12-31",
+      "role": "user",
+      "isPremiumUser": "false"
+    },
+    {
+      "email": "acong@mail.com",
+      "password": "password",
+      "id": 4,
+      "role": "user"
     }
   ],
   "news": [
@@ -39,7 +57,6 @@
       "like": 75
     }
   ],
-
   "admins": [
     {
       "email": "admin@example.com"

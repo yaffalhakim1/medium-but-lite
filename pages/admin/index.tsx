@@ -15,7 +15,7 @@ export default function DashboardAdmin() {
     setSelectedItem(item);
   };
 
-  async function logoutHandler() {}
+  async function handleLogout() {}
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function DashboardAdmin() {
         <title>Dashboard Admin</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className=" font-semibold ml-4 mt-5 mr-4">
+      <div className="  ml-4 mt-5 mr-4">
         <div className="flex  items-center">
           <label
             htmlFor="my-drawer-2"
@@ -32,7 +32,9 @@ export default function DashboardAdmin() {
             Menu
           </label>
           <div>
-            <h1 className="hidden md:flex mb-5 ">Dashboard Admin</h1>
+            <h1 className="hidden md:flex mb-5 font-semibold">
+              Dashboard Admin
+            </h1>
             <div className="flex items-center space-x-3 mr-4 md:mr-0">
               <div className="avatar placeholder">
                 <div className="bg-neutral text-neutral-content rounded-full w-10">
@@ -93,7 +95,7 @@ export default function DashboardAdmin() {
             <li className="">
               <a
                 className="btn btn-error text-white mt-5 py-3 capitalize"
-                onClick={logoutHandler}
+                onClick={handleLogout}
               >
                 {loading ? (
                   <div className="flex flex-row items-center capitalize">

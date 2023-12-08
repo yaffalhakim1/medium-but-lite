@@ -12,12 +12,6 @@ interface NewsProps {
 }
 
 const NewsDetailPage = ({ news }: NewsProps) => {
-  //   const router = useRouter();
-
-  //   const { id } = router.query;
-  //   const { newsDetail, newsDetailError, newsDetailLoading, newsDetailMutate } =
-  //     useNewsDetail(id?.toString()!);
-
   return (
     <>
       <div>
