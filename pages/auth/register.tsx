@@ -29,6 +29,13 @@ const RegisterPage = () => {
     string | null
   >(null);
 
+  const [validationPhone, setvalidationPhoneError] = useState<string | null>(
+    null
+  );
+  const [validationAddress, setvalidationAddressError] = useState<
+    string | null
+  >(null);
+
   function fieldHandler(e: ChangeEvent<HTMLInputElement>) {
     const ev = e.target;
 
@@ -53,6 +60,22 @@ const RegisterPage = () => {
           ? "Email must include @ symbol"
           : null;
       setvalidationEmailError(emailError);
+    }
+
+    if (ev.name === "phone") {
+      const phone = ev.value;
+      const phoneError =
+        Number(phone) < 10 ? "The minimum character is 10" : null;
+
+      setvalidationPhoneError(phoneError);
+    }
+
+    if (ev.name === "address") {
+      const address = ev.value;
+      const addressError =
+        address.length < 10 ? "The minimum character is 10" : null;
+
+      setvalidationAddressError(addressError);
     }
 
     const pass = ev.name === "password";
@@ -166,8 +189,42 @@ const RegisterPage = () => {
                   required
                 />
                 {validationEmail && (
-                  <p className="mt-2 text-sm text-red-500 border-red-400">
+                  <p className="text-start mt-2   text-sm text-red-500 border-red-400">
                     {validationEmail}
+                  </p>
+                )}
+              </div>
+              <div className="pb-2 pt-4">
+                <input
+                  type="number"
+                  className={`block w-full p-4 text-lg rounded-sm bg-black focus:border-indigo-500 ${
+                    validationPhone && "input-error "
+                  }`}
+                  placeholder="Phone"
+                  name="phone"
+                  onChange={fieldHandler}
+                  required
+                />
+                {validationPhone && (
+                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
+                    {validationPhone}
+                  </p>
+                )}
+              </div>
+              <div className="pb-2 pt-4">
+                <input
+                  type="text"
+                  className={`block w-full p-4 text-lg rounded-sm bg-black focus:border-indigo-500 ${
+                    validationAddress && "input-error "
+                  }`}
+                  placeholder="Address"
+                  name="address"
+                  onChange={fieldHandler}
+                  required
+                />
+                {validationAddress && (
+                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
+                    {validationAddress}
                   </p>
                 )}
               </div>
@@ -185,7 +242,7 @@ const RegisterPage = () => {
                   required
                 />
                 {validationPassword && (
-                  <p className="mt-2 text-sm text-red-500 border-red-400">
+                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
                     {validationPassword}
                   </p>
                 )}
@@ -202,7 +259,7 @@ const RegisterPage = () => {
                   required
                 />
                 {validationConfirmPass && (
-                  <p className="mt-2 text-sm text-red-500 border-red-400">
+                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
                     {validationConfirmPass}
                   </p>
                 )}
