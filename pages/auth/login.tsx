@@ -7,6 +7,7 @@ import Cookie from "js-cookie";
 import { toast } from "sonner";
 import { BASE_URL } from "@/config/api";
 import { token } from "@/lib/utils/token";
+import { User } from "@/types/user-types";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const LoginPage = () => {
   async function handleLogin(e: SyntheticEvent) {
     e.preventDefault();
     try {
-      const response = await axios.get(
+      const response = await axios.get<User[]>(
         `${BASE_URL}/profile?email=${field.email}&password=${field.password}`,
         {
           headers: {
@@ -34,10 +35,10 @@ const LoginPage = () => {
       setLoading(false);
 
       if (response.data[0].role === "user") {
-        Cookie.set("token", token());
+        Cookie.set("admin_token", token());
         return router.push("/news");
       } else if (response.data[0].role === "admin") {
-        Cookie.set("token", token());
+        Cookie.set("user_token", token());
         return router.push("/admin");
       }
 
