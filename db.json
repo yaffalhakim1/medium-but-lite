@@ -13,31 +13,26 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "like": [3],
-      "expired_subs": "2022-12-31",
+      "expired_subs": false,
       "role": "user",
-      "isPremiumUser": "true"
+      "isPremiumUser": false
     },
     {
       "id": 3,
       "name": "Yafi Smith",
       "email": "yafi@example.com",
       "like": [3],
-      "expired_subs": "2022-12-31",
+      "expired_subs": false,
       "role": "user",
       "isPremiumUser": "false"
-    },
-    {
-      "email": "acong@mail.com",
-      "password": "password",
-      "id": 4,
-      "role": "user"
     },
     {
       "name": "P",
       "email": "acong@mail.com",
       "password": "password",
       "password_confirmation": "password",
-      "id": 5
+      "id": 5,
+      "role": "user"
     }
   ],
   "news": [

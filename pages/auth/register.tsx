@@ -264,7 +264,6 @@ const RegisterPage = () => {
                   </p>
                 )}
               </div>
-
               <button
                 type="submit"
                 className="btn mt-5 btn-primary w-full capitalize text-white"
@@ -283,8 +282,6 @@ const RegisterPage = () => {
                   Have an account? Login
                 </p>
               </button>
-
-              <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden "></div>
             </form>
           </div>
         </div>

@@ -1,7 +1,9 @@
+import { BASE_URL } from "@/config/api";
 import { useUsers } from "@/lib/useUser";
 import { User } from "@/types/user-types";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import useSWR, { mutate } from "swr";
 
@@ -14,47 +16,43 @@ export default function SubscriptionPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState<any>([]);
   const [items, setItems] = useState<Item[]>([]);
-  const [loading, setLoading] = useState(false);
-
+  const [deact, setDeact] = useState(false);
   const { users, usersLoading, usersError } = useUsers();
 
   let index = 1;
   const [page, setPage] = useState(1);
 
   const handleNextPage = () => {
-    // Increment the page number and fetch the next page of data
     setPage((prevPage) => prevPage + 1);
   };
 
   const handlePrevPage = () => {
-    // Decrement the page number and fetch the previous page of data
     setPage((prevPage) => prevPage - 1);
   };
 
-  // const pageNumbers = Array.from({ length: users.last_page }, (_, i) => i + 1);
-
-  // const handleDelete = async (id: any) => {
-  //   const token = Cookie.get("token") as string;
-  //   setLoading(true);
-  //   try {
-  //     await axios.post(
-  //       `https://spda.17management.my.id/api/documents/delete/${id}`,
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     mutate(data);
-  //     setLoading(false);
-  //     toast.success("Menunggu Persetujuan");
-  //   } catch (error) {
-  //     setLoading(false);
-  //     toast.error("Dokumen gagal dihapus");
-  //     console.error(error);
-  //   }
-  // };
+  // handle subscription status user (active or not)
+  async function handleDeactivate(id: number) {
+    setDeact(true);
+    try {
+      const res = await axios.patch(
+        `${BASE_URL}/profile/${id}`,
+        {
+          expired_subs: false,
+          isPremiumUser: false,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res);
+      toast.success("User subscription deactivated");
+      mutate(`${BASE_URL}/profile/${id}`);
+    } catch (err) {
+      toast.error("Failed to deactivate user subscription");
+    }
+  }
 
   function handleSearch() {
     const filteredItems = items.filter((item: { name: string }) =>
@@ -66,23 +64,13 @@ export default function SubscriptionPage() {
   return (
     <>
       <div className="container px-6  pt-2 pb-6 h-full">
-        <p className="text-2xl font-semibold mb-2">Dashboard Dokumen</p>
+        <p className="text-2xl font-semibold mb-2">Subscriptions</p>
         <p className="text-md font-normal mb-8">
-          Lakukan perubahan data dokumen disini
+          Manage your users subscription here
         </p>
         <div className="md:flex md:justify-between">
           {/* <AddDocument onSuccess={mutate} /> */}
-          <div className="form-control">
-            <div className="input-group input-group-sm mb-3">
-              <input
-                type="text"
-                placeholder="Search…"
-                className="input input-bordered  input-sm w-full max-w-xs"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-              />
-            </div>
-          </div>
+          <div className="form-control"></div>
         </div>
         <div className="flex flex-col h-full w-full">
           <div className="overflow-x-auto">
@@ -93,7 +81,7 @@ export default function SubscriptionPage() {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Subs</th>
-
+                  <th>Action</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -104,30 +92,38 @@ export default function SubscriptionPage() {
                     <th>{index++}</th>
                     <td>{item.name}</td>
                     <td>{item.email}</td>
-                    {/* <td>{item.expired_subs.getDa}</td> */}
-                    {/* <td>{item.table}</td> */}
-                    {/* <td>{item.tag.join(", ")} </td> */}
-
                     <td>
-                      {/* <EditDocs
-                        datas={{
-                          name: item.name,
-                          device_id: item.device_id,
-                          uuid: item.uuid,
-                          tag: item.tag,
-                          code: item.code,
-                          // uuid: item.uuid,
-                          id: item.id,
-                        }}
-                        onSuccess={() => mutate()}
-                      />
-
-                      <DeleteDocs
-                        id={item.id}
-                        onSuccess={() => mutate()}
-                        onClick={() => handleDelete(item.id)}
-                      /> */}
+                      {item.expired_subs ? (
+                        <div className="badge badge-success px-2 py-3 text-white text-sm">
+                          Active
+                        </div>
+                      ) : (
+                        <div className="badge badge-error px-2 py-3 text-white text-sm">
+                          Not Active
+                        </div>
+                      )}
                     </td>
+                    <td>
+                      <div className="dropdown dropdown-bottom">
+                        <div tabIndex={0} role="button" className="btn btn-sm">
+                          Actions
+                        </div>
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
+                        >
+                          <li>
+                            <a onClick={() => handleDeactivate(item.id)}>
+                              Deactivate
+                            </a>
+                          </li>
+                          <li>
+                            <a>Item 2</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td></td>
                   </tr>
                 ))}
               </tbody>

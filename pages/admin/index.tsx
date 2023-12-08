@@ -1,21 +1,28 @@
 import { SetStateAction, useState } from "react";
 import Head from "next/head";
+import Cookie from "js-cookie";
 
 import SubscriptionPage from "./subscription";
 import PostsPage from "./posts";
 import TransactionPage from "./transactions";
+import { useRouter } from "next/router";
 
 export default function DashboardAdmin() {
   const [selectedItem, setSelectedItem] = useState(1);
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleClick = (item: SetStateAction<number>) => {
     setSelectedItem(item);
   };
 
-  async function handleLogout() {}
+  function handleLogout() {
+    Cookie.remove("token");
+    Cookie.remove("role");
+    return router.push("/auth/login");
+  }
 
   return (
     <>

@@ -62,16 +62,16 @@ const LoginPage = () => {
       setLoading(false);
 
       if (response.data[0].role === "user") {
-        Cookie.set("admin_token", token());
+        Cookie.set("token", token());
         return router.push("/news");
-      } else if (response.data[0].role === "admin") {
-        Cookie.set("user_token", token());
+      }
+
+      if (response.data[0].role === "admin") {
+        Cookie.set("token", token());
         return router.push("/admin");
       }
 
       toast.success("Login berhasil");
-
-      return router.push("/admin");
     } catch (error: any) {
       if (error.response.status === 500) {
         toast.error("Register gagal, silakan coba lagi");
