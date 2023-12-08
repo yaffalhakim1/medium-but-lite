@@ -1,17 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
+import { BASE_URL } from "@/config/api";
+import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { SyntheticEvent, useState } from "react";
+import Cookie from "js-cookie";
+import { token } from "@/lib/utils/token";
+import { useUsers } from "@/lib/useUser";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
   const router = useRouter();
   const [field, setField] = useState({
     name: "",
     email: "",
-    username: "",
     password: "",
     password_confirmation: "",
-    role: [],
   });
   const [loading, setLoading] = useState(false);
 
@@ -22,8 +26,38 @@ const RegisterPage = () => {
     });
   }
 
+  const { users } = useUsers();
+
   async function handleRegister(e: SyntheticEvent) {
     e.preventDefault();
+    try {
+      const register = await axios.post(`${BASE_URL}/profile`, field, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setLoading(false);
+
+      if (users?.find((user) => user.email === field.email)) {
+        toast.error("Email sudah terdaftar");
+        return;
+      }
+
+      Cookie.set("user_token", token());
+
+      if (register) {
+        return router.push("/auth/login");
+      }
+    } catch (error: any) {
+      if (error.response.status === 500) {
+        console.log(error.response);
+      } else if (error.response.status === 401) {
+        console.log(error.response);
+      } else if (error.response.status === 400) {
+        console.log(error.response);
+      }
+      setLoading(false);
+    }
   }
   return (
     <>
@@ -65,19 +99,6 @@ const RegisterPage = () => {
                     className="w-full text-sm py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                     placeholder="Email"
                     name="email"
-                    onChange={fieldHandler}
-                    required
-                  />
-                </div>
-                <div className="mb-6">
-                  <div className="text-lg font-bold text-gray-700 tracking-wide">
-                    Username
-                  </div>
-                  <input
-                    type="text"
-                    className="w-full text-sm py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                    placeholder="Username"
-                    name="username"
                     onChange={fieldHandler}
                     required
                   />

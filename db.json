@@ -31,6 +31,13 @@
       "password": "password",
       "id": 4,
       "role": "user"
+    },
+    {
+      "name": "P",
+      "email": "acong@mail.com",
+      "password": "password",
+      "password_confirmation": "password",
+      "id": 5
     }
   ],
   "news": [
