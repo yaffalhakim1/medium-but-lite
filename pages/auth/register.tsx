@@ -122,7 +122,9 @@ const RegisterPage = () => {
               Read news with full and clear experience
             </p>
           </div>
-          <div className="bottom-0 absolute p-4 text-center right-0 left-0 flex justify-center space-x-4"></div>
+          <div className="bottom-0 absolute p-4 text-center right-0 left-0 flex justify-center space-x-4">
+            Image source from Unsplash
+          </div>
         </div>
         <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-[#161616]">
           <div className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center bg-[url('/news.jpg')]">
@@ -218,6 +220,11 @@ const RegisterPage = () => {
                 ) : (
                   "Sign Up"
                 )}
+              </button>
+              <button onClick={() => router.push("/auth/login")}>
+                <p className="text-slate-400 mt-3 text-sm underline text-center">
+                  Have an account? Login
+                </p>
               </button>
 
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden "></div>
