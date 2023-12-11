@@ -2,7 +2,7 @@ import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import { Switch } from "@headlessui/react";
 import axios from "axios";
-import React, { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { toast } from "sonner";
 import Select from "react-select";
 import { useRouter } from "next/router";
@@ -12,13 +12,14 @@ const CreateNews = () => {
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
   const [, setImageUrl] = useState<string>("");
+  const [, setLoading] = useState(false);
 
   const [formPost, setFormPost] = useState({
     title: "",
     content: "",
     isPremium: enabled,
-    coverImage: "",
-    newsCategory: [],
+    img: "",
+    category: [],
     createdAt: new Date(),
   });
 
@@ -29,7 +30,7 @@ const CreateNews = () => {
 
   const handleSelectChange = (value: any) => {
     const selectedValue = value.map((item: any) => item.value);
-    setFormPost((prev) => ({ ...prev, newsCategory: selectedValue }));
+    setFormPost((prev) => ({ ...prev, category: selectedValue }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +40,9 @@ const CreateNews = () => {
     }
   };
 
-  // upload to cloudinary
   async function handleImageUpload() {
+    setLoading(true);
+    toast.loading("Uploading image...");
     const data = new FormData();
     if (!image) {
       toast.error("No image selected");
@@ -58,8 +60,9 @@ const CreateNews = () => {
 
     const file = await response.json();
     setImageUrl(file.secure_url);
-    setFormPost((prev) => ({ ...prev, coverImage: file.secure_url }));
+    setFormPost((prev) => ({ ...prev, img: file.secure_url }));
     toast.success("Image uploaded successfully");
+    setLoading(false);
   }
 
   async function handlePostSubmit(e: SyntheticEvent) {
@@ -71,9 +74,9 @@ const CreateNews = () => {
           title: formPost.title,
           content: formPost.content,
           isPremium: formPost.isPremium,
-          newsCategory: formPost.newsCategory,
+          category: formPost.category as string[],
           created_at: formPost.createdAt,
-          coverImage: formPost.coverImage,
+          img: formPost.img,
         },
         {
           headers: {
@@ -81,10 +84,9 @@ const CreateNews = () => {
           },
         }
       );
-      console.log(res, "from post create");
-
+      console.log(res.data, "from post create");
       toast.success("News created successfully");
-      router.push("/admin");
+      return router.push("/admin");
     } catch (error) {
       toast.error("News created failed");
     }
@@ -115,7 +117,7 @@ const CreateNews = () => {
 
             <Select
               isMulti
-              name="newsCategory"
+              name="category"
               options={[
                 { value: "Tech", label: "Tech" },
                 { value: "Anime", label: "Anime" },
@@ -123,27 +125,8 @@ const CreateNews = () => {
               ]}
               className="basic-multi-select"
               classNamePrefix="select"
-              onChange={() => handleSelectChange}
+              onChange={handleSelectChange}
             />
-          </label>
-
-          <label className="form-control w-full ">
-            <div className="label">
-              <span className="label-text">Choose Cover Image</span>
-            </div>
-            <input
-              type="file"
-              className="file-input file-input-bordered w-full "
-              placeholder="Choose file"
-              onChange={handleImageChange}
-            />
-            <button
-              type="button"
-              onClick={handleImageUpload}
-              className="btn btn-primary"
-            >
-              Save Image
-            </button>
           </label>
 
           <label className="form-control">
@@ -159,13 +142,32 @@ const CreateNews = () => {
               onChange={handleInputChange}
             />
           </label>
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text">Choose Cover Image</span>
+            </div>
+            <input
+              type="file"
+              className="file-input file-input-bordered w-full "
+              placeholder="Choose file"
+              name="img"
+              onChange={handleImageChange}
+            />
+            <button
+              type="button"
+              onClick={handleImageUpload}
+              className="btn btn-primary"
+            >
+              Save Image
+            </button>
+          </label>
           <div className="form-control w-52">
             <label className="cursor-pointer label">
               <span className="label-text">Premium Post</span>
               <Switch
                 name="isPremium"
                 checked={enabled}
-                onChange={setEnabled}
+                onChange={() => setEnabled(true)}
                 className={`${
                   enabled ? "bg-blue-600" : "bg-gray-200"
                 } relative inline-flex h-6 w-11 items-center rounded-full`}

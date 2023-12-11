@@ -79,55 +79,45 @@
       "like": 150
     },
     {
-      "title": "PPPP",
+      "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T06:30:31.751Z",
-      "id": 6
+      "category": [],
+      "created_at": "2023-12-11T08:50:17.958Z",
+      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702284836/xzzuvwhf2pgk18i0f96t.png",
+      "id": 2
     },
     {
       "title": "Menampilkan foods dan drinks",
-      "content": "oajajdaojwaojdwdoadinadonaodnand",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T06:43:24.902Z",
-      "id": 7
+      "category": [],
+      "created_at": "2023-12-11T09:07:15.735Z",
+      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702285642/nywbhmootzqr6cssx1wv.png",
+      "id": 3
     },
     {
       "title": "Menampilkan foods dan drinks",
-      "content": "oajajdaojwaojdwdoadinadonaodnand",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T06:44:07.072Z",
-      "id": 8
+      "category": [
+        "Anime"
+      ],
+      "created_at": "2023-12-11T09:09:36.797Z",
+      "img": "",
+      "id": 4
     },
     {
       "title": "Menampilkan foods dan drinks",
-      "content": "oajajdaojwaojdwdoadinadonaodnand",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T07:41:03.711Z",
-      "coverImage": "",
-      "id": 9
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "oajajdaojwaojdwdoadinadonaodnand",
-      "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T07:42:07.481Z",
-      "coverImage": "",
-      "id": 10
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "oajajdaojwaojdwdoadinadonaodnand",
-      "isPremium": false,
-      "newsCategory": [],
-      "created_at": "2023-12-11T07:43:48.254Z",
-      "coverImage": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702280657/zphr4ptgenwznnm54hep.png",
-      "id": 11
+      "category": [
+        "Anime",
+        "Tech"
+      ],
+      "created_at": "2023-12-11T09:09:50.216Z",
+      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702285801/sljm8sg1rz2dktttvwjh.png",
+      "id": 5
     }
   ],
   "admins": [
