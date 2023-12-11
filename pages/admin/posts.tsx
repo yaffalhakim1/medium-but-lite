@@ -36,13 +36,11 @@ export default function PostPage() {
     <>
       <div className="container px-6  pt-2 pb-6 h-full">
         <p className="text-2xl font-semibold mb-2">Posts</p>
-        <p className="text-md font-normal mb-8">Manage your posts here</p>
-        <div className="md:flex md:justify-between">
-          {/* <AddDocument onSuccess={mutate} /> */}
-
+        <p className="text-md font-normal ">Manage your posts here</p>
+        <div className="md:flex md:justify-between mt-4">
           <button
             onClick={() => router.push("admin/create")}
-            className="btn btn-success"
+            className="btn btn-success btn-sm text-white"
           >
             Create New Post
           </button>
@@ -50,7 +48,7 @@ export default function PostPage() {
         </div>
         <div className="flex flex-col h-full w-full">
           <div className="overflow-x-auto">
-            <table className="table ">
+            <table className="table mt-2">
               <thead>
                 <tr className="">
                   <th>No</th>
@@ -67,14 +65,14 @@ export default function PostPage() {
                     <th>{idx++}</th>
                     <td>{item.title}</td>
                     <td>
-                      <div className="flex items-center space-x-2">
-                        <div
-                          className={`w-3 h-3 rounded-full ${
-                            item.isPremium ? "bg-green-500" : "bg-red-500"
-                          }`}
-                        ></div>
-                        <span>{item.isPremium ? "Premium" : "Free"}</span>
-                      </div>
+                      {/* use badge instead */}
+                      <span
+                        className={`badge text-white px-2 py-3 ${
+                          item.isPremium ? "badge-success" : "badge-error"
+                        }`}
+                      >
+                        {item.isPremium ? "Premium" : "Free"}
+                      </span>
                     </td>
                     <td>{formatExpirationDate(item.created_at)}</td>
                     <td>
@@ -88,16 +86,13 @@ export default function PostPage() {
                         >
                           <li>
                             <Modal
+                              type="danger"
                               openButton="Delete"
                               modalTitle="Delete Post"
                               modalDescription="Are you sure you want to delete this post?"
                               modalButton="Delete"
                               onSubmit={() => handleDelete(item.id)}
-                            >
-                              <button className="btn btn-error btn-sm">
-                                Delete
-                              </button>
-                            </Modal>
+                            ></Modal>
                           </li>
                         </ul>
                       </div>

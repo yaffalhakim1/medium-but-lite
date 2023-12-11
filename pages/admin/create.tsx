@@ -5,16 +5,21 @@ import axios from "axios";
 import React, { SyntheticEvent, useState } from "react";
 import { toast } from "sonner";
 import Select from "react-select";
+import { useRouter } from "next/router";
 
 const CreateNews = () => {
   const [enabled, setEnabled] = useState(false);
+  const router = useRouter();
+  const [image, setImage] = useState<File | null>(null);
+  const [, setImageUrl] = useState<string>("");
 
   const [formPost, setFormPost] = useState({
     title: "",
     content: "",
     isPremium: enabled,
-    // coverImage: "",
+    coverImage: "",
     newsCategory: [],
+    createdAt: new Date(),
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +32,36 @@ const CreateNews = () => {
     setFormPost((prev) => ({ ...prev, newsCategory: selectedValue }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedImages = e.target.files[0];
+      setImage(selectedImages);
+    }
+  };
+
+  // upload to cloudinary
+  async function handleImageUpload() {
+    const data = new FormData();
+    if (!image) {
+      toast.error("No image selected");
+      return;
+    }
+    data.append("file", image!);
+    data.append("upload_preset", "ruvcqm7j");
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/dywbf3czv/image/upload`,
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    const file = await response.json();
+    setImageUrl(file.secure_url);
+    setFormPost((prev) => ({ ...prev, coverImage: file.secure_url }));
+    toast.success("Image uploaded successfully");
+  }
+
   async function handlePostSubmit(e: SyntheticEvent) {
     e.preventDefault();
     try {
@@ -37,6 +72,8 @@ const CreateNews = () => {
           content: formPost.content,
           isPremium: formPost.isPremium,
           newsCategory: formPost.newsCategory,
+          created_at: formPost.createdAt,
+          coverImage: formPost.coverImage,
         },
         {
           headers: {
@@ -47,6 +84,7 @@ const CreateNews = () => {
       console.log(res, "from post create");
 
       toast.success("News created successfully");
+      router.push("/admin");
     } catch (error) {
       toast.error("News created failed");
     }
@@ -89,16 +127,24 @@ const CreateNews = () => {
             />
           </label>
 
-          {/* <label className="form-control w-full ">
+          <label className="form-control w-full ">
             <div className="label">
               <span className="label-text">Choose Cover Image</span>
             </div>
             <input
               type="file"
               className="file-input file-input-bordered w-full "
-                placeholder="Choose file"
+              placeholder="Choose file"
+              onChange={handleImageChange}
             />
-          </label> */}
+            <button
+              type="button"
+              onClick={handleImageUpload}
+              className="btn btn-primary"
+            >
+              Save Image
+            </button>
+          </label>
 
           <label className="form-control">
             <div className="label">

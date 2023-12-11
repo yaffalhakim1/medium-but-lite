@@ -6,8 +6,9 @@ interface IModal {
   onClick?: () => void;
   openButton: string;
   modalTitle: string;
-  children: ReactNode;
+  children?: ReactNode;
   modalDescription?: string;
+  type?: "danger" | "success";
   modalButton: string;
   onSubmit?: () => void;
 }
@@ -59,27 +60,18 @@ const Modal = (props: IModal) => {
                   {props.modalDescription}
                 </Dialog.Description>
                 {props.children}
-                {/* <button
-                  onClick={() => {
-                    props.onClick && props.onClick();
-                    setLoading(true);
-                    closeModal();
-                  }}
-                  className="btn btn-error mr-3 mb-3 md:mb-0 capitalize text-white"
-                >
-                  {loading ? (
-                    <div className="flex flex-wrap">Changing...</div>
-                  ) : (
-                    props.modalButton
-                  )}
-                </button> */}
+
                 <button
                   onClick={() => {
                     props.onSubmit && props.onSubmit();
                     setLoading(true);
                     closeModal();
                   }}
-                  className="btn btn-primary capitalize text-white"
+                  className={
+                    props.type === "danger"
+                      ? "btn btn-error text-white"
+                      : "btn btn-primary text-white"
+                  }
                 >
                   {loading ? (
                     <div className="flex flex-wrap">Changing...</div>
@@ -88,7 +80,7 @@ const Modal = (props: IModal) => {
                   )}
                 </button>
 
-                <button onClick={closeModal} className="btn capitalize">
+                <button onClick={closeModal} className="btn capitalize ml-2">
                   Batal
                 </button>
               </Dialog.Panel>
