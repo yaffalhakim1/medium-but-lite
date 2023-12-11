@@ -10,6 +10,7 @@ import { toast } from "sonner";
 export default function SubscriptionPage() {
   const { users, usersMutate } = useUsers();
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -151,6 +152,19 @@ export default function SubscriptionPage() {
                                 >
                                   Yearly
                                 </button>
+                                {item.isPremiumUser && (
+                                  <button
+                                    onClick={() =>
+                                      handleSubscriptionToggle(
+                                        item.id,
+                                        item.isPremiumUser
+                                      )
+                                    }
+                                    className="btn btn-error btn-sm capitalize text-white "
+                                  >
+                                    Deactivate
+                                  </button>
+                                )}
                               </div>
                             </Modal>
                           </li>

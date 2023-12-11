@@ -9,6 +9,7 @@ interface IModal {
   children: ReactNode;
   modalDescription?: string;
   modalButton: string;
+  onSubmit?: () => void;
 }
 
 const Modal = (props: IModal) => {
@@ -58,7 +59,7 @@ const Modal = (props: IModal) => {
                   {props.modalDescription}
                 </Dialog.Description>
                 {props.children}
-                <button
+                {/* <button
                   onClick={() => {
                     props.onClick && props.onClick();
                     setLoading(true);
@@ -71,7 +72,22 @@ const Modal = (props: IModal) => {
                   ) : (
                     props.modalButton
                   )}
+                </button> */}
+                <button
+                  onClick={() => {
+                    props.onSubmit && props.onSubmit();
+                    setLoading(true);
+                    closeModal();
+                  }}
+                  className="btn btn-primary capitalize text-white"
+                >
+                  {loading ? (
+                    <div className="flex flex-wrap">Changing...</div>
+                  ) : (
+                    props.modalButton
+                  )}
                 </button>
+
                 <button onClick={closeModal} className="btn capitalize">
                   Batal
                 </button>

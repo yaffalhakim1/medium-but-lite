@@ -38,6 +38,7 @@ Important things that you have to keep in mind when you do the final project:
 3. Manage Subscription
    - View the entire list of subscriptions user
    - deactive user subscriptions
+   - change user subscriptions
 4. Manage Post
    - View the entire list of Posts
    - View Post details

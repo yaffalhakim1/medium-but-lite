@@ -23,13 +23,13 @@
         3
       ],
       "role": "user",
-      "isPremiumUser": true,
+      "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
       "subscriptionPlan.expired_date": null,
-      "expiredDate": "2024-12-10"
+      "expiredDate": ""
     },
     {
       "id": 3,
