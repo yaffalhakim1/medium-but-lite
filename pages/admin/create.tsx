@@ -23,6 +23,11 @@ const CreateNews = () => {
     createdAt: new Date(),
   });
 
+  const handleSwitchChange = () => {
+    setFormPost((prev) => ({ ...prev, isPremium: !prev.isPremium }));
+    setEnabled(!enabled);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormPost((prev) => ({ ...prev, [name]: value }));
@@ -167,7 +172,7 @@ const CreateNews = () => {
               <Switch
                 name="isPremium"
                 checked={enabled}
-                onChange={() => setEnabled(true)}
+                onChange={handleSwitchChange}
                 className={`${
                   enabled ? "bg-blue-600" : "bg-gray-200"
                 } relative inline-flex h-6 w-11 items-center rounded-full`}
