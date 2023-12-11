@@ -1,25 +1,14 @@
 import { BASE_URL } from "@/config/api";
 import { useUsers } from "@/lib/useUser";
+import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { User } from "@/types/user-types";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-
-import useSWR, { mutate } from "swr";
-
-interface Item {
-  id: number;
-  name: string;
-}
+import { mutate } from "swr";
 
 export default function SubscriptionPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredItems, setFilteredItems] = useState<any>([]);
-  const [items, setItems] = useState<Item[]>([]);
-  const [deact, setDeact] = useState(false);
-  const { users, usersLoading, usersError } = useUsers();
-
-  let index = 1;
+  const { users, usersMutate } = useUsers();
   const [page, setPage] = useState(1);
 
   const handleNextPage = () => {
@@ -30,15 +19,37 @@ export default function SubscriptionPage() {
     setPage((prevPage) => prevPage - 1);
   };
 
-  // handle subscription status user (active or not)
-  async function handleDeactivate(id: number) {
-    setDeact(true);
+  const calculateNewExpiredDateForMonthly = () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 30);
+    return currentDate.toISOString().split("T")[0];
+  };
+
+  const calculateNewExpiredDateForYearly = () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 365);
+    return currentDate.toISOString().split("T")[0];
+  };
+
+  const handleSubscriptionToggle = async (
+    id: number,
+    isPremiumUser: boolean,
+    subsType = "monthly | yearly"
+  ) => {
     try {
-      const res = await axios.patch(
+      const newStatus = !isPremiumUser;
+      let newExpiredDate = "";
+      if (subsType === "monthly") {
+        newExpiredDate = calculateNewExpiredDateForMonthly();
+      } else if (subsType === "yearly") {
+        newExpiredDate = calculateNewExpiredDateForYearly();
+      }
+
+      const res = await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
         {
-          expired_subs: false,
-          isPremiumUser: false,
+          isPremiumUser: newStatus,
+          expiredDate: newExpiredDate,
         },
         {
           headers: {
@@ -46,20 +57,14 @@ export default function SubscriptionPage() {
           },
         }
       );
-      console.log(res);
-      toast.success("User subscription deactivated");
-      mutate(`${BASE_URL}/profile/${id}`);
+      usersMutate(users);
+      toast.success(
+        `User subscription ${newStatus ? "activated" : "deactivated"}`
+      );
     } catch (err) {
-      toast.error("Failed to deactivate user subscription");
+      toast.error("Failed to update user subscription");
     }
-  }
-
-  function handleSearch() {
-    const filteredItems = items.filter((item: { name: string }) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredItems(filteredItems);
-  }
+  };
 
   return (
     <>
@@ -74,26 +79,26 @@ export default function SubscriptionPage() {
         </div>
         <div className="flex flex-col h-full w-full">
           <div className="overflow-x-auto">
-            <table className="table table-compact lg:10/12 w-full whitespace-normal">
+            <table className="table ">
               <thead>
-                <tr className="[&_th]:font-semibold [&_th]:capitalize">
+                <tr className="">
                   <th>No</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Subs</th>
+                  <th>Premium Status</th>
+                  <th>Expiring Date</th>
                   <th>Action</th>
-                  <th></th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {users?.map((item: User) => (
+                {users?.map((item: User, idx) => (
                   <tr key={item.id}>
-                    <th>{index++}</th>
+                    <th>{idx++}</th>
                     <td>{item.name}</td>
                     <td>{item.email}</td>
                     <td>
-                      {item.expired_subs ? (
+                      {item.isPremiumUser ? (
                         <div className="badge badge-success px-2 py-3 text-white text-sm">
                           Active
                         </div>
@@ -103,9 +108,10 @@ export default function SubscriptionPage() {
                         </div>
                       )}
                     </td>
+                    <td>{formatExpirationDate(item.expiredDate)}</td>
                     <td>
                       <div className="dropdown dropdown-bottom">
-                        <div tabIndex={0} role="button" className="btn btn-sm">
+                        <div tabIndex={0} role="" className="btn btn-sm">
                           Actions
                         </div>
                         <ul
@@ -113,17 +119,22 @@ export default function SubscriptionPage() {
                           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
                         >
                           <li>
-                            <a onClick={() => handleDeactivate(item.id)}>
-                              Deactivate
+                            <a
+                              onClick={() =>
+                                handleSubscriptionToggle(
+                                  item.id,
+                                  item.isPremiumUser
+                                )
+                              }
+                            >
+                              {item.isPremiumUser
+                                ? "Deactivate Subscription"
+                                : "Activate Subscription"}
                             </a>
-                          </li>
-                          <li>
-                            <a>Item 2</a>
                           </li>
                         </ul>
                       </div>
                     </td>
-                    <td></td>
                   </tr>
                 ))}
               </tbody>

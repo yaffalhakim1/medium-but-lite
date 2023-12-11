@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { BASE_URL } from "@/config/api";
 import { token } from "@/lib/utils/token";
 import { User } from "@/types/user-types";
+import { validateEmail, validatePassword } from "@/lib/helper/validators";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -21,35 +22,25 @@ const LoginPage = () => {
   >(null);
 
   function fieldHandler(e: ChangeEvent<HTMLInputElement>) {
-    const ev = e.target;
+    const { name, value } = e.target;
 
     setField({
       ...field,
       [e.target.name]: e.target.value,
     });
 
-    if (ev.name === "email") {
-      const email = ev.value;
-
-      const emailError =
-        !email.includes("@") || !email.includes(".")
-          ? "Email must include @ symbol"
-          : null;
-      setvalidationEmailError(emailError);
+    if (name === "email") {
+      setvalidationEmailError(validateEmail(value));
     }
 
-    const pass = ev.name === "password";
-
-    if (pass) {
-      const pass = ev.value;
-      const passError = Number(pass) < 8 ? "The minimum character is 8" : null;
-
-      setvalidationPasswordError(passError);
+    if (name === "password") {
+      setvalidationPasswordError(validatePassword(value));
     }
   }
 
   async function handleLogin(e: SyntheticEvent) {
     e.preventDefault();
+
     try {
       const response = await axios.get<User[]>(
         `${BASE_URL}/profile?email=${field.email}&password=${field.password}`,
@@ -127,7 +118,7 @@ const LoginPage = () => {
                   required
                 />
                 {validationEmail && (
-                  <p className="mt-2 text-sm text-red-500 border-red-400">
+                  <p className="text-start mt-2 text-sm text-red-500 border-red-400">
                     {validationEmail}
                   </p>
                 )}
@@ -141,12 +132,11 @@ const LoginPage = () => {
                   placeholder="Password (minimum 8 characters)"
                   name="password"
                   onChange={fieldHandler}
-                  // pattern=".{8,}"
                   title="Password must be at least 8 characters long"
                   required
                 />
                 {validationPassword && (
-                  <p className="mt-2 text-sm text-red-500 border-red-400">
+                  <p className="text-start mt-2 text-sm text-red-500 border-red-400">
                     {validationPassword}
                   </p>
                 )}
@@ -159,7 +149,7 @@ const LoginPage = () => {
               >
                 {loading ? (
                   <div className="flex flex-row items-center">
-                    <span className="text-white">Sign you up...</span>
+                    <span className="text-white">Logging in...</span>
                   </div>
                 ) : (
                   "Log In"
