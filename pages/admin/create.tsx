@@ -1,65 +1,123 @@
+import { BASE_URL } from "@/config/api";
+import { INewsElement } from "@/types/news-types";
 import { Switch } from "@headlessui/react";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { SyntheticEvent, useState } from "react";
+import { toast } from "sonner";
+import Select from "react-select";
 
 const CreateNews = () => {
   const [enabled, setEnabled] = useState(false);
 
+  const [formPost, setFormPost] = useState({
+    title: "",
+    content: "",
+    isPremium: enabled,
+    // coverImage: "",
+    newsCategory: [],
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormPost((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: any) => {
+    const selectedValue = value.map((item: any) => item.value);
+    setFormPost((prev) => ({ ...prev, newsCategory: selectedValue }));
+  };
+
+  async function handlePostSubmit(e: SyntheticEvent) {
+    e.preventDefault();
+    try {
+      const res = await axios.post<INewsElement>(
+        `${BASE_URL}/news`,
+        {
+          title: formPost.title,
+          content: formPost.content,
+          isPremium: formPost.isPremium,
+          newsCategory: formPost.newsCategory,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res, "from post create");
+
+      toast.success("News created successfully");
+    } catch (error) {
+      toast.error("News created failed");
+    }
+  }
+
   return (
     <>
       <div className="">
-        <h1 className="text-center text-5xl font-bold">Create News</h1>
-        <form action="" className="">
-          <label className="form-control w-full max-w-xs">
+        <h1 className="text-center text-5xl font-bold mt-10">Create News</h1>
+        <form onSubmit={handlePostSubmit} className="px-7">
+          <label className=" w-full max-w-xs">
             <div className="label">
               <span className="label-text">Post Title</span>
             </div>
             <input
               type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
+              name="title"
+              placeholder="Your title here"
+              className="input input-bordered w-full "
+              onChange={handleInputChange}
             />
           </label>
 
-          <label className="form-control w-full max-w-xs">
+          <label className="form-control w-full ">
             <div className="label">
               <span className="label-text">News Category</span>
             </div>
-            <select className="select select-bordered w-full max-w-xs">
-              <option disabled selected>
-                Select news category{" "}
-              </option>
-              <option>Tech</option>
-              <option>Anime</option>
-              <option value="">Polithics</option>
-            </select>
+
+            <Select
+              isMulti
+              name="newsCategory"
+              options={[
+                { value: "Tech", label: "Tech" },
+                { value: "Anime", label: "Anime" },
+                { value: "Polithics", label: "Polithics" },
+              ]}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={() => handleSelectChange}
+            />
           </label>
 
-          <label className="form-control w-full max-w-xs">
+          {/* <label className="form-control w-full ">
             <div className="label">
               <span className="label-text">Choose Cover Image</span>
             </div>
             <input
               type="file"
-              className="file-input file-input-bordered w-full max-w-xs"
+              className="file-input file-input-bordered w-full "
+                placeholder="Choose file"
             />
-          </label>
+          </label> */}
 
           <label className="form-control">
             <div className="label">
               <span className="label-text">Your content</span>
             </div>
-            <textarea
+            <input
               className="textarea textarea-bordered textarea-lg h-24 w-full"
-              placeholder="Bio"
-              //   rows={4}
+              placeholder="Content here"
+              name="content"
               minLength={5}
               maxLength={500}
+              onChange={handleInputChange}
             />
           </label>
           <div className="form-control w-52">
             <label className="cursor-pointer label">
               <span className="label-text">Premium Post</span>
               <Switch
+                name="isPremium"
                 checked={enabled}
                 onChange={setEnabled}
                 className={`${

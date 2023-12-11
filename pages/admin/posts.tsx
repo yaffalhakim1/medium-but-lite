@@ -9,7 +9,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export default function PostPage() {
-  const { newsError, news, newsLoading } = useNews();
+  const { newsError, news, newsLoading, newsMutate } = useNews();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -20,6 +20,16 @@ export default function PostPage() {
 
   const handlePrevPage = () => {
     setPage((prevPage) => prevPage - 1);
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await axios.delete(`${BASE_URL}/news/${id}`);
+      toast.success("News deleted successfully");
+      newsMutate();
+    } catch (error) {
+      toast.error("News deleted failed");
+    }
   };
 
   return (
@@ -76,7 +86,19 @@ export default function PostPage() {
                           tabIndex={0}
                           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
                         >
-                          <li></li>
+                          <li>
+                            <Modal
+                              openButton="Delete"
+                              modalTitle="Delete Post"
+                              modalDescription="Are you sure you want to delete this post?"
+                              modalButton="Delete"
+                              onSubmit={() => handleDelete(item.id)}
+                            >
+                              <button className="btn btn-error btn-sm">
+                                Delete
+                              </button>
+                            </Modal>
+                          </li>
                         </ul>
                       </div>
                     </td>

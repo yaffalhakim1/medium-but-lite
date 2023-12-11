@@ -64,10 +64,11 @@
   ],
   "news": [
     {
-      "id": "1",
+      "id": 1,
       "isPremium": true,
       "title": "Breaking News",
       "desc": "A major event occurred today.",
+      "content": "A major event occurred today.",
       "img": "image_url",
       "created_at": "2023-01-01",
       "updated_at": "2023-01-02",
@@ -78,17 +79,28 @@
       "like": 150
     },
     {
-      "id": "2",
+      "title": "PPPP",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
-      "title": "Sports Update",
-      "desc": "Exciting sports news.",
-      "img": "image_url",
-      "created_at": "2023-01-03",
-      "updated_at": "2023-01-04",
-      "category": [
-        "sports"
+      "newsCategory": [
+        "Tech",
+        "Polithics"
       ],
-      "like": 75
+      "id": 4
+    },
+    {
+      "title": "pppp",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "isPremium": false,
+      "newsCategory": [],
+      "id": 5
+    },
+    {
+      "title": "pppp",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "isPremium": false,
+      "newsCategory": [],
+      "id": 6
     }
   ],
   "admins": [

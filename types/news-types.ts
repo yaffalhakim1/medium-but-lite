@@ -1,5 +1,5 @@
 export interface INewsElement {
-  id: string;
+  id: number;
   isPremium: boolean;
   title: string;
   desc: string;
