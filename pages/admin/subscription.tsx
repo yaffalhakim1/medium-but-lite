@@ -1,3 +1,4 @@
+import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
 import { useUsers } from "@/lib/useUser";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
@@ -5,7 +6,6 @@ import { User } from "@/types/user-types";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
-import { mutate } from "swr";
 
 export default function SubscriptionPage() {
   const { users, usersMutate } = useUsers();
@@ -119,18 +119,40 @@ export default function SubscriptionPage() {
                           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
                         >
                           <li>
-                            <a
-                              onClick={() =>
-                                handleSubscriptionToggle(
-                                  item.id,
-                                  item.isPremiumUser
-                                )
+                            <Modal
+                              openButton={"Change Subs"}
+                              modalTitle={
+                                "Are you sure you want to change user subs?"
                               }
+                              modalButton={"Change"}
                             >
-                              {item.isPremiumUser
-                                ? "Deactivate Subscription"
-                                : "Activate Subscription"}
-                            </a>
+                              <div className="space-x-3 mb-5">
+                                <button
+                                  onClick={() =>
+                                    handleSubscriptionToggle(
+                                      item.id,
+                                      item.isPremiumUser,
+                                      "monthly"
+                                    )
+                                  }
+                                  className="btn btn-primary btn-sm capitalize"
+                                >
+                                  Monthly
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    handleSubscriptionToggle(
+                                      item.id,
+                                      item.isPremiumUser,
+                                      "yearly"
+                                    )
+                                  }
+                                  className="btn btn-primary btn-sm capitalize"
+                                >
+                                  Yearly
+                                </button>
+                              </div>
+                            </Modal>
                           </li>
                         </ul>
                       </div>
