@@ -10,8 +10,7 @@ import { useRouter } from "next/router";
 export default function DashboardAdmin() {
   const [selectedItem, setSelectedItem] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
+
   const router = useRouter();
 
   const handleClick = (item: SetStateAction<number>) => {

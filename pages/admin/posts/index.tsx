@@ -4,6 +4,7 @@ import { useNews } from "@/lib/useNews";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { INewsElement } from "@/types/news-types";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -39,7 +40,7 @@ export default function PostPage() {
         <p className="text-md font-normal ">Manage your posts here</p>
         <div className="md:flex md:justify-between mt-4">
           <button
-            onClick={() => router.push("admin/create")}
+            onClick={() => router.push("admin/posts/create")}
             className="btn btn-success btn-sm text-white"
           >
             Create New Post
@@ -65,7 +66,6 @@ export default function PostPage() {
                     <th>{idx++}</th>
                     <td>{item.title}</td>
                     <td>
-                      {/* use badge instead */}
                       <span
                         className={`badge text-white px-2 py-3 ${
                           item.isPremium ? "badge-success" : "badge-error"
@@ -76,25 +76,18 @@ export default function PostPage() {
                     </td>
                     <td>{formatExpirationDate(item.created_at)}</td>
                     <td>
-                      <div className="dropdown dropdown-bottom">
-                        <div tabIndex={0} role="" className="btn btn-sm">
-                          Actions
-                        </div>
-                        <ul
-                          tabIndex={0}
-                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
-                        >
-                          <li>
-                            <Modal
-                              type="danger"
-                              openButton="Delete"
-                              modalTitle="Delete Post"
-                              modalDescription="Are you sure you want to delete this post?"
-                              modalButton="Delete"
-                              onSubmit={() => handleDelete(item.id)}
-                            ></Modal>
-                          </li>
-                        </ul>
+                      <div className="space-x-2">
+                        <Modal
+                          type="danger"
+                          openButton="Delete"
+                          modalTitle="Delete Post"
+                          modalDescription={`are you sure you want to delete "${item.title}" ?`}
+                          modalButton="Delete"
+                          onSubmit={() => handleDelete(item.id)}
+                        ></Modal>
+                        <Link href={`/admin/posts/create/edit/${item.id}`}>
+                          <p>Edit</p>
+                        </Link>
                       </div>
                     </td>
                   </tr>

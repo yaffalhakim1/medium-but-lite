@@ -12,7 +12,7 @@
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": ""
+      "expiredDate": "2024-12-10"
     },
     {
       "id": 2,
@@ -23,13 +23,13 @@
         3
       ],
       "role": "user",
-      "isPremiumUser": false,
+      "isPremiumUser": true,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
       "subscriptionPlan.expired_date": null,
-      "expiredDate": ""
+      "expiredDate": "2024-01-10"
     },
     {
       "id": 3,
@@ -44,7 +44,7 @@
         "type": "monthly",
         "expired_date": null
       },
-      "expiredDate": "2024-01-10"
+      "expiredDate": ""
     },
     {
       "id": 4,
@@ -83,15 +83,6 @@
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": false,
       "category": [],
-      "created_at": "2023-12-11T08:50:17.958Z",
-      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702284836/xzzuvwhf2pgk18i0f96t.png",
-      "id": 2
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": false,
-      "category": [],
       "created_at": "2023-12-11T09:07:15.735Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702285642/nywbhmootzqr6cssx1wv.png",
       "id": 3
@@ -106,29 +97,6 @@
       "created_at": "2023-12-11T09:09:36.797Z",
       "img": "",
       "id": 4
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": false,
-      "category": [
-        "Anime",
-        "Tech"
-      ],
-      "created_at": "2023-12-11T09:09:50.216Z",
-      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702285801/sljm8sg1rz2dktttvwjh.png",
-      "id": 5
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": true,
-      "category": [
-        "Tech"
-      ],
-      "created_at": "2023-12-11T09:11:17.938Z",
-      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702285885/ptezowjmekhr7mbi0knf.png",
-      "id": 6
     }
   ],
   "admins": [

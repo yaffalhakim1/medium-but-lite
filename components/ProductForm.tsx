@@ -7,7 +7,25 @@ import { toast } from "sonner";
 import Select from "react-select";
 import { useRouter } from "next/router";
 
-const CreateNews = () => {
+interface INews {
+  id: number;
+  isPremium: boolean;
+  title: string;
+  desc: string;
+  img: string;
+  created_at: Date;
+  updated_at: Date;
+  category: string[];
+  like: number;
+}
+interface IPostForm {
+  product?: INews;
+}
+
+const PostForm = (data: { data?: IPostForm }) => {
+  console.log(data, "from [id] edit form");
+  console.log(data.data?.product?.title, "from [id] edit form");
+
   const [enabled, setEnabled] = useState(false);
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
@@ -89,7 +107,6 @@ const CreateNews = () => {
           },
         }
       );
-      console.log(res.data, "from post create");
       toast.success("News created successfully");
       return router.push("/admin");
     } catch (error) {
@@ -112,6 +129,7 @@ const CreateNews = () => {
               placeholder="Your title here"
               className="input input-bordered w-full "
               onChange={handleInputChange}
+              defaultValue={data.data?.product?.title}
             />
           </label>
 
@@ -151,20 +169,22 @@ const CreateNews = () => {
             <div className="label">
               <span className="label-text">Choose Cover Image</span>
             </div>
-            <input
-              type="file"
-              className="file-input file-input-bordered w-full "
-              placeholder="Choose file"
-              name="img"
-              onChange={handleImageChange}
-            />
-            <button
-              type="button"
-              onClick={handleImageUpload}
-              className="btn btn-primary"
-            >
-              Save Image
-            </button>
+            <div className="lg:flex items-center lg:space-x-2">
+              <input
+                type="file"
+                className="file-input file-input-bordered w-full "
+                placeholder="Choose image"
+                name="img"
+                onChange={handleImageChange}
+              />
+              <button
+                type="button"
+                onClick={handleImageUpload}
+                className="btn btn-primary w-full mt-2 md:mt-0 md:w-auto"
+              >
+                Upload Image
+              </button>
+            </div>
           </label>
           <div className="form-control w-52">
             <label className="cursor-pointer label">
@@ -186,8 +206,8 @@ const CreateNews = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-primary mt-5">
-            Post
+          <button type="submit" className="btn btn-primary mt-5 w-full">
+            Post News
           </button>
         </form>
       </div>
@@ -195,4 +215,4 @@ const CreateNews = () => {
   );
 };
 
-export default CreateNews;
+export default PostForm;

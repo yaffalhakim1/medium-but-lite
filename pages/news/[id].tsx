@@ -50,7 +50,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = news.map((item) => {
     return {
       params: {
-        id: item.id,
+        id: item.id.toString(),
       },
     };
   });
