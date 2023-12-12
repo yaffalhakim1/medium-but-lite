@@ -22,20 +22,17 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async (context) => {
   const id = context.query.id as string;
 
-  if (!id) {
+  const res = await fetch(`${BASE_URL}/news/${id}`);
+  const data = await res.json();
+
+  if (!data) {
     return {
       notFound: true,
     };
   }
-
-  const response = await axios.get(`${BASE_URL}/news/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
   return {
     props: {
-      data: response.data,
+      data: data,
     },
   };
 };

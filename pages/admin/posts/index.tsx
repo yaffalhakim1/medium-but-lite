@@ -12,9 +12,10 @@ import { toast } from "sonner";
 
 export default function PostPage() {
   const [search, setSearch] = useState("");
-  const { newsError, news, newsLoading, newsMutate } = useNews(search);
-  const [page, setPage] = useState(1);
   const [status, setStatus] = useState<boolean>();
+
+  const { newsError, news, newsLoading, newsMutate } = useNews(search, status);
+  const [page, setPage] = useState(1);
 
   const router = useRouter();
 
@@ -55,7 +56,7 @@ export default function PostPage() {
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
-            {/* <Menu as="div" className="relative inline-block text-left">
+            <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                   <span className="ml-2 text-black">Filter</span>
@@ -89,7 +90,7 @@ export default function PostPage() {
                   </Menu.Item>
                 </div>
               </Menu.Items>
-            </Menu> */}
+            </Menu>
           </div>
           <div className="form-control"></div>
         </div>

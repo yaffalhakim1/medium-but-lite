@@ -23,7 +23,6 @@ interface INews {
 
 const PostForm = (data: { data?: INews }) => {
   const product = data.data;
-  console.log(product?.isPremium, "isPremium");
   const [enabled, setEnabled] = useState(false);
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
@@ -125,8 +124,6 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
-
-        console.log(editedPost.isPremium, "isPremium in fn");
 
         toast.success("News updated successfully");
         return router.push("/admin");
