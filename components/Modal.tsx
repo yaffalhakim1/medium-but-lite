@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 
 interface IModal {
   onClick?: () => void;
-  openButton: string;
+  openButton: ReactNode;
   modalTitle: string;
   children?: ReactNode;
   modalDescription?: string;
@@ -52,7 +52,7 @@ const Modal = (props: IModal) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="modal-box m-5">
+              <Dialog.Panel className="modal-box m-5 rounded-md">
                 <Dialog.Title className="font-bold text-lg">
                   {props.modalTitle}
                 </Dialog.Title>

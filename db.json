@@ -164,17 +164,6 @@
     {
       "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": false,
-      "category": [
-        "Tech"
-      ],
-      "created_at": "2023-12-12T12:24:47.483Z",
-      "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369301/ufphqoadp33lmya9wrm8.png",
-      "id": 2
-    },
-    {
-      "title": "Menampilkan foods dan drinks",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": true,
       "category": [
         "Anime",

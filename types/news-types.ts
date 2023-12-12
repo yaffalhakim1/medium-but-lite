@@ -10,12 +10,3 @@ export interface INewsElement {
   category: string[];
   like: number;
 }
-
-export interface Transaction {
-  id: string;
-  trans_id: number;
-  type: number;
-  trans_date: Date;
-  status: string;
-  totalPaid: number;
-}

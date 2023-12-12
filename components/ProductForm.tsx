@@ -187,7 +187,7 @@ const PostForm = (data: { data?: INews }) => {
                 { value: "Anime", label: "Anime" },
                 { value: "Polithics", label: "Polithics" },
               ]}
-              defaultValue={product?.category.map((item) => ({
+              defaultValue={product?.category?.map((item) => ({
                 value: item,
                 label: item,
               }))}

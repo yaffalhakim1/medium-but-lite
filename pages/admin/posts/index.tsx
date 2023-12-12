@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
 import { useNews } from "@/lib/useNews";
@@ -145,11 +146,21 @@ export default function PostPage() {
                           modalTitle={item.title}
                           modalDescription={item.desc}
                           modalButton="Close"
-                          onSubmit={() => handleDelete(item.id)}
                         >
                           <div className="flex flex-col">
                             <div className="flex flex-col">
                               <p className="text-sm font-normal">{item.desc}</p>
+                            </div>
+                            <div>
+                              <img
+                                src={
+                                  item.img
+                                    ? `${BASE_URL}/${item.img}`
+                                    : "https://placehold.co/400x400"
+                                }
+                                alt={item.title}
+                                className="w-96 h-96 object-cover"
+                              />
                             </div>
                             <div className="flex flex-col mt-2">
                               <p className="text-sm font-semibold">
@@ -159,14 +170,7 @@ export default function PostPage() {
                                 {formatExpirationDate(item.created_at)}
                               </p>
                             </div>
-                            <div className="flex flex-col mt-2">
-                              <p className="text-sm font-semibold">
-                                Updated At
-                              </p>
-                              <p className="text-sm font-normal">
-                                {formatExpirationDate(item.updated_at)}
-                              </p>
-                            </div>
+
                             <div className="flex flex-col mt-2">
                               <p className="text-sm font-semibold">Content</p>
                               <p className="text-sm font-normal">
