@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import { Switch } from "@headlessui/react";
 import axios from "axios";
-import { SyntheticEvent, useState } from "react";
+import { Fragment, SyntheticEvent, useState } from "react";
 import { toast } from "sonner";
 import Select from "react-select";
 import { useRouter } from "next/router";
@@ -11,6 +12,7 @@ interface INews {
   id: number;
   isPremium: boolean;
   title: string;
+  content: string;
   desc: string;
   img: string;
   created_at: Date;
@@ -20,33 +22,53 @@ interface INews {
 }
 
 const PostForm = (data: { data?: INews }) => {
+  const product = data.data;
+  console.log(product?.isPremium, "isPremium");
   const [enabled, setEnabled] = useState(false);
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
-  const [, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [, setLoading] = useState(false);
 
   const [formPost, setFormPost] = useState({
     title: "",
     content: "",
     isPremium: enabled,
-    img: "",
+    img: imageUrl,
     category: [],
     createdAt: new Date(),
   });
 
+  const [editedPost, setEditedPost] = useState({
+    title: product?.title,
+    content: product?.desc,
+    isPremium: product?.isPremium,
+    img: product?.img,
+    category: product?.category,
+    createdAt: new Date(),
+  });
+
   const handleSwitchChange = () => {
-    setFormPost((prev) => ({ ...prev, isPremium: !prev.isPremium }));
     setEnabled(!enabled);
+    if (product?.id) {
+      setEditedPost((prev) => ({ ...prev, isPremium: !prev.isPremium }));
+    }
+    setFormPost((prev) => ({ ...prev, isPremium: !prev.isPremium }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (product?.id) {
+      setEditedPost((prev) => ({ ...prev, [name]: value }));
+    }
     setFormPost((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSelectChange = (value: any) => {
     const selectedValue = value.map((item: any) => item.value);
+    if (product?.id) {
+      setEditedPost((prev) => ({ ...prev, category: selectedValue }));
+    }
     setFormPost((prev) => ({ ...prev, category: selectedValue }));
   };
 
@@ -76,28 +98,26 @@ const PostForm = (data: { data?: INews }) => {
     );
 
     const file = await response.json();
-    setImageUrl(file.secure_url);
-    setFormPost((prev) => ({ ...prev, img: file.secure_url }));
+    setImageUrl(file.url);
+    setFormPost((prev) => ({ ...prev, img: file.url }));
     toast.success("Image uploaded successfully");
     setLoading(false);
   }
 
   async function handlePostSubmit(e: SyntheticEvent) {
     e.preventDefault();
-    try {
-      // if there is id, use axios.patch
-      // else use axios.post
 
+    try {
       if (data.data?.id) {
         const res = await axios.patch<INewsElement>(
           `${BASE_URL}/news/${data.data?.id}`,
           {
-            title: formPost.title,
-            content: formPost.content,
-            isPremium: formPost.isPremium,
-            category: formPost.category as string[],
-            created_at: formPost.createdAt,
-            img: formPost.img,
+            title: editedPost.title,
+            content: editedPost.content,
+            isPremium: editedPost.isPremium,
+            category: editedPost.category as string[],
+            created_at: editedPost.createdAt,
+            img: editedPost.img,
           },
           {
             headers: {
@@ -105,6 +125,9 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
+
+        console.log(editedPost.isPremium, "isPremium in fn");
+
         toast.success("News updated successfully");
         return router.push("/admin");
       } else {
@@ -136,7 +159,7 @@ const PostForm = (data: { data?: INews }) => {
     <>
       <div className="">
         <h1 className="text-center text-5xl font-bold mt-10">
-          {data.data?.id ? "Edit" : "Create"} News
+          {product?.id ? "Edit" : "Create"} News
         </h1>
         <form onSubmit={handlePostSubmit} className="px-7">
           <label className=" w-full max-w-xs">
@@ -148,8 +171,8 @@ const PostForm = (data: { data?: INews }) => {
               name="title"
               placeholder="Your title here"
               className="input input-bordered w-full "
+              defaultValue={product?.title}
               onChange={handleInputChange}
-              defaultValue={data.data?.title}
             />
           </label>
 
@@ -161,11 +184,16 @@ const PostForm = (data: { data?: INews }) => {
             <Select
               isMulti
               name="category"
+              isClearable={true}
               options={[
                 { value: "Tech", label: "Tech" },
                 { value: "Anime", label: "Anime" },
                 { value: "Polithics", label: "Polithics" },
               ]}
+              defaultValue={product?.category.map((item) => ({
+                value: item,
+                label: item,
+              }))}
               className="basic-multi-select"
               classNamePrefix="select"
               onChange={handleSelectChange}
@@ -182,9 +210,13 @@ const PostForm = (data: { data?: INews }) => {
               name="content"
               minLength={5}
               maxLength={500}
+              defaultValue={product?.content}
               onChange={handleInputChange}
             />
           </label>
+
+          <img src={imageUrl} alt="" width="120px" className="w-65 mt-2" />
+
           <label className="form-control w-full ">
             <div className="label">
               <span className="label-text">Choose Cover Image</span>
@@ -200,33 +232,44 @@ const PostForm = (data: { data?: INews }) => {
               <button
                 type="button"
                 onClick={handleImageUpload}
-                className="btn btn-primary w-full mt-2 md:mt-0 md:w-auto"
+                className="btn btn-neutral w-full mt-2 md:mt-0 md:w-auto no-animation"
               >
                 Upload Image
               </button>
             </div>
           </label>
+          <img src={product?.img} alt="" />
           <div className="form-control w-52">
             <label className="cursor-pointer label">
               <span className="label-text">Premium Post</span>
+              {/* call the switch component */}
               <Switch
                 name="isPremium"
-                checked={enabled}
+                defaultChecked={product?.isPremium}
                 onChange={handleSwitchChange}
-                className={`${
-                  enabled ? "bg-blue-600" : "bg-gray-200"
-                } relative inline-flex h-6 w-11 items-center rounded-full`}
+                // as={Fragment}
               >
-                <span
-                  className={`${
-                    enabled ? "translate-x-6" : "translate-x-1"
-                  } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-                />
+                {({ checked }) => (
+                  <button
+                    className={`${
+                      checked ? "bg-blue-600" : "bg-gray-200"
+                    } relative inline-flex h-6 w-11 items-center rounded-full`}
+                  >
+                    <span
+                      className={`${
+                        checked ? "translate-x-6" : "translate-x-1"
+                      } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                    />
+                  </button>
+                )}
               </Switch>
             </label>
           </div>
 
-          <button type="submit" className="btn btn-primary mt-5 w-full">
+          <button
+            type="submit"
+            className="btn btn-neutral mt-5 w-full no-animation"
+          >
             Post News
           </button>
         </form>

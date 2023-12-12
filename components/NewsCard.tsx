@@ -3,7 +3,7 @@ import React from "react";
 
 interface INewsCardProps {
   title: string;
-  description: string;
+  description?: string;
   image: string;
   category?: string[];
   isPremium: boolean;

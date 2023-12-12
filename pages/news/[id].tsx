@@ -1,17 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 import { BASE_URL } from "@/config/api";
-import { useNews, useNewsDetail } from "@/lib/useNews";
 import { INewsElement } from "@/types/news-types";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import React from "react";
-import useSWR from "swr";
 
 interface NewsProps {
   news: INewsElement;
 }
 
 const NewsDetailPage = ({ news }: NewsProps) => {
+  const handleLike = async (id: number) => {
+    try {
+      const res = await fetch(`${BASE_URL}/news/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          like: news.like + 1,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div>
@@ -19,7 +33,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <h2>{news.title}</h2>
         <p>{news.desc}</p>
 
-        <button className="btn">
+        <button className="btn" onClick={() => handleLike(news.id)}>
           Button
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +50,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             />
           </svg>
         </button>
+        <p>{news.like}</p>
       </div>
     </>
   );
@@ -75,6 +90,6 @@ export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {
     props: {
       news,
     },
-    // revalidate: 1,
+    revalidate: 10,
   };
 };

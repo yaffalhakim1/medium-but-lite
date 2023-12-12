@@ -41,7 +41,7 @@ export default function PostPage() {
         <div className="md:flex md:justify-between mt-4">
           <button
             onClick={() => router.push("admin/posts/create")}
-            className="btn btn-success btn-sm text-white"
+            className="btn btn-neutral btn-sm text-white"
           >
             Create New Post
           </button>

@@ -11,6 +11,7 @@ interface INews {
   desc: string;
   img: string;
   created_at: Date;
+  content: string;
   updated_at: Date;
   category: string[];
   like: number;

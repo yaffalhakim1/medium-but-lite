@@ -4,6 +4,7 @@ export interface INewsElement {
   title: string;
   desc: string;
   img: string;
+  content: string;
   created_at: Date;
   updated_at: Date;
   category: string[];

@@ -12,7 +12,7 @@
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": "2024-12-10"
+      "expiredDate": "2024-01-11"
     },
     {
       "id": 2,
@@ -29,7 +29,7 @@
         "expired_date": "2023-01-15"
       },
       "subscriptionPlan.expired_date": null,
-      "expiredDate": "2024-01-10"
+      "expiredDate": "2024-01-11"
     },
     {
       "id": 3,
@@ -59,44 +59,55 @@
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": "2024-01-07"
+      "expiredDate": "2024-01-11"
     }
   ],
   "news": [
     {
-      "id": 1,
-      "isPremium": true,
-      "title": "Breaking News",
-      "desc": "A major event occurred today.",
-      "content": "A major event occurred today.",
-      "img": "image_url",
-      "created_at": "2023-01-01",
-      "updated_at": "2023-01-02",
-      "category": [
-        "world",
-        "politics"
-      ],
-      "like": 150
-    },
-    {
       "title": "Menampilkan foods dan drinksssss",
-      "content": "",
-      "isPremium": false,
-      "category": [],
-      "created_at": "2023-12-12T01:35:18.480Z",
+      "content": "oajajdaojwaojdwdoadinadonaodnand",
+      "isPremium": true,
+      "category": [
+        "Polithics",
+        "Tech"
+      ],
+      "created_at": "2023-12-12T07:57:40.290Z",
       "img": "",
-      "id": 3
+      "id": 1,
+      "formPost": {
+        "title": "",
+        "content": "",
+        "isPremium": false,
+        "img": "",
+        "category": [
+          "Anime",
+          "Tech"
+        ],
+        "createdAt": "2023-12-12T07:42:02.951Z"
+      }
     },
     {
       "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": false,
+      "isPremium": true,
       "category": [
-        "Anime"
+        "Tech"
       ],
-      "created_at": "2023-12-11T09:09:36.797Z",
-      "img": "",
-      "id": 4
+      "created_at": "2023-12-12T08:21:18.956Z",
+      "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369301/ufphqoadp33lmya9wrm8.png",
+      "id": 2
+    },
+    {
+      "title": "Menampilkan foods dan drinks",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "isPremium": true,
+      "category": [
+        "Anime",
+        "Polithics"
+      ],
+      "created_at": "2023-12-12T08:55:00.141Z",
+      "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369852/onhct4htt6zpz0xlr8n4.png",
+      "id": 3
     }
   ],
   "admins": [
