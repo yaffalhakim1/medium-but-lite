@@ -36,15 +36,15 @@ Important things that you have to keep in mind when you do the final project:
 1. Login
 2. Logout
 3. Manage Subscription
-   - View the entire list of subscriptions user
-   - deactive user subscriptions
-   - change user subscriptions
+   - View the entire list of subscriptions user (v)
+   - deactive user subscriptions (v)
+   - change user subscriptions (v)
 4. Manage Post
-   - View the entire list of Posts
+   - View the entire list of Posts (v)
    - View Post details
-   - Create a Post
-   - Edit Post
-   - Delete Post
+   - Create a Post (v)
+   - Edit Post (v)
+   - Delete Post (v)
 5. Manage Transactions Invoice
    - View all User Transactions against Subscriptions
    - Update Transaction Status from process to completed

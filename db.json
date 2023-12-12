@@ -141,12 +141,12 @@
     {
       "title": "Menampilkan foods dan drinksssss",
       "content": "oajajdaojwaojdwdoadinadonaodnand",
-      "isPremium": false,
+      "isPremium": true,
       "category": [
         "Polithics",
         "Tech"
       ],
-      "created_at": "2023-12-12T11:10:52.071Z",
+      "created_at": "2023-12-12T12:20:04.116Z",
       "img": "",
       "id": 1,
       "formPost": {
@@ -164,11 +164,11 @@
     {
       "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "isPremium": true,
+      "isPremium": false,
       "category": [
         "Tech"
       ],
-      "created_at": "2023-12-12T08:21:18.956Z",
+      "created_at": "2023-12-12T12:24:47.483Z",
       "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369301/ufphqoadp33lmya9wrm8.png",
       "id": 2
     },

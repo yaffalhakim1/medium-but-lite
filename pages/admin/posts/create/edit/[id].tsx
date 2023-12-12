@@ -22,9 +22,23 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async (context) => {
   const id = context.query.id as string;
 
-  const res = await fetch(`${BASE_URL}/news/${id}`);
-  const data = await res.json();
+  // create use fecth native version
 
+  // const res = await fetch(`${BASE_URL}/news/${id}`);
+  // const data = await res.json();
+
+  // if (!data) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
+
+  const response = await axios.get(`${BASE_URL}/news/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = response.data;
   if (!data) {
     return {
       notFound: true,
@@ -32,7 +46,7 @@ export const getServerSideProps: GetServerSideProps<{
   }
   return {
     props: {
-      data: data,
+      data,
     },
   };
 };

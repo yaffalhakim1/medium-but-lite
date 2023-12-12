@@ -127,7 +127,7 @@ export default function PostPage() {
                     </td>
                     <td>{formatExpirationDate(item.created_at)}</td>
                     <td>
-                      <div className="space-x-2">
+                      <div className="space-y-2">
                         <Modal
                           type="danger"
                           openButton="Delete"
@@ -139,6 +139,48 @@ export default function PostPage() {
                         <Link href={`/admin/posts/create/edit/${item.id}`}>
                           <p>Edit</p>
                         </Link>
+                        <Modal
+                          type="success"
+                          openButton="View"
+                          modalTitle={item.title}
+                          modalDescription={item.desc}
+                          modalButton="Close"
+                          onSubmit={() => handleDelete(item.id)}
+                        >
+                          <div className="flex flex-col">
+                            <div className="flex flex-col">
+                              <p className="text-sm font-normal">{item.desc}</p>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                              <p className="text-sm font-semibold">
+                                Created At
+                              </p>
+                              <p className="text-sm font-normal">
+                                {formatExpirationDate(item.created_at)}
+                              </p>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                              <p className="text-sm font-semibold">
+                                Updated At
+                              </p>
+                              <p className="text-sm font-normal">
+                                {formatExpirationDate(item.updated_at)}
+                              </p>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                              <p className="text-sm font-semibold">Content</p>
+                              <p className="text-sm font-normal">
+                                {item.content}
+                              </p>
+                            </div>
+                            <div className="flex flex-col mt-2">
+                              <p className="text-sm font-semibold">Category</p>
+                              <p className="text-sm font-normal">
+                                {item.category}
+                              </p>
+                            </div>
+                          </div>
+                        </Modal>
                       </div>
                     </td>
                   </tr>
