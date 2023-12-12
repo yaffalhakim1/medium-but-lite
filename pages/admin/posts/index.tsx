@@ -12,7 +12,6 @@ import { toast } from "sonner";
 
 export default function PostPage() {
   const [search, setSearch] = useState("");
-
   const { newsError, news, newsLoading, newsMutate } = useNews(search);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<boolean>();

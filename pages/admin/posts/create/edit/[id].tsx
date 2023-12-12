@@ -21,6 +21,13 @@ export const getServerSideProps: GetServerSideProps<{
   data: INews;
 }> = async (context) => {
   const id = context.query.id as string;
+
+  if (!id) {
+    return {
+      notFound: true,
+    };
+  }
+
   const response = await axios.get(`${BASE_URL}/news/${id}`, {
     headers: {
       "Content-Type": "application/json",

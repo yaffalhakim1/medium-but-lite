@@ -4,10 +4,12 @@ import { User } from "@/types/user-types";
 import useSWR from "swr";
 
 export const useUsers = (search?: string, premium?: boolean) => {
-  const { data, isLoading, error, mutate } = useSWR<User[]>(
-    `${BASE_URL}/profile?q=${search}&isPremiumUser=${premium}`,
-    fetcher
-  );
+  const url =
+    premium !== undefined
+      ? `${BASE_URL}/profile?q=${search}&isPremiumUser=${premium}`
+      : `${BASE_URL}/profile?q=${search}`;
+
+  const { data, isLoading, error, mutate } = useSWR<User[]>(url, fetcher);
 
   return {
     users: data,

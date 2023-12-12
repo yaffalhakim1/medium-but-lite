@@ -90,7 +90,6 @@ export default function SubscriptionPage() {
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  {/* <FilterIcons /> */}
                   <span className="ml-2 text-black">Filter</span>
                 </Menu.Button>
               </div>
@@ -233,20 +232,7 @@ export default function SubscriptionPage() {
               </button>
             )}
             <div className=" mx-auto items-center justify-center ">
-              <div className="btn-group">
-                {/* {pageNumbers.map((pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => setPage(pageNumber)}
-                    disabled={pageNumber === page}
-                    className={`btn btn-outline btn-primary btn-sm ${
-                      pageNumber === page ? "btn-active" : ""
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                ))} */}
-              </div>
+              <div className="btn-group"></div>
             </div>
 
             <button
