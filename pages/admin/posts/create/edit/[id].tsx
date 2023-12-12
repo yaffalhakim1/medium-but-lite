@@ -1,6 +1,5 @@
 import PostForm from "@/components/ProductForm";
 import { BASE_URL } from "@/config/api";
-import { INewsElement } from "@/types/news-types";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import React from "react";
@@ -15,9 +14,6 @@ interface INews {
   updated_at: Date;
   category: string[];
   like: number;
-}
-interface IPostForm {
-  product?: INews;
 }
 
 export const getServerSideProps: GetServerSideProps<{
@@ -36,13 +32,12 @@ export const getServerSideProps: GetServerSideProps<{
   };
 };
 
-const EditForm = (product: { data: IPostForm }) => {
+const EditForm = (product: { data: INews }) => {
   const data = product;
-  console.log(data, "from [id] edit");
 
   return (
     <>
-      <PostForm data={product.data} />
+      <PostForm data={data.data} />
     </>
   );
 };

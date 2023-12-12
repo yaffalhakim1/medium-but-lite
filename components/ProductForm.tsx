@@ -18,14 +18,8 @@ interface INews {
   category: string[];
   like: number;
 }
-interface IPostForm {
-  product?: INews;
-}
 
-const PostForm = (data: { data?: IPostForm }) => {
-  console.log(data, "from [id] edit form");
-  console.log(data.data?.product?.title, "from [id] edit form");
-
+const PostForm = (data: { data?: INews }) => {
   const [enabled, setEnabled] = useState(false);
   const router = useRouter();
   const [image, setImage] = useState<File | null>(null);
@@ -91,24 +85,48 @@ const PostForm = (data: { data?: IPostForm }) => {
   async function handlePostSubmit(e: SyntheticEvent) {
     e.preventDefault();
     try {
-      const res = await axios.post<INewsElement>(
-        `${BASE_URL}/news`,
-        {
-          title: formPost.title,
-          content: formPost.content,
-          isPremium: formPost.isPremium,
-          category: formPost.category as string[],
-          created_at: formPost.createdAt,
-          img: formPost.img,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      // if there is id, use axios.patch
+      // else use axios.post
+
+      if (data.data?.id) {
+        const res = await axios.patch<INewsElement>(
+          `${BASE_URL}/news/${data.data?.id}`,
+          {
+            title: formPost.title,
+            content: formPost.content,
+            isPremium: formPost.isPremium,
+            category: formPost.category as string[],
+            created_at: formPost.createdAt,
+            img: formPost.img,
           },
-        }
-      );
-      toast.success("News created successfully");
-      return router.push("/admin");
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        toast.success("News updated successfully");
+        return router.push("/admin");
+      } else {
+        const res = await axios.post<INewsElement>(
+          `${BASE_URL}/news`,
+          {
+            title: formPost.title,
+            content: formPost.content,
+            isPremium: formPost.isPremium,
+            category: formPost.category as string[],
+            created_at: formPost.createdAt,
+            img: formPost.img,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        toast.success("News created successfully");
+        return router.push("/admin");
+      }
     } catch (error) {
       toast.error("News created failed");
     }
@@ -117,7 +135,9 @@ const PostForm = (data: { data?: IPostForm }) => {
   return (
     <>
       <div className="">
-        <h1 className="text-center text-5xl font-bold mt-10">Create News</h1>
+        <h1 className="text-center text-5xl font-bold mt-10">
+          {data.data?.id ? "Edit" : "Create"} News
+        </h1>
         <form onSubmit={handlePostSubmit} className="px-7">
           <label className=" w-full max-w-xs">
             <div className="label">
@@ -129,7 +149,7 @@ const PostForm = (data: { data?: IPostForm }) => {
               placeholder="Your title here"
               className="input input-bordered w-full "
               onChange={handleInputChange}
-              defaultValue={data.data?.product?.title}
+              defaultValue={data.data?.title}
             />
           </label>
 
