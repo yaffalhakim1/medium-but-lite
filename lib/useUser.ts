@@ -3,9 +3,9 @@ import { fetcher } from "@/config/fetcher";
 import { User } from "@/types/user-types";
 import useSWR from "swr";
 
-export const useUsers = () => {
+export const useUsers = (search?: string, premium?: boolean) => {
   const { data, isLoading, error, mutate } = useSWR<User[]>(
-    `${BASE_URL}/profile`,
+    `${BASE_URL}/profile?q=${search}`,
     fetcher
   );
 

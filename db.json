@@ -19,9 +19,7 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "password": "alice",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -35,9 +33,7 @@
       "id": 3,
       "name": "Yafi Smith",
       "email": "yafi@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -50,9 +46,72 @@
       "id": 4,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
+      "role": "user",
+      "isPremiumUser": true,
+      "subscriptionPlan": {
+        "type": "monthly",
+        "expired_date": "2023-01-15"
+      },
+      "expiredDate": "2024-01-11"
+    },
+    {
+      "id": 5,
+      "name": "Yafi Alhakim",
+      "email": "yafialhakim@example.com",
+      "like": [3],
+      "role": "user",
+      "isPremiumUser": true,
+      "subscriptionPlan": {
+        "type": "monthly",
+        "expired_date": "2023-01-15"
+      },
+      "expiredDate": "2024-01-11"
+    },
+    {
+      "id": 6,
+      "name": "Yafi Alhakim",
+      "email": "yafialhakim@example.com",
+      "like": [3],
+      "role": "user",
+      "isPremiumUser": true,
+      "subscriptionPlan": {
+        "type": "monthly",
+        "expired_date": "2023-01-15"
+      },
+      "expiredDate": "2024-01-11"
+    },
+    {
+      "id": 7,
+      "name": "Yafi Alhakim",
+      "email": "yafialhakim@example.com",
+      "like": [3],
+      "role": "user",
+      "isPremiumUser": true,
+      "subscriptionPlan": {
+        "type": "monthly",
+        "expired_date": "2023-01-15"
+      },
+      "expiredDate": "2024-01-11"
+    },
+    {
+      "id": 8,
+      "name": "Yafi Alhakim",
+      "email": "yafialhakim@example.com",
+      "like": [3],
+      "role": "user",
+      "isPremiumUser": true,
+      "subscriptionPlan": {
+        "type": "monthly",
+        "expired_date": "2023-01-15"
+      },
+      "expiredDate": "2024-01-11"
+    },
+    {
+      "id": 9,
+      "name": "Yafi Alhakim",
+      "email": "yafialhakim@example.com",
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -67,10 +126,7 @@
       "title": "Menampilkan foods dan drinksssss",
       "content": "oajajdaojwaojdwdoadinadonaodnand",
       "isPremium": true,
-      "category": [
-        "Polithics",
-        "Tech"
-      ],
+      "category": ["Polithics", "Tech"],
       "created_at": "2023-12-12T07:57:40.290Z",
       "img": "",
       "id": 1,
@@ -79,10 +135,7 @@
         "content": "",
         "isPremium": false,
         "img": "",
-        "category": [
-          "Anime",
-          "Tech"
-        ],
+        "category": ["Anime", "Tech"],
         "createdAt": "2023-12-12T07:42:02.951Z"
       }
     },
@@ -90,9 +143,7 @@
       "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": true,
-      "category": [
-        "Tech"
-      ],
+      "category": ["Tech"],
       "created_at": "2023-12-12T08:21:18.956Z",
       "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369301/ufphqoadp33lmya9wrm8.png",
       "id": 2
@@ -101,10 +152,7 @@
       "title": "Menampilkan foods dan drinks",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": true,
-      "category": [
-        "Anime",
-        "Polithics"
-      ],
+      "category": ["Anime", "Polithics"],
       "created_at": "2023-12-12T08:55:00.141Z",
       "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369852/onhct4htt6zpz0xlr8n4.png",
       "id": 3
