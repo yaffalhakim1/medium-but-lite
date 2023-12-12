@@ -123,32 +123,6 @@ export default function SubscriptionPage() {
                 </div>
               </Menu.Items>
             </Menu>
-            {/* <div className="dropdown dropdown-top">
-              <button
-                tabIndex={0}
-                className="btn btn-primary btn-md no-animation"
-              >
-                Filter
-              </button>
-              <ul
-                tabIndex={0}
-                className="shadow menu dropdown-content bg-base-100 rounded-md w-52"
-              >
-                <li>
-                  <a onClick={() => setStatus(true)} className="cursor-pointer">
-                    Premium
-                  </a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => setStatus(false)}
-                    className="cursor-pointer"
-                  >
-                    Free
-                  </a>
-                </li>
-              </ul>
-            </div> */}
           </div>
         </div>
         <div className="flex flex-col h-full w-full mt-4">

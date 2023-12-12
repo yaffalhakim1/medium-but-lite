@@ -242,12 +242,10 @@ const PostForm = (data: { data?: INews }) => {
           <div className="form-control w-52">
             <label className="cursor-pointer label">
               <span className="label-text">Premium Post</span>
-              {/* call the switch component */}
               <Switch
                 name="isPremium"
                 defaultChecked={product?.isPremium}
                 onChange={handleSwitchChange}
-                // as={Fragment}
               >
                 {({ checked }) => (
                   <button

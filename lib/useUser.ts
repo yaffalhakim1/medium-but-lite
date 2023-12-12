@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 export const useUsers = (search?: string, premium?: boolean) => {
   const { data, isLoading, error, mutate } = useSWR<User[]>(
-    `${BASE_URL}/profile?q=${search}`,
+    `${BASE_URL}/profile?q=${search}&isPremiumUser=${premium}`,
     fetcher
   );
 
