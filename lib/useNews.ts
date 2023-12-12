@@ -3,9 +3,14 @@ import { fetcher } from "@/config/fetcher";
 import { INewsElement } from "@/types/news-types";
 import useSWR from "swr";
 
-export const useNews = () => {
+export const useNews = (
+  search?: string,
+  premium?: boolean,
+  page?: number,
+  size?: number
+) => {
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
-    `${BASE_URL}/news`,
+    `${BASE_URL}/news?q=${search}`,
     fetcher
   );
 

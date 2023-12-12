@@ -3,6 +3,7 @@ import { BASE_URL } from "@/config/api";
 import { useNews } from "@/lib/useNews";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { INewsElement } from "@/types/news-types";
+import { Menu } from "@headlessui/react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,9 +11,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export default function PostPage() {
-  const { newsError, news, newsLoading, newsMutate } = useNews();
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  const { newsError, news, newsLoading, newsMutate } = useNews(search);
+  const [page, setPage] = useState(1);
+  const [status, setStatus] = useState<boolean>();
+
   const router = useRouter();
 
   const handleNextPage = () => {
@@ -45,6 +49,49 @@ export default function PostPage() {
           >
             Create New Post
           </button>
+          <div className="space-x-2 ml-auto items-center">
+            <input
+              type="text"
+              placeholder="Search"
+              className="input input-neutral input-md input-bordered"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {/* <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  <span className="ml-2 text-black">Filter</span>
+                </Menu.Button>
+              </div>
+              <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="px-1 py-1 ">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <a
+                        onClick={() => setStatus(true)}
+                        className={`${
+                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      >
+                        Premium
+                      </a>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <a
+                        onClick={() => setStatus(false)}
+                        className={`${
+                          active ? "bg-violet-500 text-white" : "text-gray-900"
+                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      >
+                        Free
+                      </a>
+                    )}
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Menu> */}
+          </div>
           <div className="form-control"></div>
         </div>
         <div className="flex flex-col h-full w-full">
