@@ -97,8 +97,9 @@ const PostForm = (data: { data?: INews }) => {
     );
 
     const file = await response.json();
-    setImageUrl(file.url);
-    setFormPost((prev) => ({ ...prev, img: file.url }));
+    setImageUrl(file.secure_url);
+    setFormPost((prev) => ({ ...prev, img: file.secure_url }));
+    setEditedPost((prev) => ({ ...prev, img: file.secure_url }));
     toast.success("Image uploaded successfully");
     setLoading(false);
   }
@@ -124,7 +125,7 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
-
+        console.log(res.data);
         toast.success("News updated successfully");
         return router.push("/admin");
       } else {
@@ -144,6 +145,7 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
+        console.log(res.data, "from create post");
         toast.success("News created successfully");
         return router.push("/admin");
       }

@@ -122,43 +122,12 @@ const TransactionPage = () => {
                               modalButton={"Change"}
                             >
                               <div className="space-x-3 mb-5">
-                                <button
-                                  onClick={() =>
-                                    handleSubscriptionToggle(
-                                      item.id,
-                                      item.isPremiumUser,
-                                      "monthly"
-                                    )
-                                  }
-                                  className="btn btn-primary btn-sm capitalize"
-                                >
+                                <button className="btn btn-primary btn-sm capitalize">
                                   Monthly
                                 </button>
-                                <button
-                                  onClick={() =>
-                                    handleSubscriptionToggle(
-                                      item.id,
-                                      item.isPremiumUser,
-                                      "yearly"
-                                    )
-                                  }
-                                  className="btn btn-primary btn-sm capitalize"
-                                >
+                                <button className="btn btn-primary btn-sm capitalize">
                                   Yearly
                                 </button>
-                                {item.isPremiumUser && (
-                                  <button
-                                    onClick={() =>
-                                      handleSubscriptionToggle(
-                                        item.id,
-                                        item.isPremiumUser
-                                      )
-                                    }
-                                    className="btn btn-error btn-sm capitalize text-white "
-                                  >
-                                    Deactivate
-                                  </button>
-                                )}
                               </div>
                             </Modal>
                           </li>

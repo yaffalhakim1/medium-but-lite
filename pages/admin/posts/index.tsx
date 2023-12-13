@@ -153,15 +153,12 @@ export default function PostPage() {
                             </div>
                             <div>
                               <img
-                                src={
-                                  item.img
-                                    ? `${BASE_URL}/${item.img}`
-                                    : "https://placehold.co/400x400"
-                                }
+                                src={item.img ?? "https://placehold.co/400x400"}
                                 alt={item.title}
                                 className="w-96 h-96 object-cover"
-                              />
+                              />{" "}
                             </div>
+
                             <div className="flex flex-col mt-2">
                               <p className="text-sm font-semibold">
                                 Created At
