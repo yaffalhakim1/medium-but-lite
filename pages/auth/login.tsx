@@ -54,7 +54,7 @@ const LoginPage = () => {
 
       if (response.data[0].role === "user") {
         Cookie.set("token", token());
-        return router.push("/news");
+        return router.push("/");
       }
 
       if (response.data[0].role === "admin") {

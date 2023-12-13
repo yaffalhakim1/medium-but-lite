@@ -18,3 +18,19 @@ export const useUsers = (search?: string, premium?: boolean) => {
     usersMutate: mutate,
   };
 };
+
+// use users details
+
+export const useUser = (id: number) => {
+  const { data, isLoading, error, mutate } = useSWR<User>(
+    `${BASE_URL}/profile/${id}`,
+    fetcher
+  );
+
+  return {
+    user: data,
+    userLoading: isLoading,
+    userError: error,
+    userMutate: mutate,
+  };
+};

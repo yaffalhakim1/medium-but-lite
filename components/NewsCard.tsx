@@ -21,18 +21,18 @@ const NewsCard = (props: INewsCardProps) => {
           <h2 className="card-title">
             {props.title}
             {props.isPremium && (
-              <div className="badge badge-secondary">PREMIUM</div>
+              <div className="badge badge-primary">PREMIUM</div>
             )}
           </h2>
           <p>{props.description}</p>
           <div className="card-actions justify-end">
             {props.category?.map((cat, idx) => (
               <div key={idx}>
-                <div className="badge badge-primary">{cat}</div>
+                <div className="badge badge-outline">{cat}</div>
               </div>
             ))}
           </div>
-          <button className="btn btn-primary">Read More</button>
+          <button className="btn btn-neutral">Read More</button>
         </div>
       </div>
     </div>

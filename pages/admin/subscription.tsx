@@ -38,17 +38,17 @@ export default function SubscriptionPage() {
 
   const handleSubscriptionToggle = async (
     id: number,
-    isPremiumUser: boolean,
-    subsType = "monthly | yearly"
+    isPremiumUser: boolean
+    // subsType = "monthly | yearly"
   ) => {
     try {
       const newStatus = !isPremiumUser;
       let newExpiredDate = "";
-      if (subsType === "monthly") {
-        newExpiredDate = calculateNewExpiredDateForMonthly();
-      } else if (subsType === "yearly") {
-        newExpiredDate = calculateNewExpiredDateForYearly();
-      }
+      // if (subsType === "monthly") {
+      //   newExpiredDate = calculateNewExpiredDateForMonthly();
+      // } else if (subsType === "yearly") {
+      //   newExpiredDate = calculateNewExpiredDateForYearly();
+      // }
 
       const res = await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
@@ -168,10 +168,8 @@ export default function SubscriptionPage() {
                         >
                           <li>
                             <Modal
-                              openButton={"Change Subs"}
-                              modalTitle={
-                                "Are you sure you want to change user subs?"
-                              }
+                              openButton={"Deactivate Subs"}
+                              modalTitle={`Are you sure you want to deactivate ${item.name} subs?`}
                               modalButton={"Change"}
                               onSubmit={() =>
                                 handleSubscriptionToggle(

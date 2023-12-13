@@ -16,9 +16,10 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  if (authRoutes.includes(request.nextUrl.pathname) && token) {
-    return NextResponse.redirect(new URL("/news", request.url));
-  }
+  // if (authRoutes.includes(request.nextUrl.pathname) && token) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
+
   if (
     authRoutes.includes(request.nextUrl.pathname) &&
     token &&
