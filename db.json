@@ -23,13 +23,13 @@
         3
       ],
       "role": "user",
-      "isPremiumUser": false,
+      "isPremiumUser": true,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
       "subscriptionPlan.expired_date": null,
-      "expiredDate": ""
+      "expiredDate": "2024-01-12"
     },
     {
       "id": 3,
@@ -59,7 +59,13 @@
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": "2024-01-11"
+      "expiredDate": "2024-01-11",
+      "transactions": {
+        "type": "monthly",
+        "trans_date": "2023-01-05",
+        "status": "processed",
+        "totalPaid": 50
+      }
     },
     {
       "id": 5,
@@ -146,8 +152,8 @@
         "Polithics",
         "Anime"
       ],
-      "created_at": "2023-12-13T02:42:26.462Z",
-      "img": "",
+      "created_at": "2023-12-13T07:17:31.613Z",
+      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702451858/k2wiocqeeompzs9yf7pu.png",
       "id": 1
     },
     {
@@ -165,11 +171,11 @@
     {
       "title": "Yafi Alhakim",
       "content": "sasasasoajajdaojwaojdwdoadinadonaodnand",
-      "isPremium": false,
+      "isPremium": true,
       "category": [
         "Tech"
       ],
-      "created_at": "2023-12-13T02:48:35.680Z",
+      "created_at": "2023-12-13T02:49:40.570Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702435720/j8nxvhfbohbl2t4b2x5p.png",
       "id": 3
     }
@@ -181,17 +187,17 @@
   ],
   "transactions": [
     {
-      "user_id": 1,
-      "trans_id": 1001,
-      "type": 1,
+      "profileId": 1,
+      "id": 1001,
+      "type": "monthly",
       "trans_date": "2023-01-05",
       "status": "processed",
       "totalPaid": 50
     },
     {
-      "user_id": 2,
-      "trans_id": 1002,
-      "type": 2,
+      "profileId": 2,
+      "id": 1002,
+      "type": "yearly",
       "trans_date": "2023-01-10",
       "status": "completed",
       "totalPaid": 30

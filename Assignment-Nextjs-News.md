@@ -38,15 +38,14 @@ Important things that you have to keep in mind when you do the final project:
 3. Manage Subscription
    - View the entire list of subscriptions user (v)
    - deactive user subscriptions (v)
-   - change user subscriptions (v)
 4. Manage Post
    - View the entire list of Posts (v)
-   - View Post details
+   - View Post details (v)
    - Create a Post (v)
    - Edit Post (v)
    - Delete Post (v)
 5. Manage Transactions Invoice
-   - View all User Transactions against Subscriptions
+   - View all User Transactions against Subscriptions (v)
    - Update Transaction Status from process to completed
    - Update Transaction Status from process to canceled
    - Filter by transaction date and Transaction status

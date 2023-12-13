@@ -1,15 +1,24 @@
 import Modal from "@/components/Modal";
+import { BASE_URL } from "@/config/api";
 import { useTransaction } from "@/lib/useTransaction";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { ITransaction } from "@/types/trans-types";
 import { User } from "@/types/user-types";
 import { Menu } from "@headlessui/react";
+import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const TransactionPage = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<boolean>();
-  const { transaction } = useTransaction();
+  const {
+    transaction,
+    transactionLoading,
+    transactionError,
+    transactionMutate,
+  } = useTransaction(search);
+
   const [page, setPage] = useState(1);
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -19,12 +28,59 @@ const TransactionPage = () => {
     setPage((prevPage) => prevPage - 1);
   };
 
+  const calculateNewExpiredDateForMonthly = () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 30);
+    return currentDate.toISOString().split("T")[0];
+  };
+
+  const calculateNewExpiredDateForYearly = () => {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 365);
+    return currentDate.toISOString().split("T")[0];
+  };
+
+  const handleSubscriptionToggle = async (
+    id: number,
+    isPremiumUser: boolean,
+    subsType = "monthly | yearly"
+  ) => {
+    try {
+      const newStatus = !isPremiumUser;
+      let newExpiredDate = "";
+      if (subsType === "monthly") {
+        newExpiredDate = calculateNewExpiredDateForMonthly();
+      } else if (subsType === "yearly") {
+        newExpiredDate = calculateNewExpiredDateForYearly();
+      }
+
+      const res = await axios.patch<User>(
+        `${BASE_URL}/profile/${id}`,
+        {
+          isPremiumUser: newStatus,
+          expiredDate: newExpiredDate,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      transactionMutate(transaction);
+      toast.success(
+        `User subscription ${newStatus ? "activated" : "deactivated"}`
+      );
+    } catch (err) {
+      toast.error("Failed to update user subscription");
+    }
+  };
+
   return (
     <>
       <div className="container px-6  pt-2 pb-6 h-full">
-        <p className="text-2xl font-semibold mb-2">Subscriptions</p>
+        <p className="text-2xl font-semibold mb-2">Transactions</p>
         <p className="text-md font-normal mb-4">
-          Manage your users subscription here
+          Manage your users transaction here
         </p>
         <div className="md:flex md:justify-between">
           <div className="space-x-2 ml-auto items-center">
@@ -79,31 +135,23 @@ const TransactionPage = () => {
                 <tr className="">
                   <th>No</th>
                   <th>Name</th>
-                  <th>Email</th>
-                  <th>Premium Status</th>
+                  <th>Status</th>
+                  <th>Premium Type</th>
                   <th>Expiring Date</th>
                   <th>Action</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {transaction?.map((item: ITransaction, idx) => (
-                  <tr key={item.id}>
-                    <th>{idx++}</th>
-                    <td>{item.status}</td>
-                    <td>{item.trans_id}</td>
+                {transaction?.map((item: User, idx) => (
+                  <tr key={idx}>
+                    <th>{idx + 1}</th>
+                    <td>{item.name}</td>
+                    <td>{item.transactions?.status}</td>
+                    <td>{item.transactions?.type}</td>
                     <td>
-                      {/* {item.isPremiumUser ? (
-                        <div className="badge badge-success px-2 py-3 text-white text-sm">
-                          Active
-                        </div>
-                      ) : (
-                        <div className="badge badge-error px-2 py-3 text-white text-sm">
-                          Not Active
-                        </div>
-                      )} */}
+                      {formatExpirationDate(item.transactions?.trans_date)}
                     </td>
-                    <td>{formatExpirationDate(item.trans_date)}</td>
                     <td>
                       <div className="dropdown dropdown-bottom">
                         <div tabIndex={0} role="" className="btn btn-sm">
@@ -122,12 +170,43 @@ const TransactionPage = () => {
                               modalButton={"Change"}
                             >
                               <div className="space-x-3 mb-5">
-                                <button className="btn btn-primary btn-sm capitalize">
+                                <button
+                                  onClick={() =>
+                                    handleSubscriptionToggle(
+                                      item.id,
+                                      item.isPremiumUser,
+                                      "monthly"
+                                    )
+                                  }
+                                  className="btn btn-primary btn-sm capitalize"
+                                >
                                   Monthly
                                 </button>
-                                <button className="btn btn-primary btn-sm capitalize">
+                                <button
+                                  onClick={() =>
+                                    handleSubscriptionToggle(
+                                      item.id,
+                                      item.isPremiumUser,
+                                      "yearly"
+                                    )
+                                  }
+                                  className="btn btn-primary btn-sm capitalize"
+                                >
                                   Yearly
                                 </button>
+                                {item.isPremiumUser && (
+                                  <button
+                                    onClick={() =>
+                                      handleSubscriptionToggle(
+                                        item.id,
+                                        item.isPremiumUser
+                                      )
+                                    }
+                                    className="btn btn-error btn-sm capitalize text-white "
+                                  >
+                                    Deactivate
+                                  </button>
+                                )}
                               </div>
                             </Modal>
                           </li>
