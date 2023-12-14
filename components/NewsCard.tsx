@@ -8,34 +8,43 @@ interface INewsCardProps {
   category?: string[];
   isPremium: boolean;
   onClick?: () => void;
+  content?: string;
 }
 
 const NewsCard = (props: INewsCardProps) => {
   return (
-    <div>
-      <div className=" bg-base-100  w-80">
-        <figure>
-          <img src={props.image} alt="Shoes" />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">
-            {props.title}
-            {props.isPremium && (
-              <div className="badge badge-primary">PREMIUM</div>
-            )}
-          </h2>
-          <p>{props.description}</p>
-          <div className="card-actions justify-end">
-            {props.category?.map((cat, idx) => (
-              <div key={idx}>
-                <div className="badge badge-outline">{cat}</div>
-              </div>
-            ))}
-          </div>
-          <button className="btn btn-neutral">Read More</button>
+    <article className="flex bg-white transition hover:shadow-xl">
+      <div className="hidden sm:block sm:basis-56">
+        <img
+          alt="Guitar"
+          src={props.image}
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
+          <button>
+            <h3 className="font-bold uppercase text-gray-900">
+              {props.title}
+              {props.isPremium && (
+                <div className="ml-5 badge badge-primary">PREMIUM</div>
+              )}
+            </h3>
+          </button>
+
+          <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
+            {props.content}
+          </p>
+        </div>
+
+        <div className="sm:flex sm:items-end sm:justify-end">
+          <button className="block bg-yellow-300 px-5 py-3 text-center text-xs font-bold uppercase text-gray-900 transition hover:bg-yellow-400">
+            Read Blog
+          </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

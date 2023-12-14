@@ -9,7 +9,7 @@ import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch(`${BASE_URL}/news`);
+  const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
   const data = await response.json();
 
   if (!data) {
@@ -30,6 +30,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       setAuthed(true);
     }
   }, [setAuthed, token]);
+
   return (
     <>
       {!authed && (
@@ -57,13 +58,33 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         </section>
       )}
 
-      <div className="md:flex justify-center space-x-2">
+      <p className="text-2xl">Trending Topics</p>
+
+      <div className="items-center space-y-3 mt-5">
         {data.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
               <NewsCard
                 title={item.title}
-                image="https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg"
+                image={item.img}
+                content={item.content}
+                category={item.category}
+                isPremium={item.isPremium}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-xl">For You</p>
+      <div className="items-center space-y-3 mt-5">
+        {data.map((item) => (
+          <div key={item.id} className="">
+            <Link href={`news/${item.id}`}>
+              <NewsCard
+                title={item.title}
+                image={item.img}
+                content={item.content}
                 category={item.category}
                 isPremium={item.isPremium}
               />

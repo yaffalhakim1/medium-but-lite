@@ -30,7 +30,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       <div>
         <img src="" alt="" />
         <h2>{news.title}</h2>
-        <p>{news.desc}</p>
+        <p>{news.content}</p>
 
         <button className="btn" onClick={() => handleLike(news.id)}>
           Button
