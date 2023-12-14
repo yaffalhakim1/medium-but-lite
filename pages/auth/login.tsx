@@ -40,7 +40,6 @@ const LoginPage = () => {
 
   async function handleLogin(e: SyntheticEvent) {
     e.preventDefault();
-
     try {
       const response = await axios.get<User[]>(
         `${BASE_URL}/profile?email=${field.email}&password=${field.password}`,
@@ -54,11 +53,14 @@ const LoginPage = () => {
 
       if (response.data[0].role === "user") {
         Cookie.set("token", token());
+        Cookie.set("role", "user");
         return router.push("/");
       }
 
       if (response.data[0].role === "admin") {
         Cookie.set("token", token());
+        Cookie.set("role", "<admin></admin>");
+
         return router.push("/admin");
       }
 
