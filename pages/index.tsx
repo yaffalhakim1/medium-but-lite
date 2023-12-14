@@ -1,17 +1,16 @@
 import NewsCard from "@/components/NewsCard";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { GetServerSideProps } from "next";
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import Cookie from "js-cookie";
 import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
-import { TrendingUp } from "@/components/Icons";
+import { FilterIcons, TrendingUp } from "@/components/Icons";
+import { useNews } from "@/lib/useNews";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // most like and most recent
-
   const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
   const data = await response.json();
 
@@ -27,6 +26,11 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const token = Cookie.get("token");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
+  const [search, setSearch] = useState("");
+  const [type, setType] = useState<boolean>();
+  const [selectedCat, setSelectedCat] = useState<string[]>([]);
+
+  const { newsList } = useNews(search, type, selectedCat);
 
   useEffect(() => {
     if (token) {
@@ -79,11 +83,53 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         ))}
       </div>
 
-      <div className="flex items-center space-x-2 mt-9">
-        <p className="text-2xl font-semibold ">Selected For You</p>
+      <div className="flex items-center space-x-2 mt-9 justify-between">
+        <p className="text-2xl font-semibold ">News Your Selection</p>
+        <div className="flex items-center space-x-2">
+          <div className="dropdown dropdown-bottom">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <FilterIcons />
+              Type
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li onClick={() => setType(false)}>
+                <a>Free</a>
+              </li>
+              <li onClick={() => setType(true)}>
+                <a>Premium</a>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-bottom">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <FilterIcons />
+              Category
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li onClick={() => setSelectedCat(["Tech"])}>
+                <a>Tech</a>
+              </li>
+              <li onClick={() => setSelectedCat(["Tech"])}>
+                <a>Anime</a>
+              </li>
+            </ul>
+          </div>
+          <input
+            type="text"
+            placeholder="Search"
+            className="input input-neutral input-md input-bordered"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
       <div className="items-center space-y-3 mt-5">
-        {data.map((item) => (
+        {newsList?.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
               <NewsCard

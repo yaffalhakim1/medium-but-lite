@@ -10,11 +10,10 @@ interface NewsProps {
 }
 
 const NewsDetailPage = ({ news }: NewsProps) => {
-  const user_id = Cookie.get("user_id") as unknown;
+  const user_id = Cookie.get("user_id");
+  const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
   async function handleLike() {
-    const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
-
     try {
       if (isLiked === -1) {
         const response = await fetch(`${BASE_URL}/news/${news.id}`, {
@@ -22,13 +21,11 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
             likes: [...news.likes, Number(user_id)],
           }),
         });
-
-        const data = await response.json();
-        console.log(data, "from -1");
       } else {
         const like = news.likes?.filter((item) => item !== Number(user_id));
 
@@ -41,9 +38,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             likes: like,
           }),
         });
-
-        const data = await response.json();
-        console.log(data, "from else");
       }
     } catch (error) {
       console.log(error, "error from catch");
@@ -57,7 +51,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <h2 className="text-3xl font-semibold">{news.title}</h2>
         <p className="text-lg leading-relaxed">{news.content}</p>
 
-        <button onClick={handleLike}>like</button>
+        <button onClick={handleLike}>like this post</button>
 
         <p>{news.likes?.length}</p>
       </div>

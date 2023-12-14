@@ -15,7 +15,10 @@ export default function PostPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<boolean>();
 
-  const { newsError, news, newsLoading, newsMutate } = useNews(search, status);
+  const { newsError, newsList, newsLoading, newsMutate } = useNews(
+    search,
+    status
+  );
   const [page, setPage] = useState(1);
 
   const router = useRouter();
@@ -109,7 +112,7 @@ export default function PostPage() {
                 </tr>
               </thead>
               <tbody>
-                {news?.map((item: INewsElement, idx) => (
+                {newsList?.map((item: INewsElement, idx) => (
                   <tr key={item.id}>
                     <th>{idx++}</th>
                     <td>{item.title}</td>

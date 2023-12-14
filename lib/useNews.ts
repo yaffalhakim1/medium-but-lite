@@ -3,18 +3,28 @@ import { fetcher } from "@/config/fetcher";
 import { INewsElement } from "@/types/news-types";
 import useSWR from "swr";
 
-export const useNews = (search?: string, premium?: boolean) => {
+export const useNews = (
+  search?: string,
+  premium?: boolean,
+  // like?: number[],
+  category?: string[]
+) => {
+  const base = `${BASE_URL}/news`;
+
   const url =
-    premium !== undefined
-      ? `${BASE_URL}/news?q=${search}&isPremium=${premium}`
-      : `${BASE_URL}/news?q=${search}`;
+    premium && category
+      ? `${BASE_URL}/news?q=${search}&_isPremium=${premium}&_category=${category.join(
+          ","
+        )}`
+      : base;
+
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
     url,
     fetcher
   );
 
   return {
-    news: data,
+    newsList: data,
     newsLoading: isLoading,
     newsError: error,
     newsMutate: mutate,

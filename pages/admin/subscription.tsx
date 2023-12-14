@@ -39,16 +39,10 @@ export default function SubscriptionPage() {
   const handleSubscriptionToggle = async (
     id: number,
     isPremiumUser: boolean
-    // subsType = "monthly | yearly"
   ) => {
     try {
       const newStatus = !isPremiumUser;
       let newExpiredDate = "";
-      // if (subsType === "monthly") {
-      //   newExpiredDate = calculateNewExpiredDateForMonthly();
-      // } else if (subsType === "yearly") {
-      //   newExpiredDate = calculateNewExpiredDateForYearly();
-      // }
 
       const res = await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
