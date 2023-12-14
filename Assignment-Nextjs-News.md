@@ -49,27 +49,27 @@ Important things that you have to keep in mind when you do the final project:
    - Update Transaction Status from process to completed
    - Update Transaction Status from process to canceled
    - Filter by transaction date and Transaction status
-6. Perform authorization so that data can only be managed by users who have the admin role
+6. Perform authorization so that data can only be managed by users who have the admin role (v)
 
 ### User Portal Features
 
 Using the next.js tech stack, you are asked to create a website for the selected display for users. The features that will be developed are:
 
 1. Login
-   - A separate page that will display the login form
-2. Logout
+   - A separate page that will display the login form (v)
+2. Logout (v)
 3. Register
    - Page that will display the registration form with minimum input fields:
-     - Name
-     - Email
-     - Password
-     - Password confirmation
-     - Address
-     - Phone number
+     - Name (v)
+     - Email (v)
+     - Password (v)
+     - Password confirmation (v)
+     - Address (v)
+     - Phone number (v)
      - Referral
 4. Home Search All Posts
-   - The main menu accessed by logged-in users
-   - Dispalys tag for premium post
+   - The main menu accessed by logged-in users (v)
+   - Dispalys tag for premium post (v)
    - Displays 5 trending posts the trending define by newest and most like.
    - Displays a section list of posts with filter features like title, dropdown category, and dropdown paid/unpaid.
    - Sorting feature based on the date the post was carried out (ascending/descending).
@@ -77,9 +77,9 @@ Using the next.js tech stack, you are asked to create a website for the selected
    - Each News Post that is displayed will add to the reading history of the current user.
    - If the news is premium, guest or unsubribe user just can see the newes little bit.
 5. Details News Post
-   - A separate page that displays detailed information about a post.
+   - A separate page that displays detailed information about a post. (v)
    - Details displayed will include:
-     - Description
+     - Description (v)
      - Count of user liked and shared
      - Like button and Share button
    - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like.
