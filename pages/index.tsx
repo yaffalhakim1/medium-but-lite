@@ -115,7 +115,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
               <li onClick={() => setSelectedCat(["Tech"])}>
                 <a>Tech</a>
               </li>
-              <li onClick={() => setSelectedCat(["Tech"])}>
+              <li onClick={() => setSelectedCat(["Anime"])}>
                 <a>Anime</a>
               </li>
             </ul>

@@ -60,7 +60,7 @@ const LoginPage = () => {
 
       if (response.data[0].role === "admin") {
         Cookie.set("token", token());
-        Cookie.set("role", "<admin></admin>");
+        Cookie.set("role", "admin");
 
         return router.push("/admin");
       }

@@ -6,17 +6,17 @@ import useSWR from "swr";
 export const useNews = (
   search?: string,
   premium?: boolean,
-  // like?: number[],
   category?: string[]
 ) => {
   const base = `${BASE_URL}/news`;
 
-  const url =
-    premium && category
-      ? `${BASE_URL}/news?q=${search}&_isPremium=${premium}&_category=${category.join(
-          ","
-        )}`
-      : base;
+  const queryParams = new URLSearchParams({
+    q: search || "",
+    isPremium: premium?.toString() || "",
+    category: category?.join(",") || "",
+  });
+
+  const url = `${base}?${queryParams}`;
 
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
     url,
