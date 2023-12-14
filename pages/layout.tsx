@@ -20,7 +20,7 @@ export default function Layout({ children }: Layout) {
 
   return (
     <>
-      <div className={`md:px-40 mx-auto ${taviraj.className} `}>
+      <div className={`md:px-40 px-5 mx-auto ${taviraj.className} `}>
         <Navbar />
         {children}
       </div>

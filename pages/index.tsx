@@ -7,8 +7,11 @@ import { INewsElement } from "@/types/news-types";
 import Cookie from "js-cookie";
 import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
+import { TrendingUp } from "@/components/Icons";
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // most like and most recent
+
   const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
   const data = await response.json();
 
@@ -57,18 +60,18 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
           </div>
         </section>
       )}
+      <div className="flex items-center space-x-2 mt-9">
+        <TrendingUp />
+        <p className="text-2xl font-semibold ">Trending on Medium Lite</p>
+      </div>
 
-      <p className="text-2xl">Trending Topics</p>
-
-      <div className="items-center space-y-3 mt-5">
+      <div className="md:grid md:grid-cols-3 md:gap-3   items-center space-y-3 md:space-y-0 mt-5">
         {data.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
               <NewsCard
                 title={item.title}
-                image={item.img}
                 content={item.content}
-                category={item.category}
                 isPremium={item.isPremium}
               />
             </Link>
@@ -76,7 +79,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         ))}
       </div>
 
-      <p className="text-xl">For You</p>
+      <p className="text-xl font-medium ">For You</p>
       <div className="items-center space-y-3 mt-5">
         {data.map((item) => (
           <div key={item.id} className="">

@@ -70,7 +70,7 @@ Using the next.js tech stack, you are asked to create a website for the selected
 4. Home Search All Posts
    - The main menu accessed by logged-in users (v)
    - Dispalys tag for premium post (v)
-   - Displays 5 trending posts the trending define by newest and most like.
+   - Displays 5 trending posts the trending define by newest and most like. (v)
    - Displays a section list of posts with filter features like title, dropdown category, and dropdown paid/unpaid.
    - Sorting feature based on the date the post was carried out (ascending/descending).
    - The default list of posts displayed will be sorted by the latest date the post was created.
