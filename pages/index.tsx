@@ -79,7 +79,9 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         ))}
       </div>
 
-      <p className="text-xl font-medium ">For You</p>
+      <div className="flex items-center space-x-2 mt-9">
+        <p className="text-2xl font-semibold ">Selected For You</p>
+      </div>
       <div className="items-center space-y-3 mt-5">
         {data.map((item) => (
           <div key={item.id} className="">

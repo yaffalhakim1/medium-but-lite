@@ -14,7 +14,7 @@ interface INewsCardProps {
 
 const NewsCard = (props: INewsCardProps) => {
   return (
-    <article className="flex bg-white transition hover:shadow-xl py-4">
+    <article className="flex bg-white transition  py-4">
       {props.image && (
         <div className="hidden sm:block sm:basis-56">
           <img alt="" src={props.image} className="object-cover w-56" />

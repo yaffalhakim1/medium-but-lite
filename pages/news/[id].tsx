@@ -3,53 +3,63 @@ import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
+import Cookie from "js-cookie";
 
 interface NewsProps {
   news: INewsElement;
 }
 
 const NewsDetailPage = ({ news }: NewsProps) => {
-  const handleLike = async (id: number) => {
+  const user_id = Cookie.get("user_id") as unknown;
+
+  async function handleLike() {
+    const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
+
     try {
-      const res = await fetch(`${BASE_URL}/news/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          like: news.like + 1,
-        }),
-      });
-      const data = await res.json();
+      if (isLiked === -1) {
+        const response = await fetch(`${BASE_URL}/news/${news.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            likes: [...news.likes, Number(user_id)],
+          }),
+        });
+
+        const data = await response.json();
+        console.log(data, "from -1");
+      } else {
+        const like = news.likes?.filter((item) => item !== Number(user_id));
+
+        const response = await fetch(`${BASE_URL}/news/${news.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            likes: like,
+          }),
+        });
+
+        const data = await response.json();
+        console.log(data, "from else");
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error, "error from catch");
     }
-  };
+  }
+
   return (
     <>
       <div>
-        <img src="" alt="" />
-        <h2>{news.title}</h2>
-        <p>{news.content}</p>
+        <img src={news.img} alt="" />
+        <h2 className="text-3xl font-semibold">{news.title}</h2>
+        <p className="text-lg leading-relaxed">{news.content}</p>
 
-        <button className="btn" onClick={() => handleLike(news.id)}>
-          Button
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-        </button>
-        <p>{news.like}</p>
+        <button onClick={handleLike}>like</button>
+
+        <p>{news.likes?.length}</p>
       </div>
     </>
   );
@@ -89,6 +99,6 @@ export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {
     props: {
       news,
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };

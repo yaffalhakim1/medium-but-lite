@@ -19,7 +19,9 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "password": "alice",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -33,7 +35,10 @@
       "id": 3,
       "name": "Yafi Smith",
       "email": "yafi@example.com",
-      "like": [3],
+      "password": "yafi",
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -46,14 +51,16 @@
       "id": 4,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
-      "isPremiumUser": true,
+      "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": "2024-01-11",
+      "expiredDate": "",
       "transactions": {
         "type": "monthly",
         "trans_date": "2023-01-05",
@@ -65,20 +72,24 @@
       "id": 5,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
-      "isPremiumUser": true,
+      "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": "2024-01-11"
+      "expiredDate": ""
     },
     {
       "id": 6,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -91,7 +102,9 @@
       "id": 7,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -104,7 +117,9 @@
       "id": 8,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -117,7 +132,9 @@
       "id": 9,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [3],
+      "like": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -129,44 +146,119 @@
   ],
   "news": [
     {
-      "title": "PPPPPPPPP",
+      "title": "News 1",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Polithics", "Anime"],
-      "created_at": "2023-12-13T07:17:31.613Z",
+      "category": [
+        "Polithics",
+        "Anime"
+      ],
+      "created_at": "2023-12-14T08:52:02.571Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702451858/k2wiocqeeompzs9yf7pu.png",
       "id": 1,
-      "likes": 3
+      "likes": []
     },
     {
       "title": "PPPPPPPPP",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Anime", "Polithics"],
+      "category": [
+        "Anime",
+        "Polithics"
+      ],
       "created_at": "2023-12-13T02:26:23.713Z",
       "img": "http://res.cloudinary.com/dywbf3czv/image/upload/v1702369852/onhct4htt6zpz0xlr8n4.png",
       "id": 2,
-      "likes": 4
+      "likes": [
+        3,
+        "2"
+      ]
     },
     {
       "title": "Yafi Alhakim",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Tech"],
+      "category": [
+        "Tech"
+      ],
       "created_at": "2023-12-13T02:49:40.570Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702435720/j8nxvhfbohbl2t4b2x5p.png",
       "id": 3,
-      "likes": 2
+      "likes": [
+        2,
+        3
+      ]
     },
     {
       "title": "Yafi Alhakim",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": false,
-      "category": ["Tech"],
+      "category": [
+        "Tech"
+      ],
       "created_at": "2023-12-13T02:49:40.570Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702435720/j8nxvhfbohbl2t4b2x5p.png",
+      "id": 4,
+      "likes": [
+        2,
+        3
+      ]
+    }
+  ],
+  "likes": [
+    {
+      "id": 1,
+      "profileId": 2,
+      "newsId": 1,
+      "count": 1
+    },
+    {
+      "id": 1,
+      "profileId": 2,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 2,
+      "profileId": 3,
+      "newsId": 3,
+      "count": 1
+    },
+    {
       "id": 3,
-      "likes": 2
+      "profileId": 4,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 4,
+      "profileId": 5,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 5,
+      "profileId": 6,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 6,
+      "profileId": 7,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 7,
+      "profileId": 8,
+      "newsId": 3,
+      "count": 1
+    },
+    {
+      "id": 8,
+      "profileId": 9,
+      "newsId": 3,
+      "count": 1
     }
   ],
   "admins": [

@@ -54,6 +54,7 @@ const LoginPage = () => {
       if (response.data[0].role === "user") {
         Cookie.set("token", token());
         Cookie.set("role", "user");
+        Cookie.set("user_id", response.data[0].id.toString());
         return router.push("/");
       }
 
