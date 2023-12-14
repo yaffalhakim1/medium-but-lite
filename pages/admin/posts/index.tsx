@@ -13,12 +13,14 @@ import { toast } from "sonner";
 
 export default function PostPage() {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<boolean>();
+  const [type, setType] = useState<boolean | undefined>();
+  const [selectedCat, setSelectedCat] = useState<string[]>([]);
 
-  const { newsError, newsList, newsLoading, newsMutate } = useNews(
+  const { newsError, newsList, newsLoading, newsMutate } = useNews({
     search,
-    status
-  );
+    premium: type,
+    category: selectedCat,
+  });
   const [page, setPage] = useState(1);
 
   const router = useRouter();
@@ -71,7 +73,7 @@ export default function PostPage() {
                   <Menu.Item>
                     {({ active }) => (
                       <a
-                        onClick={() => setStatus(true)}
+                        onClick={() => setType(true)}
                         className={`${
                           active ? "bg-violet-500 text-white" : "text-gray-900"
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
@@ -83,7 +85,7 @@ export default function PostPage() {
                   <Menu.Item>
                     {({ active }) => (
                       <a
-                        onClick={() => setStatus(false)}
+                        onClick={() => setType(false)}
                         className={`${
                           active ? "bg-violet-500 text-white" : "text-gray-900"
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`}

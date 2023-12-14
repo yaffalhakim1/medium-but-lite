@@ -27,10 +27,16 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
   const [search, setSearch] = useState("");
-  const [type, setType] = useState<boolean>();
+  const [type, setType] = useState<boolean | undefined>();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
+  const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
 
-  const { newsList } = useNews(search, type, selectedCat);
+  const { newsList } = useNews({
+    search,
+    premium: type,
+    category: selectedCat,
+    sortByDate,
+  });
 
   useEffect(() => {
     if (token) {
@@ -117,6 +123,23 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
               </li>
               <li onClick={() => setSelectedCat(["Anime"])}>
                 <a>Anime</a>
+              </li>
+            </ul>
+          </div>
+          <div className="dropdown dropdown-bottom">
+            <div tabIndex={0} role="button" className="btn m-1">
+              <FilterIcons />
+              Date
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li onClick={() => setSortByDate("asc")}>
+                <a>Asc</a>
+              </li>
+              <li onClick={() => setSortByDate("desc")}>
+                <a>Desc</a>
               </li>
             </ul>
           </div>

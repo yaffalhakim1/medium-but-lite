@@ -3,20 +3,21 @@ import { fetcher } from "@/config/fetcher";
 import { INewsElement } from "@/types/news-types";
 import useSWR from "swr";
 
-export const useNews = (
-  search?: string,
-  premium?: boolean,
-  category?: string[]
-) => {
-  const base = `${BASE_URL}/news`;
+interface NewsFilters {
+  search?: string;
+  premium?: boolean;
+  category?: string[];
+  sortByDate?: "asc" | "desc";
+}
 
-  const queryParams = new URLSearchParams({
-    q: search || "",
-    isPremium: premium?.toString() || "",
-    category: category?.join(",") || "",
-  });
+export const useNews = (filters: NewsFilters) => {
+  const { search, premium, category, sortByDate } = filters;
 
-  const url = `${base}?${queryParams}`;
+  let url = `${BASE_URL}/news?`;
+  if (search) url += `q=${search}&`;
+  if (premium !== undefined) url += `isPremium=${premium}&`;
+  if (category && category.length > 0) url += `category=${category.join(",")}`;
+  if (sortByDate) url += `&_sort=created_at&_order=${sortByDate}`;
 
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
     url,
