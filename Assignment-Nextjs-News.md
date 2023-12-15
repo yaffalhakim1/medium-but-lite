@@ -74,7 +74,7 @@ Using the next.js tech stack, you are asked to create a website for the selected
    - Displays a section list of posts with filter features like title, dropdown category, and dropdown paid/unpaid. (v)
    - Sorting feature based on the date the post was carried out (ascending/descending). (v)
    - The default list of posts displayed will be sorted by the latest date the post was created. (v)
-   - Each News Post that is displayed will add to the reading history of the current user.
+   - Each News Post that is displayed will add to the reading history of the current user.(v)
    - If the news is premium, guest or unsubribe user just can see the newes little bit (v)
 5. Details News Post
    - A separate page that displays detailed information about a post. (v)

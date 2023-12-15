@@ -1,4 +1,3 @@
-import NewsCard from "@/components/NewsCard";
 import Link from "next/link";
 import React, { Suspense, useState } from "react";
 import { GetServerSideProps } from "next";
@@ -11,6 +10,7 @@ import { FilterIcons, TrendingUp } from "@/components/Icons";
 import { useNews } from "@/lib/useNews";
 import Card from "@/components/Card";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
+import { useUser, useUsers } from "@/lib/useUser";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
@@ -26,6 +26,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const NewsList = ({ data }: { data: INewsElement[] }) => {
   const token = Cookie.get("token");
+  const userId = Cookie.get("user_id");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
   const [search, setSearch] = useState("");
@@ -40,11 +41,34 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
     sortByDate,
   });
 
+  const { user } = useUser(Number(userId));
+
   useEffect(() => {
     if (token) {
       setAuthed(true);
     }
   }, [setAuthed, token]);
+
+  async function handleNewsCountEverytimeUserOpenIt(newsId: number) {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/profile/${userId}`,
+
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            news: [...user?.news!, newsId],
+          }),
+        }
+      );
+      // console.log(res);
+    } catch (error) {
+      console.log(error, "error from catch");
+    }
+  }
 
   return (
     <>
@@ -164,6 +188,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
               <Card
+                onClick={() => handleNewsCountEverytimeUserOpenIt(item.id)}
                 className="md:flex transition md:space-y-2 "
                 news={{
                   title: item.title,

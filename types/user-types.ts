@@ -12,6 +12,7 @@ export interface User {
   like?: number[];
   "subscriptionPlan.expired_date"?: null;
   transactions?: Transaction;
+  news: number[];
 }
 
 export interface SubscriptionPlan {
