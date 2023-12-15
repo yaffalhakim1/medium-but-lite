@@ -33,8 +33,8 @@ Important things that you have to keep in mind when you do the final project:
 
 ### Features Admin Side (CMS)
 
-1. Login
-2. Logout
+1. Login (v)
+2. Logout (v)
 3. Manage Subscription
    - View the entire list of subscriptions user (v)
    - deactive user subscriptions (v)
@@ -96,22 +96,22 @@ Using the next.js tech stack, you are asked to create a website for the selected
 
 ### Frontend
 
-- Using Next JS (with Typescript).
-- Separate clients for users with the User role and users with the Admin role.
+- Using Next JS (with Typescript). (v)
+- Separate clients for users with the User role and users with the Admin role. (v)
 - Use state management like Redux, Zustand, or Redux toolkit for both user and admin sites.
-- Ensure every page is reactive and does not require a website refresh to change the display.
-- Use server-side rendering, static generation, or Incremental Static Regeneration appropriately.
-- Utilize CSS modules, frameworks, or style components (SCSS, styled-components).
-- Create reusable components like Table, TableRow/TableItem, Form (Add & Edit in one form), Button, footer, and Card/Item.
-- Communicate with JSON Server via REST API for frontend-backend communication.
+- Ensure every page is reactive and does not require a website refresh to change the display. (v)
+- Use server-side rendering, static generation, or Incremental Static Regeneration appropriately. (v)
+- Utilize CSS modules, frameworks, or style components (SCSS, styled-components). (v)
+- Create reusable components like Table, TableRow/TableItem, Form (Add & Edit in one form), Button, footer, and Card/Item. (v)
+- Communicate with JSON Server via REST API for frontend-backend communication. (v)
 - Implement a mock authentication flow using JSON Server for pages based on logged-in user.
-- Upload images to an image sharing platform and save the image URL to the JSON Server.
-- Ensure Mobile Responsive design.
+- Upload images to an image sharing platform and save the image URL to the JSON Server. (v)
+- Ensure Mobile Responsive design.(v)
 - Deploy the web application
 
 ### Backend
 
-- Create a REST API server using JSON Server.
-- Define endpoints to fulfill application features with appropriate URL parameters, URL query, header, request body, response status, and response body.
+- Create a REST API server using JSON Server. (v)
+- Define endpoints to fulfill application features with appropriate URL parameters, URL query, header, request body, response status, and response body. (v)
 - Document API for each endpoint.
 - Simulate authentication and authorization flow using JSON Server.

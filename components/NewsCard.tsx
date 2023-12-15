@@ -23,7 +23,9 @@ const NewsCard = (props: INewsCardProps) => {
 
       <div className="flex flex-1 flex-col justify-between">
         <div className=" border-gray-900/10  sm:border-l-transparent">
-          <h3 className="font-bold uppercase text-gray-900">{props.title}</h3>
+          <h3 className="text-2xl font-bold uppercase text-black">
+            {props.title}
+          </h3>
 
           <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-700 mb-2 ">
             {props.content}

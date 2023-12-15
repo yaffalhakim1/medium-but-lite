@@ -1,6 +1,6 @@
 import NewsCard from "@/components/NewsCard";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { GetServerSideProps } from "next";
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
@@ -9,6 +9,8 @@ import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
 import { FilterIcons, TrendingUp } from "@/components/Icons";
 import { useNews } from "@/lib/useNews";
+import Card from "@/components/Card";
+import { formatExpirationDate } from "@/lib/utils/user-subs";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
@@ -79,19 +81,25 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         {data.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
-              <NewsCard
-                title={item.title}
-                content={item.content}
-                isPremium={item.isPremium}
+              <Card
+                news={{
+                  title: item.title,
+                  content: item.content,
+                  isPremium: item.isPremium,
+                }}
+                classNames={{
+                  image: "object-cover w-56 h-56",
+                  title: "font-bold uppercase text-gray-900",
+                }}
               />
             </Link>
           </div>
         ))}
       </div>
 
-      <div className="flex items-center space-x-2 mt-9 justify-between">
+      <div className="md:flex items-center space-x-2 mt-9 justify-between">
         <p className="text-2xl font-semibold ">News Your Selection</p>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 md:mt-0 mt-5">
           <div className="dropdown dropdown-bottom">
             <div tabIndex={0} role="button" className="btn m-1">
               <FilterIcons />
@@ -155,12 +163,22 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         {newsList?.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
-              <NewsCard
-                title={item.title}
-                image={item.img}
-                content={item.content}
-                category={item.category}
-                isPremium={item.isPremium}
+              <Card
+                className="md:flex transition md:space-y-2 "
+                news={{
+                  title: item.title,
+                  content: item.content,
+                  image: item.img,
+                  category: item.category,
+                  isPremium: item.isPremium,
+                  publishDate: formatExpirationDate(item.created_at),
+                }}
+                classNames={{
+                  image: "object-cover w-56 h-56",
+                  title: "font-bold uppercase text-black md:ml-4 line-clamp-3",
+                  content: "md:ml-4 line-clamp-3",
+                  premium: "mt-4 md:ml-4",
+                }}
               />
             </Link>
           </div>

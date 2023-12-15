@@ -24,6 +24,7 @@ const Modal = (props: IModal) => {
   function openModal() {
     setIsOpen(true);
   }
+
   return (
     <>
       <button onClick={openModal}>{props.openButton}</button>
@@ -81,7 +82,7 @@ const Modal = (props: IModal) => {
                 </button>
 
                 <button onClick={closeModal} className="btn capitalize ml-2">
-                  Batal
+                  Cancel
                 </button>
               </Dialog.Panel>
             </Transition.Child>

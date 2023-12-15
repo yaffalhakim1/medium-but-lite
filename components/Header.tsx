@@ -29,12 +29,16 @@ const Navbar = () => {
     <>
       <header className="">
         <div className="mx-auto max-w-screen-xl ">
-          <div className="flex h-16 items-center justify-between">
+          <div className="flex h-16 items-center justify-evenly">
             <div className="flex-1 md:flex md:items-center md:gap-12">
               <Link className="block text-black" href="/">
                 <NewsLogo />
               </Link>
             </div>
+
+            {/* <div>
+              <h1>Medium Lite</h1>
+            </div> */}
 
             <div className="md:flex md:items-center md:gap-5">
               <nav aria-label="Global" className="hidden md:block">
