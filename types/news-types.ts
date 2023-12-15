@@ -9,4 +9,5 @@ export interface INewsElement {
   updated_at: Date;
   category: string[];
   likes: number[];
+  shares: number;
 }

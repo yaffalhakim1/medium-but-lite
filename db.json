@@ -19,9 +19,7 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "password": "alice",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -36,9 +34,7 @@
       "name": "Yafi Smith",
       "email": "yafi@example.com",
       "password": "yafi",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -51,9 +47,7 @@
       "id": 4,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -72,9 +66,7 @@
       "id": 5,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": false,
       "subscriptionPlan": {
@@ -87,9 +79,7 @@
       "id": 6,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -102,9 +92,7 @@
       "id": 7,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -117,9 +105,7 @@
       "id": 8,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -132,9 +118,7 @@
       "id": 9,
       "name": "Yafi Alhakim",
       "email": "yafialhakim@example.com",
-      "like": [
-        3
-      ],
+      "like": [3],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -149,67 +133,53 @@
       "title": "News 1",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": [
-        "Anime"
-      ],
+      "category": ["Anime"],
       "created_at": "2023-12-15T02:01:43.978Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605714/awuawocrwlf4wqoy68pa.jpg",
       "id": 1,
-      "likes": [
-        2
-      ]
+      "likes": [2],
+      "shares": 0
     },
     {
       "title": "PPPPPPPPP",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": [
-        "Anime"
-      ],
+      "category": ["Anime"],
       "created_at": "2023-12-15T02:02:15.186Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605744/jyaukxz2pe0u9407fbdl.jpg",
       "id": 2,
-      "likes": [
-        3
-      ]
+      "likes": [3, 2],
+      "shares": 0
     },
     {
       "title": "Yafi Alhakim",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": [
-        "Tech"
-      ],
+      "category": ["Tech"],
       "created_at": "2023-12-15T02:02:41.817Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605769/smdt1mn7y6wadnawvucw.jpg",
       "id": 3,
-      "likes": [
-        2,
-        3
-      ]
+      "likes": [2, 3],
+      "shares": 3
     },
     {
       "title": "Yafi Alhakim",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": false,
-      "category": [
-        "Tech"
-      ],
+      "category": ["Tech"],
       "created_at": "2023-12-15T02:03:07.751Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605795/ie7gxhxt6gcym89npn4y.jpg",
       "id": 4,
-      "likes": [
-        3
-      ]
+      "likes": [3],
+      "shares": null
     },
     {
       "title": "_InternalLinkedHashMap<String, dynamic>' is not a subtype of type 'List<dynamic>' ",
       "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "isPremium": true,
-      "category": [
-        "Anime",
-        "Tech"
-      ],
+      "category": ["Anime", "Tech"],
+      "shares": 2,
+      "likes": [3],
       "created_at": "2023-12-15T01:57:25.869Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605489/nwqdtatd5dmvh8soclug.png",
       "id": 5

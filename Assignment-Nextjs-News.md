@@ -75,15 +75,15 @@ Using the next.js tech stack, you are asked to create a website for the selected
    - Sorting feature based on the date the post was carried out (ascending/descending). (v)
    - The default list of posts displayed will be sorted by the latest date the post was created. (v)
    - Each News Post that is displayed will add to the reading history of the current user.
-   - If the news is premium, guest or unsubribe user just can see the newes little bit.
+   - If the news is premium, guest or unsubribe user just can see the newes little bit (v)
 5. Details News Post
    - A separate page that displays detailed information about a post. (v)
    - Details displayed will include:
      - Description (v)
-     - Count of user liked and shared
-     - Like button and Share button
+     - Count of user liked and shared (v)
+     - Like button and Share button (v)
    - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like.
-   - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan
+   - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan (v)
 6. Get Subscription Plan Payment
    - In one transaction, the user can buy subscription for one month or a year to be premium user.
    - Payment will be made via QR generate.

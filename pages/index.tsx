@@ -135,7 +135,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
             </ul>
           </div>
           <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1">
+            <div tabIndex={0} role="button" className="btn m-1 flex">
               <FilterIcons />
               Date
             </div>
