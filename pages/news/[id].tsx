@@ -5,6 +5,8 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import Card from "@/components/Card";
 
 interface NewsProps {
   news: INewsElement;
@@ -13,6 +15,7 @@ interface NewsProps {
 const NewsDetailPage = ({ news }: NewsProps) => {
   const router = useRouter();
   const user_id = Cookie.get("user_id");
+  const { id } = router.query;
   const user_status = Cookie.get("user_status");
   const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
@@ -31,7 +34,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         });
       } else {
         const like = news.likes?.filter((item) => item !== Number(user_id));
-
         const response = await fetch(`${BASE_URL}/news/${news.id}`, {
           method: "PATCH",
           headers: {
@@ -45,6 +47,12 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     } catch (error) {
       console.log(error, "error from catch");
     }
+  }
+
+  async function handleLikeInLikedNews() {
+    try {
+      const response = await fetch(`${BASE_URL}/news/${news.id}`);
+    } catch (error) {}
   }
 
   async function handleShares() {
@@ -62,6 +70,54 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       console.log(error, "error from catch");
     }
   }
+
+  async function fetchLikedNews(profileId: number) {
+    const response = await fetch(`${BASE_URL}/likedNews`);
+    const data = await response.json();
+    return data[profileId] || [];
+  }
+
+  async function fetchNewsById(newsId: number) {
+    const response = await fetch(`${BASE_URL}/news/${newsId}`);
+    const data = await response.json();
+    return data;
+  }
+
+  async function recommendNewsForUser() {
+    try {
+      const likedNews = await fetchLikedNews(Number(user_id));
+
+      let recommendedNews: any[] = [];
+
+      for (const id of likedNews) {
+        const news = await fetchNewsById(id);
+
+        const recommended = (await fetchAllNews()).filter(
+          (rec: any) =>
+            rec.category[0] === news.category[0] && !likedNews.includes(rec.id)
+        );
+
+        recommendedNews = recommendedNews.concat(recommended.slice(0, 3));
+      }
+
+      return recommendedNews;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+  async function fetchAllNews() {
+    const response = await fetch(`${BASE_URL}/news`);
+    const data = await response.json();
+    return data;
+  }
+
+  const { data: recommendedNews } = useSWR(
+    user_id ? ["recommendNews", user_id] : null,
+    recommendNewsForUser
+  );
+  console.log(recommendedNews, "recommended news");
 
   return (
     <>
@@ -91,6 +147,27 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           </button>
           <p>{news.shares}</p>
         </div>
+      </div>
+
+      <div>
+        <h2>Recommended News</h2>
+        <ul className="flex justify-evenly">
+          {recommendedNews?.map((item) => (
+            <li key={item.id}>
+              <Card
+                className="flex"
+                news={{
+                  title: item.title,
+                  image: item.img,
+                  isPremium: item.isPremium,
+                }}
+                classNames={{
+                  image: "object-cover w-56",
+                }}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

@@ -22,6 +22,8 @@ const Navbar = () => {
   function handleLogout() {
     Cookie.remove("token");
     Cookie.remove("role");
+    Cookie.remove("user_id");
+    Cookie.remove("user_status");
     return router.replace("/auth/login");
   }
 
@@ -73,7 +75,9 @@ const Navbar = () => {
                           className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                         >
                           <li>
-                            <a>Item 1</a>
+                            <a onClick={() => router.push("/profile")}>
+                              Profile
+                            </a>
                           </li>
                           <li>
                             <a>Item 2</a>

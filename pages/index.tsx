@@ -51,20 +51,15 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
 
   async function handleNewsCountEverytimeUserOpenIt(newsId: number) {
     try {
-      const res = await fetch(
-        `${BASE_URL}/profile/${userId}`,
-
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            news: [...user?.news!, newsId],
-          }),
-        }
-      );
-      // console.log(res);
+      const res = await fetch(`${BASE_URL}/profile/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          news: [...user?.news!, newsId],
+        }),
+      });
     } catch (error) {
       console.log(error, "error from catch");
     }
