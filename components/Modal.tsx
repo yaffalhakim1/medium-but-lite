@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 interface IModal {
   onClick?: () => void;
   openButton: ReactNode;
-  modalTitle: string;
+  modalTitle?: string;
   children?: ReactNode;
   modalDescription?: string;
   type?: "danger" | "success";

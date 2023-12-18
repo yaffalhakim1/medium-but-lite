@@ -1,12 +1,12 @@
 import Navbar from "@/components/Header";
-import { Noticia_Text, Taviraj } from "next/font/google";
+import { Noticia_Text, Plus_Jakarta_Sans, Taviraj } from "next/font/google";
 import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 
 type Layout = {
   children: ReactNode;
 };
-const taviraj = Noticia_Text({
+const taviraj = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400"],
 });

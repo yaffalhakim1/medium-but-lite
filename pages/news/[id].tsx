@@ -7,6 +7,8 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import Card from "@/components/Card";
+import { useUser } from "@/lib/useUser";
+import { useNewsDetail } from "@/lib/useNews";
 
 interface NewsProps {
   news: INewsElement;
@@ -15,8 +17,11 @@ interface NewsProps {
 const NewsDetailPage = ({ news }: NewsProps) => {
   const router = useRouter();
   const user_id = Cookie.get("user_id");
+  const { user } = useUser(Number(user_id));
   const { id } = router.query;
-  const user_status = Cookie.get("isPremium");
+
+  const { newsDetail } = useNewsDetail(Number(id));
+
   const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
   async function handleLike() {
@@ -124,7 +129,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <img src={news.img} alt="" className="w-60" />
         <h2 className="text-3xl font-semibold">{news.title}</h2>
 
-        {user_status ? (
+        {user?.isPremiumUser === true ? (
           <p className="text-lg leading-relaxed">{news.content}</p>
         ) : (
           <>
@@ -139,12 +144,12 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           <button onClick={handleLike} className="btn btn-neutral">
             like this post
           </button>
-          <p>{news.likes?.length}</p>
+          <p>{newsDetail?.likes?.length}</p>
 
           <button className="btn btn-neutral" onClick={handleShares}>
             share this post
           </button>
-          <p>{news.shares}</p>
+          <p>{newsDetail?.shares}</p>
         </div>
       </div>
 

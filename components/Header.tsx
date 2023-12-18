@@ -38,10 +38,6 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* <div>
-              <h1>Medium Lite</h1>
-            </div> */}
-
             <div className="md:flex md:items-center md:gap-5">
               <nav aria-label="Global" className="hidden md:block">
                 <ul className="flex items-center gap-6 text-sm">
@@ -80,7 +76,9 @@ const Navbar = () => {
                             </a>
                           </li>
                           <li>
-                            <a>Item 2</a>
+                            <a onClick={() => router.push("/plans")}>
+                              Your Subscription
+                            </a>
                           </li>
                           <li>
                             <button

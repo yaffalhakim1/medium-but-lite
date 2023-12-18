@@ -43,6 +43,7 @@ const PostForm = (data: { data?: INews }) => {
     img: imageUrl,
     category: [],
     createdAt: new Date(),
+    likes: [],
   });
 
   const [editedPost, setEditedPost] = useState({

@@ -32,7 +32,7 @@ export const useNews = (filters: NewsFilters) => {
   };
 };
 
-export const useNewsDetail = (id: string) => {
+export const useNewsDetail = (id: number) => {
   const { data, isLoading, error, mutate } = useSWR<INewsElement>(
     `${BASE_URL}/news/${id}`,
     fetcher

@@ -14,7 +14,9 @@ import { useUser, useUsers } from "@/lib/useUser";
 import { toast } from "sonner";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
+  const response = await fetch(
+    `${BASE_URL}/news?_sort=likes&_order=desc&_limit=5`
+  );
   const data = await response.json();
 
   if (!data) {

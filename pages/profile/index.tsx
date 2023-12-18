@@ -13,7 +13,10 @@ const ProfilePage = () => {
       <div className="flex flex-col justify-center items-center">
         <h2>{user?.name}</h2>
         <p>{user?.email}</p>
+        <p>{user?.phone}</p>
+        <p>{user?.address}</p>
         <div>
+          Subscription Status:{" "}
           {user?.isPremiumUser ? (
             <p className="badge badge-success px-2 py-3 text-white text-sm">
               Active
@@ -24,7 +27,7 @@ const ProfilePage = () => {
             </p>
           )}
         </div>
-        <p>{formatExpirationDate(user?.expiredDate)}</p>
+        <p>Valid until :{formatExpirationDate(user?.expiredDate)}</p>
       </div>
     </>
   );

@@ -20,6 +20,7 @@ const RegisterPage = () => {
     address: "",
     role: "user",
     isPremiumUser: false,
+    news: [],
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -115,9 +116,6 @@ const RegisterPage = () => {
         toast.error("Email sudah terdaftar");
         return;
       }
-
-      // Cookie.set("token", token());
-      // Cookie.set("role", "user");
 
       if (register) {
         return router.push("/auth/login");

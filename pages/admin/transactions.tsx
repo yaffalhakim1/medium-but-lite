@@ -2,10 +2,13 @@ import { FilterIcons } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
 import { useTransaction } from "@/lib/useTransaction";
-import { formatExpirationDate } from "@/lib/utils/user-subs";
+import {
+  calculateNewExpiredDateForMonthly,
+  calculateNewExpiredDateForYearly,
+  formatExpirationDate,
+} from "@/lib/utils/user-subs";
 import { ITransaction } from "@/types/trans-types";
-import { Transaction, User } from "@/types/user-types";
-import { Menu } from "@headlessui/react";
+import { User } from "@/types/user-types";
 import axios from "axios";
 import { SlidersHorizontal } from "lucide-react";
 import React, { useState } from "react";
@@ -15,7 +18,6 @@ const TransactionPage = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<boolean>();
   const [type, setType] = useState<"processed" | "success" | "cancelled">();
-  const [selectedCat, setSelectedCat] = useState<string[]>([]);
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("asc");
   const {
     transaction,
@@ -35,18 +37,6 @@ const TransactionPage = () => {
 
   const handlePrevPage = () => {
     setPage((prevPage) => prevPage - 1);
-  };
-
-  const calculateNewExpiredDateForMonthly = () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 30);
-    return currentDate.toISOString().split("T")[0];
-  };
-
-  const calculateNewExpiredDateForYearly = () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 365);
-    return currentDate.toISOString().split("T")[0];
   };
 
   const handleAcceptOrReject = async (
@@ -189,46 +179,50 @@ const TransactionPage = () => {
                     <td>{item.type}</td>
                     <td>{formatExpirationDate(item.trans_date)}</td>
                     <td className="space-x-2">
-                      {item.status === "success" || "cancelled" ? (
+                      {item.status === "success" && "cancelled" ? (
                         <></>
                       ) : (
                         <>
-                          <button
-                            className="btn btn-primary no-animation text-white btn-sm"
-                            onClick={
-                              item.type === "monthly"
-                                ? () =>
-                                    handleAcceptOrReject(
-                                      item.profileId,
-                                      "success",
-                                      "monthly",
-                                      calculateNewExpiredDateForMonthly()
-                                    )
-                                : () =>
-                                    handleAcceptOrReject(
-                                      item.profileId,
-                                      "success",
-                                      "yearly",
-                                      calculateNewExpiredDateForYearly()
-                                    )
-                            }
-                          >
-                            Accept
-                          </button>
+                          {item.status === "processed" && (
+                            <>
+                              <button
+                                className="btn btn-primary no-animation text-white btn-sm"
+                                onClick={
+                                  item.type === "monthly"
+                                    ? () =>
+                                        handleAcceptOrReject(
+                                          item.profileId,
+                                          "success",
+                                          "monthly",
+                                          calculateNewExpiredDateForMonthly()
+                                        )
+                                    : () =>
+                                        handleAcceptOrReject(
+                                          item.profileId,
+                                          "success",
+                                          "yearly",
+                                          calculateNewExpiredDateForYearly()
+                                        )
+                                }
+                              >
+                                Accept
+                              </button>
 
-                          <button
-                            className="btn btn-error no-animation btn-sm text-white"
-                            onClick={() =>
-                              handleAcceptOrReject(
-                                item.id,
-                                "canceled",
-                                "canceled",
-                                "N/A"
-                              )
-                            }
-                          >
-                            Reject
-                          </button>
+                              <button
+                                className="btn btn-error no-animation btn-sm text-white"
+                                onClick={() =>
+                                  handleAcceptOrReject(
+                                    item.id,
+                                    "canceled",
+                                    "canceled",
+                                    "N/A"
+                                  )
+                                }
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
                         </>
                       )}
                     </td>

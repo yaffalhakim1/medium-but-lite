@@ -7,6 +7,8 @@ import Cookie from "js-cookie";
 import { useTransactionById } from "@/lib/useTransaction";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
+import { formatExpirationDate } from "@/lib/utils/user-subs";
+import { CheckCircle2 } from "lucide-react";
 
 const PlansPage = () => {
   const profileId = Cookie.get("user_id");
@@ -15,17 +17,17 @@ const PlansPage = () => {
 
   const { transaction } = useTransactionById(Number(profileId));
 
-  if (transaction?.status === "success") {
-    router.push("/plans/success");
-  }
-  if (transaction?.status === "cancelled") {
-    router.push("/plans/failed");
-  }
+  // if (transaction?.status === "success") {
+  //   router.push("/plans/success");
+  // }
+  // if (transaction?.status === "canceled") {
+  //   router.push("/plans/failed");
+  // }
 
   async function requestPayment(
     profileId: number,
     subscriptionType: any,
-    totalAmount: any
+    totalAmount: number
   ) {
     try {
       const transaction = {
@@ -49,47 +51,11 @@ const PlansPage = () => {
         throw new Error("Failed to create transaction record");
       }
 
-      // const userProfile = await fetch(`${BASE_URL}/profile/${profileId}`);
-      // const userData = await userProfile.json();
-
-      // userData.subscriptionPlan = {
-      //   type: subscriptionType,
-      //   expired_date: calculateNewExpirationDate(
-      //     userData.subscriptionPlan.expired_date,
-      //     subscriptionType
-      //   ),
-      // };
-
-      // const responseProfile = await fetch(`${BASE_URL}/profile/${profileId}`, {
-      //   method: "PATCH",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(userData),
-      // });
-
-      // if (!responseProfile.ok) {
-      //   throw new Error("Failed to update user profile");
-      // }
-
       return transactionId;
     } catch (error: any) {
       console.error("Error requesting payment:", error.message);
       throw error;
     }
-  }
-
-  function calculateNewExpirationDate(
-    currentExpirationDate: any,
-    subscriptionType: any
-  ) {
-    const currentDate = new Date(currentExpirationDate);
-    if (subscriptionType === "monthly") {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-    } else if (subscriptionType === "yearly") {
-      currentDate.setFullYear(currentDate.getFullYear() + 1);
-    }
-    return currentDate.toISOString().split("T")[0];
   }
 
   return (
@@ -100,6 +66,21 @@ const PlansPage = () => {
       <h2 className="text-4xl text-center">
         Support great writing and access all stories on Medium.
       </h2>
+
+      {transaction?.status === "success" && (
+        <div className="flex justify-center items-center  mt-8">
+          <CheckCircle2 className="text-green-500" size={60} />
+          <div className=" flex flex-col justify-center items-center">
+            <h2>
+              Your Current subscription is{" "}
+              <span className="font-semibold capitalize">
+                {transaction.type}
+              </span>
+            </h2>
+            <p>Valid until {formatExpirationDate(transaction.trans_date)}</p>
+          </div>
+        </div>
+      )}
 
       {transaction?.status === "processed" ? (
         <div className="flex space-x-2  justify-center items-center mt-8 container bg-yellow-500 p-8 rounded-md">
@@ -122,7 +103,7 @@ const PlansPage = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </p>
 
-              <p className="mt-2 sm:mt-4">
+              <p className="mt-2 mb-5 sm:mt-4">
                 <strong className="text-3xl font-bold text-gray-900 sm:text-4xl">
                   {" "}
                   20${" "}
@@ -135,7 +116,6 @@ const PlansPage = () => {
 
               <Modal
                 openButton={"Get Started"}
-                modalTitle={"Pay Your Subs"}
                 modalButton={"Pay"}
                 openButtonClassname="btn btn-primary w-full"
                 onSubmit={async () => {
@@ -147,11 +127,20 @@ const PlansPage = () => {
                   console.log("Transaction ID:", transactionId);
                 }}
               >
-                <div>
-                  <h3>Tes</h3>
-                  <p>You gonna pay for monthly plans for 20$</p>
+                <div className="mx-auto flex flex-col justify-center items-center">
+                  <p>
+                    You gonna pay for{" "}
+                    <span className=" font-bold">Monthly</span> plans for{" "}
+                  </p>
+                  <span className="font-bold text-blue-600 text-2xl">20$</span>
                   <p>For now we only have QRIS Payment Method</p>
-                  <QRCode size={256} style={{ height: "auto" }} value="hey" />
+                  {/* value should be an url ip */}
+                  <QRCode
+                    size={256}
+                    style={{ height: "auto" }}
+                    className="mb-6 mt-6 "
+                    value="hey"
+                  />
                 </div>
               </Modal>
             </div>
@@ -212,7 +201,7 @@ const PlansPage = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
               </p>
 
-              <p className="mt-2 sm:mt-4">
+              <p className="mt-2 mb-5 sm:mt-4">
                 <strong className="text-3xl font-bold text-gray-900 sm:text-4xl">
                   {" "}
                   30${" "}
@@ -225,7 +214,6 @@ const PlansPage = () => {
 
               <Modal
                 openButton={"Get Started"}
-                modalTitle={"Pay Your Subs"}
                 modalButton={"Pay"}
                 openButtonClassname="btn btn-primary w-full"
                 onSubmit={async () => {
@@ -237,11 +225,20 @@ const PlansPage = () => {
                   console.log("Transaction ID:", transactionId);
                 }}
               >
-                <div>
-                  <h3>Tes</h3>
-                  <p>You gonna pay for yearly plans for 50$</p>
+                <div className="mx-auto flex flex-col justify-center items-center">
+                  <p>
+                    You gonna pay for <span className=" font-bold">Yearly</span>{" "}
+                    plans for{" "}
+                  </p>
+                  <span className="font-bold text-blue-600 text-2xl">30$</span>
                   <p>For now we only have QRIS Payment Method</p>
-                  <QRCode size={256} style={{ height: "auto" }} value="gey" />
+                  {/* value should be an url ip */}
+                  <QRCode
+                    size={256}
+                    style={{ height: "auto" }}
+                    className="mb-6 mt-6 "
+                    value="hey"
+                  />
                 </div>
               </Modal>
             </div>

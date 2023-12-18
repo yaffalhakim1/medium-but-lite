@@ -13,6 +13,8 @@ export interface User {
   "subscriptionPlan.expired_date"?: null;
   transactions?: Transaction;
   news: number[];
+  phone: number;
+  address: string;
 }
 
 export interface SubscriptionPlan {

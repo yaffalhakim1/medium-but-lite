@@ -27,18 +27,6 @@ export default function SubscriptionPage() {
     setPage((prevPage) => prevPage - 1);
   };
 
-  const calculateNewExpiredDateForMonthly = () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 30);
-    return currentDate.toISOString().split("T")[0];
-  };
-
-  const calculateNewExpiredDateForYearly = () => {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 365);
-    return currentDate.toISOString().split("T")[0];
-  };
-
   const handleSubscriptionToggle = async (
     id: number,
     isPremiumUser: boolean
