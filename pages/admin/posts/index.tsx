@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { FilterIcons } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
 import { useNews } from "@/lib/useNews";
@@ -15,11 +16,13 @@ export default function PostPage() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState<boolean | undefined>();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
+  const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
 
   const { newsError, newsList, newsLoading, newsMutate } = useNews({
     search,
     premium: type,
     category: selectedCat,
+    sortByDate,
   });
   const [page, setPage] = useState(1);
 
@@ -55,48 +58,64 @@ export default function PostPage() {
           >
             Create New Post
           </button>
-          <div className="space-x-2 ml-auto items-center">
+          <div className="flex ml-auto items-center space-x-2 md:mt-0 mt-5">
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn m-1">
+                <FilterIcons />
+                Type
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setType(false)}>
+                  <a>Free</a>
+                </li>
+                <li onClick={() => setType(true)}>
+                  <a>Premium</a>
+                </li>
+              </ul>
+            </div>
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn m-1">
+                <FilterIcons />
+                Category
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setSelectedCat(["Tech"])}>
+                  <a>Tech</a>
+                </li>
+                <li onClick={() => setSelectedCat(["Anime"])}>
+                  <a>Anime</a>
+                </li>
+              </ul>
+            </div>
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn m-1 flex">
+                <FilterIcons />
+                Date
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setSortByDate("asc")}>
+                  <a>Asc</a>
+                </li>
+                <li onClick={() => setSortByDate("desc")}>
+                  <a>Desc</a>
+                </li>
+              </ul>
+            </div>
             <input
               type="text"
               placeholder="Search"
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <span className="ml-2 text-black">Filter</span>
-                </Menu.Button>
-              </div>
-              <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setType(true)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Premium
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setType(false)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Free
-                      </a>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Menu>
           </div>
           <div className="form-control"></div>
         </div>
