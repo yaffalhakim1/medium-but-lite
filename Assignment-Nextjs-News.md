@@ -92,8 +92,8 @@ Using the next.js tech stack, you are asked to create a website for the selected
 6. Get Subscription Plan Payment
    - In one transaction, the user can buy subscription for one month or a year to be premium user. (v)
    - Payment will be made via QR generate. (v)
-   - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed/success.
-   - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment.
+   - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed/success. (v) (not modal yet)
+   - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment. (v) (not modal yet)
 7. My Profile Menu
    - Displays personal information, including name, username, email, phone number, and address.
 

@@ -16,3 +16,17 @@ export const useTransaction = (search?: string) => {
     transactionMutate: mutate,
   };
 };
+
+export const useTransactionById = (id: number) => {
+  const { data, error, mutate, isLoading } = useSWR<ITransaction>(
+    `${BASE_URL}/transactions/${id}`,
+    fetcher
+  );
+
+  return {
+    transaction: data,
+    transactionLoading: isLoading,
+    transactionError: error,
+    transactionMutate: mutate,
+  };
+};

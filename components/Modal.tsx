@@ -14,7 +14,7 @@ interface IModal {
   openButtonClassname?: string;
 }
 const Modal = (props: IModal) => {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function closeModal() {

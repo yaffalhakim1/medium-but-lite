@@ -180,7 +180,7 @@
       "id": 2,
       "type": "monthly",
       "trans_date": "2023-12-18T01:49:48.333Z",
-      "status": "success",
+      "status": "",
       "totalPaid": 20
     },
     {
