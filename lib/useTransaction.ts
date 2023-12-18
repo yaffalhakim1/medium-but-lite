@@ -16,7 +16,7 @@ export const useTransaction = (filters: TransactionFilters) => {
   let url = `${BASE_URL}/transactions?`;
   if (search) url += `q=${search}&`;
   if (premium !== undefined) url += `status=${premium}&`;
-  if (sortByDate) url += `&_sort=created_at&_order=${sortByDate}`;
+  if (sortByDate) url += `&_sort=trans_date&_order=${sortByDate}`;
 
   const { data, error, mutate, isLoading } = useSWR<ITransaction[]>(
     url,
