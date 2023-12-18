@@ -23,7 +23,7 @@ const Navbar = () => {
     Cookie.remove("token");
     Cookie.remove("role");
     Cookie.remove("user_id");
-    Cookie.remove("user_status");
+    Cookie.remove("isPremium");
     return router.replace("/auth/login");
   }
 

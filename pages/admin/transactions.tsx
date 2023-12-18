@@ -1,3 +1,4 @@
+import { FilterIcons } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
 import { useTransaction } from "@/lib/useTransaction";
@@ -12,12 +13,20 @@ import { toast } from "sonner";
 const TransactionPage = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<boolean>();
+  const [type, setType] = useState<"processed" | "success" | "cancelled">();
+  const [selectedCat, setSelectedCat] = useState<string[]>([]);
+  const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
   const {
     transaction,
     transactionLoading,
     transactionError,
     transactionMutate,
-  } = useTransaction(search);
+  } = useTransaction({
+    search,
+    premium: type,
+
+    sortByDate,
+  });
 
   const [page, setPage] = useState(1);
   const handleNextPage = () => {
@@ -40,41 +49,6 @@ const TransactionPage = () => {
     return currentDate.toISOString().split("T")[0];
   };
 
-  const handleSubscriptionToggle = async (
-    id: number,
-    isPremiumUser: boolean,
-    subsType = "monthly | yearly"
-  ) => {
-    try {
-      const newStatus = !isPremiumUser;
-      let newExpiredDate = "";
-      if (subsType === "monthly") {
-        newExpiredDate = calculateNewExpiredDateForMonthly();
-      } else if (subsType === "yearly") {
-        newExpiredDate = calculateNewExpiredDateForYearly();
-      }
-
-      const res = await axios.patch<User>(
-        `${BASE_URL}/profile/${id}`,
-        {
-          isPremiumUser: newStatus,
-          expiredDate: newExpiredDate,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      transactionMutate(transaction);
-      toast.success(
-        `User subscription ${newStatus ? "activated" : "deactivated"}`
-      );
-    } catch (err) {
-      toast.error("Failed to update user subscription");
-    }
-  };
-
   const handleAcceptOrReject = async (
     id: number,
     status: string,
@@ -88,6 +62,19 @@ const TransactionPage = () => {
           status: status,
           type: type,
           trans_date: trans_date,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const resp = await axios.patch<User>(
+        `${BASE_URL}/profile/${id}`,
+        {
+          isPremiumUser: true,
+          expiredDate: trans_date,
         },
         {
           headers: {
@@ -110,48 +97,34 @@ const TransactionPage = () => {
           Manage your users transaction here
         </p>
         <div className="md:flex md:justify-between">
-          <div className="space-x-2 ml-auto items-center">
+          <div className="flex ml-auto items-center space-x-2 md:mt-0 mt-5">
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn m-1">
+                <FilterIcons />
+                Type
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setType("processed")}>
+                  <a>Processed</a>
+                </li>
+                <li onClick={() => setType("success")}>
+                  <a>Success</a>
+                </li>
+                <li onClick={() => setType("cancelled")}>
+                  <a>Cancelled</a>
+                </li>
+              </ul>
+            </div>
+
             <input
               type="text"
               placeholder="Search"
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <span className="ml-2 text-black">Filter</span>
-                </Menu.Button>
-              </div>
-              <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setStatus(true)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Premium
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setStatus(false)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Free
-                      </a>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Menu>
           </div>
         </div>
         <div className="flex flex-col h-full w-full mt-4">
@@ -173,11 +146,71 @@ const TransactionPage = () => {
                   <tr key={idx}>
                     <th>{idx + 1}</th>
                     <td>{item.profileId}</td>
-                    <td>{item.status}</td>
+
+                    <td>
+                      {item.status === "processed" ? (
+                        <div className="badge badge-warning px-2 py-3 text-white text-sm">
+                          Processed
+                        </div>
+                      ) : item.status === "success" ? (
+                        <div className="badge badge-success px-2 py-3 text-white text-sm">
+                          Success
+                        </div>
+                      ) : (
+                        <div className="badge badge-error px-2 py-3 text-white text-sm">
+                          Cancelled
+                        </div>
+                      )}
+                    </td>
+
                     <td>{item.type}</td>
                     <td>{formatExpirationDate(item.trans_date)}</td>
-                    <td>
-                      <Modal
+                    <td className="space-x-2">
+                      {item.status === "success" ||
+                      item.status === "cancelled" ? (
+                        <div></div>
+                      ) : (
+                        <>
+                          <button
+                            className="btn btn-primary no-animation text-white btn-sm"
+                            onClick={
+                              item.type === "monthly"
+                                ? () =>
+                                    handleAcceptOrReject(
+                                      item.profileId,
+                                      "success",
+                                      "monthly",
+                                      calculateNewExpiredDateForMonthly()
+                                    )
+                                : () =>
+                                    handleAcceptOrReject(
+                                      item.profileId,
+                                      "success",
+                                      "yearly",
+                                      calculateNewExpiredDateForYearly()
+                                    )
+                            }
+                          >
+                            Accept
+                          </button>
+
+                          <button
+                            className="btn btn-error no-animation btn-sm text-white"
+                            onClick={() =>
+                              handleAcceptOrReject(
+                                item.id,
+                                "canceled",
+                                "canceled",
+                                "N/A"
+                              )
+                            }
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
+
+                      {/* <Modal
                         openButton={"Change Subs"}
                         modalTitle={
                           "Are you sure you want to change user subs?"
@@ -222,7 +255,7 @@ const TransactionPage = () => {
                             Cancel Payment
                           </button>
                         </div>
-                      </Modal>
+                      </Modal> */}
                     </td>
                   </tr>
                 ))}

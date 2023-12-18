@@ -11,6 +11,7 @@ import { useNews } from "@/lib/useNews";
 import Card from "@/components/Card";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { useUser, useUsers } from "@/lib/useUser";
+import { toast } from "sonner";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(`${BASE_URL}/news?_sort=likes&_order=desc`);
@@ -61,7 +62,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         }),
       });
     } catch (error) {
-      console.log(error, "error from catch");
+      toast.error(`error ${error}`);
     }
   }
 

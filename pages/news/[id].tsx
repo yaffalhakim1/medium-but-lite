@@ -16,7 +16,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   const router = useRouter();
   const user_id = Cookie.get("user_id");
   const { id } = router.query;
-  const user_status = Cookie.get("user_status");
+  const user_status = Cookie.get("isPremium");
   const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
   async function handleLike() {
@@ -117,7 +117,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     user_id ? ["recommendNews", user_id] : null,
     recommendNewsForUser
   );
-  console.log(recommendedNews, "recommended news");
 
   return (
     <>
@@ -125,7 +124,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <img src={news.img} alt="" className="w-60" />
         <h2 className="text-3xl font-semibold">{news.title}</h2>
 
-        {user_status === "premium" ? (
+        {user_status ? (
           <p className="text-lg leading-relaxed">{news.content}</p>
         ) : (
           <>

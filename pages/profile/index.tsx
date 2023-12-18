@@ -13,17 +13,17 @@ const ProfilePage = () => {
       <div className="flex flex-col justify-center items-center">
         <h2>{user?.name}</h2>
         <p>{user?.email}</p>
-        <p>
+        <div>
           {user?.isPremiumUser ? (
-            <div className="badge badge-success px-2 py-3 text-white text-sm">
+            <p className="badge badge-success px-2 py-3 text-white text-sm">
               Active
-            </div>
+            </p>
           ) : (
-            <div className="badge badge-error px-2 py-3 text-white text-sm">
+            <p className="badge badge-error px-2 py-3 text-white text-sm">
               Not Active
-            </div>
+            </p>
           )}
-        </p>
+        </div>
         <p>{formatExpirationDate(user?.expiredDate)}</p>
       </div>
     </>

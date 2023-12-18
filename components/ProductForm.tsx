@@ -125,7 +125,6 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
-        console.log(res.data);
         toast.success("News updated successfully");
         return router.push("/admin");
       } else {
@@ -145,7 +144,6 @@ const PostForm = (data: { data?: INews }) => {
             },
           }
         );
-        console.log(res.data, "from create post");
         toast.success("News created successfully");
         return router.push("/admin");
       }
