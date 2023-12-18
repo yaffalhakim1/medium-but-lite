@@ -15,7 +15,7 @@ const TransactionPage = () => {
   const [status, setStatus] = useState<boolean>();
   const [type, setType] = useState<"processed" | "success" | "cancelled">();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
-  const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
+  const [sortByDate, setSortByDate] = useState<"asc" | "desc">("asc");
   const {
     transaction,
     transactionLoading,
@@ -24,7 +24,6 @@ const TransactionPage = () => {
   } = useTransaction({
     search,
     premium: type,
-
     sortByDate,
   });
 
@@ -88,7 +87,13 @@ const TransactionPage = () => {
       toast.error("Failed to update transaction");
     }
   };
+  if (transactionLoading) {
+    return <div className="text-center">Loading...</div>;
+  }
 
+  if (transactionError) {
+    return <div className="text-center">Try Refresh this page</div>;
+  }
   return (
     <>
       <div className="container px-6  pt-2 pb-6 h-full">

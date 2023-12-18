@@ -147,6 +147,17 @@
       "created_at": "2023-12-18T06:13:32.868Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702880022/o31c7wntefxafzp1fyil.png",
       "id": 5
+    },
+    {
+      "title": "Si paling types",
+      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "isPremium": false,
+      "category": [
+        "Anime"
+      ],
+      "created_at": "2023-12-18T07:44:05.155Z",
+      "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702885418/pgh2ny5mmhfs4alf6a4e.png",
+      "id": 6
     }
   ],
   "likes": [

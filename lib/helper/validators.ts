@@ -25,3 +25,17 @@ export const validatePhone = (value: string): string | null => {
   }
   return null;
 };
+
+export const validateTitle = (value: string): string | null => {
+  if (value.length > 15) {
+    return "The maximal character is 15";
+  }
+  return null;
+};
+
+export const validateContent = (value: string): string | null => {
+  if (value.length > 2000) {
+    return "The maximal character is 2000";
+  }
+  return null;
+};

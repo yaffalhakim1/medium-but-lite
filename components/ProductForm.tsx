@@ -7,6 +7,7 @@ import { Fragment, SyntheticEvent, useState } from "react";
 import { toast } from "sonner";
 import Select from "react-select";
 import { useRouter } from "next/router";
+import { validateTitle, validateContent } from "@/lib/helper/validators";
 
 interface INews {
   id: number;
@@ -28,6 +29,12 @@ const PostForm = (data: { data?: INews }) => {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [, setLoading] = useState(false);
+  const [validationTitleError, setValidationTitleError] = useState<
+    string | null
+  >(null);
+  const [validationContentError, setvalidationContentError] = useState<
+    string | null
+  >(null);
 
   const [formPost, setFormPost] = useState({
     title: "",
@@ -61,6 +68,14 @@ const PostForm = (data: { data?: INews }) => {
       setEditedPost((prev) => ({ ...prev, [name]: value }));
     }
     setFormPost((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "title") {
+      setValidationTitleError(validateTitle(value));
+    }
+
+    if (name === "content") {
+      setvalidationContentError(validateContent(value));
+    }
   };
 
   const handleSelectChange = (value: any) => {
@@ -167,10 +182,17 @@ const PostForm = (data: { data?: INews }) => {
               type="text"
               name="title"
               placeholder="Your title here"
-              className="input input-bordered w-full "
+              className={`input input-bordered w-full ${
+                validationTitleError && "input-error "
+              }`}
               defaultValue={product?.title}
               onChange={handleInputChange}
             />
+            {validationTitleError && (
+              <p className="text-start mt-2 text-sm text-red-500 border-red-400">
+                {validationTitleError}
+              </p>
+            )}
           </label>
 
           <label className="form-control w-full ">
@@ -180,6 +202,7 @@ const PostForm = (data: { data?: INews }) => {
 
             <Select
               isMulti
+              required
               name="category"
               isClearable={true}
               options={[
@@ -202,7 +225,10 @@ const PostForm = (data: { data?: INews }) => {
               <span className="label-text">Your content</span>
             </div>
             <input
-              className="textarea textarea-bordered textarea-lg h-24 w-full"
+              // className="textarea textarea-bordered textarea-lg h-24 w-full"
+              className={`textarea textarea-bordered textarea-lg h-24 w-full ${
+                validationContentError && "input-error"
+              }`}
               placeholder="Content here"
               name="content"
               minLength={5}
@@ -210,6 +236,11 @@ const PostForm = (data: { data?: INews }) => {
               defaultValue={product?.content}
               onChange={handleInputChange}
             />
+            {validationContentError && (
+              <p className="text-start mt-2 text-sm text-red-500 border-red-400">
+                {validationContentError}
+              </p>
+            )}
           </label>
 
           <img src={imageUrl} alt="" width="120px" className="w-65 mt-2" />

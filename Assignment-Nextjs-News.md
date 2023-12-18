@@ -42,8 +42,8 @@ Important things that you have to keep in mind when you do the final project:
    - View the entire list of Posts (v)
    - View Post details (v)
    - Create a Post (v)
-     - validate title max 20 char
-     - validate description max 200 char
+     - validate title max 20 char (v)
+     - validate description max 200 char (v)
      - validate category max 2 category
      - validate image max 1 image with resolution 1920x1080
      - validate premium post max 1 premium post
