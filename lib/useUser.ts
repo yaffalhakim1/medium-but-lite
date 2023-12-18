@@ -3,13 +3,21 @@ import { fetcher } from "@/config/fetcher";
 import { User } from "@/types/user-types";
 import useSWR from "swr";
 
-export const useUsers = (search?: string, premium?: boolean) => {
-  const url =
-    premium !== undefined
-      ? `${BASE_URL}/profile?q=${search}&isPremiumUser=${premium}`
-      : `${BASE_URL}/profile?q=${search}`;
+interface UserFilters {
+  search?: string;
+  premium?: boolean;
+  category?: string[];
+  sortByDate?: "asc" | "desc";
+}
 
-  const { data, isLoading, error, mutate } = useSWR<User[]>(url, fetcher);
+export const useUsers = (filters: UserFilters) => {
+  const { search, premium, category } = filters;
+
+  let url = `${BASE_URL}/profile?`;
+  if (search) url += `q=${search}&`;
+  if (premium !== undefined) url += `isPremiumUser=${premium}&`;
+
+  const { data, error, mutate, isLoading } = useSWR<User[]>(url, fetcher);
 
   return {
     users: data,

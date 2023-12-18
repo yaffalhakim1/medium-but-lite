@@ -11,9 +11,12 @@ import { toast } from "sonner";
 
 export default function SubscriptionPage() {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<boolean>();
+  const [type, setType] = useState<boolean | undefined>();
 
-  const { users, usersMutate } = useUsers(search, status);
+  const { users, usersMutate } = useUsers({
+    search,
+    premium: type,
+  });
   const [page, setPage] = useState(1);
 
   const handleNextPage = () => {
@@ -73,7 +76,7 @@ export default function SubscriptionPage() {
           Manage your users subscription here
         </p>
         <div className="md:flex md:justify-between">
-          <div className="space-x-2 ml-auto items-center">
+          <div className="flex space-x-2 ml-auto items-center">
             <input
               type="text"
               placeholder="Search"
@@ -81,41 +84,23 @@ export default function SubscriptionPage() {
               onChange={(e) => setSearch(e.target.value)}
             />
             {/* use Menu from headless */}
-            <Menu as="div" className="relative inline-block text-left">
-              <div>
-                <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <span className="ml-2 text-black">Filter</span>
-                </Menu.Button>
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn m-1">
+                <FilterIcons />
+                Type
               </div>
-              <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="px-1 py-1 ">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setStatus(true)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Premium
-                      </a>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        onClick={() => setStatus(false)}
-                        className={`${
-                          active ? "bg-violet-500 text-white" : "text-gray-900"
-                        } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      >
-                        Free
-                      </a>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Menu>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setType(false)}>
+                  <a>Free</a>
+                </li>
+                <li onClick={() => setType(true)}>
+                  <a>Premium</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div className="flex flex-col h-full w-full mt-4">

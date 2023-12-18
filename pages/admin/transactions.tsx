@@ -7,6 +7,7 @@ import { ITransaction } from "@/types/trans-types";
 import { Transaction, User } from "@/types/user-types";
 import { Menu } from "@headlessui/react";
 import axios from "axios";
+import { SlidersHorizontal } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -124,8 +125,8 @@ const TransactionPage = () => {
               </ul>
             </div>
             <div className="dropdown dropdown-bottom">
-              <div tabIndex={0} role="button" className="btn m-1 flex">
-                <FilterIcons />
+              <div tabIndex={0} role="button" className="btn   m-1 flex">
+                <SlidersHorizontal />
                 Date
               </div>
               <ul
@@ -188,9 +189,8 @@ const TransactionPage = () => {
                     <td>{item.type}</td>
                     <td>{formatExpirationDate(item.trans_date)}</td>
                     <td className="space-x-2">
-                      {item.status === "success" ||
-                      item.status === "cancelled" ? (
-                        <div></div>
+                      {item.status === "success" || "cancelled" ? (
+                        <></>
                       ) : (
                         <>
                           <button
@@ -231,53 +231,6 @@ const TransactionPage = () => {
                           </button>
                         </>
                       )}
-
-                      {/* <Modal
-                        openButton={"Change Subs"}
-                        modalTitle={
-                          "Are you sure you want to change user subs?"
-                        }
-                        modalButton={"Change"}
-                        openButtonClassname="btn btn-primary btn-sm capitalize"
-                      >
-                        <div className="space-x-3 mb-5">
-                          <button
-                            onClick={
-                              item.type === "monthly"
-                                ? () =>
-                                    handleAcceptOrReject(
-                                      item.profileId,
-                                      "success",
-                                      "monthly",
-                                      calculateNewExpiredDateForMonthly()
-                                    )
-                                : () =>
-                                    handleAcceptOrReject(
-                                      item.profileId,
-                                      "success",
-                                      "yearly",
-                                      calculateNewExpiredDateForYearly()
-                                    )
-                            }
-                            className="btn btn-primary btn-sm capitalize"
-                          >
-                            Accept Payment
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleAcceptOrReject(
-                                item.id,
-                                "canceled",
-                                "canceled",
-                                "N/A"
-                              )
-                            }
-                            className="btn btn-primary btn-sm capitalize"
-                          >
-                            Cancel Payment
-                          </button>
-                        </div>
-                      </Modal> */}
                     </td>
                   </tr>
                 ))}

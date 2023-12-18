@@ -16,6 +16,10 @@ const RegisterPage = () => {
     email: "",
     password: "",
     password_confirmation: "",
+    phone: Number,
+    address: "",
+    role: "user",
+    isPremiumUser: false,
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -95,7 +99,7 @@ const RegisterPage = () => {
     }
   }
 
-  const { users } = useUsers();
+  const { users } = useUsers({});
 
   async function handleRegister(e: SyntheticEvent) {
     e.preventDefault();
@@ -112,8 +116,8 @@ const RegisterPage = () => {
         return;
       }
 
-      Cookie.set("user_token", token());
-      Cookie.set("role", "user");
+      // Cookie.set("token", token());
+      // Cookie.set("role", "user");
 
       if (register) {
         return router.push("/auth/login");
@@ -261,6 +265,23 @@ const RegisterPage = () => {
                 {validationConfirmPass && (
                   <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
                     {validationConfirmPass}
+                  </p>
+                )}
+              </div>
+              <div className="pb-2 pt-4">
+                <input
+                  type="email"
+                  className={`block w-full p-4 text-lg rounded-sm bg-black focus:border-indigo-500 ${
+                    validationEmail && "input-error "
+                  }`}
+                  placeholder="Referral"
+                  name="referral"
+                  onChange={fieldHandler}
+                  required
+                />
+                {validationEmail && (
+                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
+                    {validationEmail}
                   </p>
                 )}
               </div>

@@ -7,12 +7,12 @@
       "expired_subs": "2023-01-15",
       "role": "admin",
       "password": "admin",
-      "isPremiumUser": false,
+      "isPremiumUser": true,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-01-15"
       },
-      "expiredDate": ""
+      "expiredDate": "N/A"
     },
     {
       "id": 2,
@@ -67,6 +67,19 @@
         5,
         4
       ]
+    },
+    {
+      "name": "yafii",
+      "email": "yafi@gmail.com",
+      "password": "password",
+      "password_confirmation": "",
+      "phone": "012345678910",
+      "address": "Klipang Permai Blok I No 448",
+      "role": "user",
+      "isPremiumUser": false,
+      "referral": "alice@example.com",
+      "confirm_password": "password",
+      "id": 4
     }
   ],
   "news": [
@@ -216,18 +229,13 @@
       "count": 1
     }
   ],
-  "admins": [
-    {
-      "email": "admin@example.com"
-    }
-  ],
   "transactions": [
     {
       "profileId": 1,
       "id": 1,
-      "type": "monthly",
-      "trans_date": "2023-01-05",
-      "status": "processed",
+      "type": "canceled",
+      "trans_date": "N/A",
+      "status": "canceled",
       "isPremiumUser": false,
       "totalPaid": 50
     },
