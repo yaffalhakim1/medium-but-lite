@@ -3,7 +3,7 @@ import { BASE_URL } from "@/config/api";
 import { useTransaction } from "@/lib/useTransaction";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { ITransaction } from "@/types/trans-types";
-import { User } from "@/types/user-types";
+import { Transaction, User } from "@/types/user-types";
 import { Menu } from "@headlessui/react";
 import axios from "axios";
 import React, { useState } from "react";
@@ -75,6 +75,33 @@ const TransactionPage = () => {
     }
   };
 
+  const handleAcceptOrReject = async (
+    id: number,
+    status: string,
+    type: string,
+    trans_date: string
+  ) => {
+    try {
+      const res = await axios.patch<ITransaction>(
+        `${BASE_URL}/transactions/${id}`,
+        {
+          status: status,
+          type: type,
+          trans_date: trans_date,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      transactionMutate(transaction);
+      toast.success(`Transaction ${status}`);
+    } catch (err) {
+      toast.error("Failed to update transaction");
+    }
+  };
+
   return (
     <>
       <div className="container px-6  pt-2 pb-6 h-full">
@@ -90,7 +117,6 @@ const TransactionPage = () => {
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
-            {/* use Menu from headless */}
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -143,75 +169,60 @@ const TransactionPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {transaction?.map((item: User, idx) => (
+                {transaction?.map((item: ITransaction, idx) => (
                   <tr key={idx}>
                     <th>{idx + 1}</th>
-                    <td>{item.name}</td>
-                    <td>{item.transactions?.status}</td>
-                    <td>{item.transactions?.type}</td>
+                    <td>{item.profileId}</td>
+                    <td>{item.status}</td>
+                    <td>{item.type}</td>
+                    <td>{formatExpirationDate(item.trans_date)}</td>
                     <td>
-                      {formatExpirationDate(item.transactions?.trans_date)}
-                    </td>
-                    <td>
-                      <div className="dropdown dropdown-bottom">
-                        <div tabIndex={0} role="" className="btn btn-sm">
-                          Actions
+                      <Modal
+                        openButton={"Change Subs"}
+                        modalTitle={
+                          "Are you sure you want to change user subs?"
+                        }
+                        modalButton={"Change"}
+                        openButtonClassname="btn btn-primary btn-sm capitalize"
+                      >
+                        <div className="space-x-3 mb-5">
+                          <button
+                            onClick={
+                              item.type === "monthly"
+                                ? () =>
+                                    handleAcceptOrReject(
+                                      item.profileId,
+                                      "success",
+                                      "monthly",
+                                      calculateNewExpiredDateForMonthly()
+                                    )
+                                : () =>
+                                    handleAcceptOrReject(
+                                      item.profileId,
+                                      "success",
+                                      "yearly",
+                                      calculateNewExpiredDateForYearly()
+                                    )
+                            }
+                            className="btn btn-primary btn-sm capitalize"
+                          >
+                            Accept Payment
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAcceptOrReject(
+                                item.id,
+                                "canceled",
+                                "canceled",
+                                "N/A"
+                              )
+                            }
+                            className="btn btn-primary btn-sm capitalize"
+                          >
+                            Cancel Payment
+                          </button>
                         </div>
-                        <ul
-                          tabIndex={0}
-                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-52"
-                        >
-                          <li>
-                            <Modal
-                              openButton={"Change Subs"}
-                              modalTitle={
-                                "Are you sure you want to change user subs?"
-                              }
-                              modalButton={"Change"}
-                            >
-                              <div className="space-x-3 mb-5">
-                                <button
-                                  onClick={() =>
-                                    handleSubscriptionToggle(
-                                      item.id,
-                                      item.isPremiumUser,
-                                      "monthly"
-                                    )
-                                  }
-                                  className="btn btn-primary btn-sm capitalize"
-                                >
-                                  Monthly
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    handleSubscriptionToggle(
-                                      item.id,
-                                      item.isPremiumUser,
-                                      "yearly"
-                                    )
-                                  }
-                                  className="btn btn-primary btn-sm capitalize"
-                                >
-                                  Yearly
-                                </button>
-                                {item.isPremiumUser && (
-                                  <button
-                                    onClick={() =>
-                                      handleSubscriptionToggle(
-                                        item.id,
-                                        item.isPremiumUser
-                                      )
-                                    }
-                                    className="btn btn-error btn-sm capitalize text-white "
-                                  >
-                                    Deactivate
-                                  </button>
-                                )}
-                              </div>
-                            </Modal>
-                          </li>
-                        </ul>
-                      </div>
+                      </Modal>
                     </td>
                   </tr>
                 ))}

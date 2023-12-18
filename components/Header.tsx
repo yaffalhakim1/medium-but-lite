@@ -8,10 +8,10 @@ import { useUsers } from "@/lib/useUser";
 
 const Navbar = () => {
   const router = useRouter();
-
   const token = Cookie.get("token");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
+  // const [isAuthed, setIsAUthed] = React.useState(false);
 
   useEffect(() => {
     if (token) {

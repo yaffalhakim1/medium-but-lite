@@ -42,12 +42,17 @@ Important things that you have to keep in mind when you do the final project:
    - View the entire list of Posts (v)
    - View Post details (v)
    - Create a Post (v)
+     - validate title max 20 char
+     - validate description max 200 char
+     - validate category max 2 category
+     - validate image max 1 image with resolution 1920x1080
+     - validate premium post max 1 premium post
    - Edit Post (v)
    - Delete Post (v)
 5. Manage Transactions Invoice
    - View all User Transactions against Subscriptions (v)
-   - Update Transaction Status from process to completed
-   - Update Transaction Status from process to canceled
+   - Update Transaction Status from process to completed (v)
+   - Update Transaction Status from process to canceled (v)
    - Filter by transaction date and Transaction status
 6. Perform authorization so that data can only be managed by users who have the admin role (v)
 
@@ -82,12 +87,12 @@ Using the next.js tech stack, you are asked to create a website for the selected
      - Description (v)
      - Count of user liked and shared (v)
      - Like button and Share button (v)
-   - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like.
+   - At the bottom, a section for my recommended news will be displayed, showing 3 recommended headline posts based on the user's like. (v) (unstable)
    - if user not subscribed or only have expire subscription show only little bit post. and than have path to subscription plan (v)
 6. Get Subscription Plan Payment
-   - In one transaction, the user can buy subscription for one month or a year to be premium user.
-   - Payment will be made via QR generate.
-   - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed.
+   - In one transaction, the user can buy subscription for one month or a year to be premium user. (v)
+   - Payment will be made via QR generate. (v)
+   - If successful, it will redirect to the application and display an invoice and a success dialog. The subscription status will be processed/success.
    - If it fails, it will be redirected to the application and keep on the order/payment page showing a failure to pay dialog. The subscription status becomes waiting payment.
 7. My Profile Menu
    - Displays personal information, including name, username, email, phone number, and address.
@@ -98,13 +103,13 @@ Using the next.js tech stack, you are asked to create a website for the selected
 
 - Using Next JS (with Typescript). (v)
 - Separate clients for users with the User role and users with the Admin role. (v)
-- Use state management like Redux, Zustand, or Redux toolkit for both user and admin sites.
+- Use state management like Redux, Zustand, or Redux toolkit for both user and admin sites. (v)
 - Ensure every page is reactive and does not require a website refresh to change the display. (v)
 - Use server-side rendering, static generation, or Incremental Static Regeneration appropriately. (v)
 - Utilize CSS modules, frameworks, or style components (SCSS, styled-components). (v)
 - Create reusable components like Table, TableRow/TableItem, Form (Add & Edit in one form), Button, footer, and Card/Item. (v)
 - Communicate with JSON Server via REST API for frontend-backend communication. (v)
-- Implement a mock authentication flow using JSON Server for pages based on logged-in user.
+- Implement a mock authentication flow using JSON Server for pages based on logged-in user. (v)
 - Upload images to an image sharing platform and save the image URL to the JSON Server. (v)
 - Ensure Mobile Responsive design.(v)
 - Deploy the web application

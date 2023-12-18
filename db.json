@@ -16,6 +16,7 @@
     },
     {
       "id": 2,
+      "transactionsId": 2,
       "name": "Alice Smith",
       "email": "alice@example.com",
       "password": "alice",
@@ -24,14 +25,15 @@
       "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
-        "expired_date": "2023-01-15"
+        "expired_date": "2023-03-15"
       },
-      "subscriptionPlan.expired_date": null,
       "expiredDate": "",
       "news": [4, 1, 5, 4, 5, 2, 4, 4, 1, 1, 5, 1]
     },
     {
       "id": 3,
+      "transactionsId": 3,
+
       "name": "Yafi Smith",
       "email": "yafi@example.com",
       "password": "yafi",
@@ -167,7 +169,7 @@
   "transactions": [
     {
       "profileId": 1,
-      "id": 1001,
+      "id": 1,
       "type": "monthly",
       "trans_date": "2023-01-05",
       "status": "processed",
@@ -175,11 +177,19 @@
     },
     {
       "profileId": 2,
-      "id": 1002,
-      "type": "yearly",
-      "trans_date": "2023-01-10",
-      "status": "completed",
-      "totalPaid": 30
+      "id": 2,
+      "type": "monthly",
+      "trans_date": "2023-12-18T01:49:48.333Z",
+      "status": "success",
+      "totalPaid": 20
+    },
+    {
+      "profileId": 3,
+      "id": 3,
+      "type": "monthly",
+      "trans_date": "2023-12-18T02:45:39.958Z",
+      "status": "success",
+      "totalPaid": 20
     }
   ],
   "likedNews": {

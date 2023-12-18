@@ -1,7 +1,7 @@
 export interface ITransaction {
-  id: string;
-  trans_id: number;
-  type: number;
+  profileId: number;
+  id: number;
+  type: string;
   trans_date: Date;
   status: string;
   totalPaid: number;

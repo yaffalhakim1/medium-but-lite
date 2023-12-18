@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { Component, ReactNode } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 
@@ -11,8 +11,8 @@ interface IModal {
   type?: "danger" | "success";
   modalButton: string;
   onSubmit?: () => void;
+  openButtonClassname?: string;
 }
-
 const Modal = (props: IModal) => {
   let [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,9 @@ const Modal = (props: IModal) => {
 
   return (
     <>
-      <button onClick={openModal}>{props.openButton}</button>
+      <button onClick={openModal} className={props.openButtonClassname}>
+        {props.openButton}
+      </button>
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" onClose={() => closeModal()} className="relative z-50">
