@@ -42,17 +42,43 @@ const PlansPage = () => {
         totalPaid: totalAmount,
       };
 
-      const responseTransaction = await fetch(`${BASE_URL}/transactions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(transactionPost),
-      });
-
-      if (!responseTransaction.ok) {
-        throw new Error("Failed to create transaction record");
+      if (transaction?.status === "deactivated") {
+        const responseTransactionPatch = await fetch(
+          `${BASE_URL}/transactions/${transactionId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(transactionPost),
+          }
+        );
+        if (!responseTransactionPatch.ok) {
+          throw new Error("Failed to create transaction record");
+        }
+      } else {
+        const responseTransactionPost = await fetch(
+          `${BASE_URL}/transactions`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(transactionPost),
+          }
+        );
+        if (!responseTransactionPost.ok) {
+          throw new Error("Failed to create transaction record");
+        }
       }
+
+      // const responseTransaction = await fetch(`${BASE_URL}/transactions`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(transactionPost),
+      // });
 
       transactionMutate(transaction);
 

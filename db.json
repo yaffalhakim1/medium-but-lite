@@ -25,12 +25,12 @@
         5
       ],
       "role": "user",
-      "isPremiumUser": false,
+      "isPremiumUser": true,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-03-15"
       },
-      "expiredDate": "",
+      "expiredDate": "2024-01-18",
       "news": [],
       "phone": "012345678910",
       "address": "Klipang Permai Blok I No 448"
@@ -86,7 +86,7 @@
       "likes": [
         2
       ],
-      "shares": 0
+      "shares": 1
     },
     {
       "title": "PPPPPPPPP",
@@ -133,7 +133,7 @@
       "likes": [
         3
       ],
-      "shares": 0
+      "shares": 1
     },
     {
       "title": "Bla bla bla is not a subtype of type blabla",
@@ -237,7 +237,7 @@
       "id": "2",
       "type": "monthly",
       "trans_date": "2024-01-18",
-      "status": "deactivated",
+      "status": "success",
       "totalPaid": 20
     }
   ],

@@ -93,6 +93,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           shares: news.shares + 1,
         }),
       });
+      newsDetailMutate(newsDetail);
     } catch (error) {
       console.log(error, "error from catch");
     }
