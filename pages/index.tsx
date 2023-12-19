@@ -10,7 +10,7 @@ import { FilterIcons, TrendingUp } from "@/components/Icons";
 import { useNews } from "@/lib/useNews";
 import Card from "@/components/Card";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
-import { useUser, useUsers } from "@/lib/useUser";
+import { useUser } from "@/lib/useUser";
 import { toast } from "sonner";
 
 export const getServerSideProps: GetServerSideProps = async () => {

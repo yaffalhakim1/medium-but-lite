@@ -100,9 +100,9 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   }
 
   async function fetchLikedNews(profileId: number) {
-    const response = await fetch(`${BASE_URL}/likedNews`);
+    const response = await fetch(`${BASE_URL}/profile/${Number(user_id)}`);
     const data = await response.json();
-    return data[profileId] || [];
+    return data.like || [];
   }
 
   async function fetchNewsById(newsId: number) {
@@ -161,14 +161,16 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             <p className="text-lg line-clamp-3 mt-10 text-center md:text-start ">
               {news.content}
             </p>
-            <button
-              onClick={() => router.push("/plans")}
-              className="text-xl mt-5 md:mt-0"
-            >
-              Become a member - and all the best content coming to you only on{" "}
-              <br />
-              <span className="font-semibold">🌟 Medium Lite 🌟</span>
-            </button>
+            <div className="backdrop-blur-sm">
+              <button
+                onClick={() => router.push("/plans")}
+                className="text-xl mt-8 md:mt-0 no-animation"
+              >
+                Become a member - and all the best content coming to you only on{" "}
+                <br />
+                <span className="font-semibold">🌟 Medium Lite 🌟</span>
+              </button>
+            </div>
           </>
         )}
       </div>

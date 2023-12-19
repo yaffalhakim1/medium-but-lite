@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db": " json-server --watch db.json --port 8000"
+    "db": " json-server --watch db.json --port 8000",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -24,19 +26,24 @@
     "sonner": "^1.2.4",
     "swr": "^2.2.4",
     "tailwind-merge": "^2.1.0",
+    "vite-tsconfig-paths": "^4.2.2",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.0.1",
     "daisyui": "^4.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
+    "jsdom": "^23.0.1",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^1.0.4"
   }
 }

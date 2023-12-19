@@ -22,7 +22,7 @@
       "password": "alice",
       "like": [
         3,
-        5
+        2
       ],
       "role": "user",
       "isPremiumUser": true,
@@ -31,7 +31,11 @@
         "expired_date": "2023-03-15"
       },
       "expiredDate": "2024-01-18",
-      "news": [],
+      "news": [
+        6,
+        2,
+        2
+      ],
       "phone": "012345678910",
       "address": "Klipang Permai Blok I No 448"
     },
@@ -45,7 +49,7 @@
         3
       ],
       "role": "user",
-      "isPremiumUser": true,
+      "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": null
@@ -56,20 +60,6 @@
         5,
         4
       ]
-    },
-    {
-      "name": "yafii",
-      "email": "yafi@gmail.com",
-      "password": "password",
-      "password_confirmation": "",
-      "phone": "012345678910",
-      "address": "Klipang Permai Blok I No 448",
-      "role": "user",
-      "isPremiumUser": true,
-      "referral": "alice@example.com",
-      "confirm_password": "password",
-      "id": 4,
-      "expiredDate": "2024-01-17"
     }
   ],
   "news": [
@@ -102,7 +92,7 @@
         3,
         2
       ],
-      "shares": 0
+      "shares": 3
     },
     {
       "title": "Yafi Alhakim",
@@ -234,7 +224,15 @@
     },
     {
       "profileId": 2,
-      "id": "2",
+      "id": 2,
+      "type": "monthly",
+      "trans_date": "2024-01-18",
+      "status": "success",
+      "totalPaid": 20
+    },
+    {
+      "profileId": 3,
+      "id": 3,
       "type": "monthly",
       "trans_date": "2024-01-18",
       "status": "success",
