@@ -15,7 +15,7 @@ export const useNews = (filters: NewsFilters) => {
 
   let url = `${BASE_URL}/news?`;
   if (search) url += `q=${search}&`;
-  if (premium !== undefined) url += `isPremium=${premium}&`;
+  if (premium) url += `isPremium=${premium}&`;
   if (category && category.length > 0) url += `category=${category.join(",")}`;
   if (sortByDate) url += `&_sort=created_at&_order=${sortByDate}`;
 

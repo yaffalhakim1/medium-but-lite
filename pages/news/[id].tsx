@@ -2,7 +2,7 @@
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import { GetStaticPaths, GetStaticProps } from "next";
-import React from "react";
+import React, { useState } from "react";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -10,6 +10,8 @@ import Card from "@/components/Card";
 import { useUser } from "@/lib/useUser";
 import { useNewsDetail } from "@/lib/useNews";
 import Link from "next/link";
+import { Heart, Share2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface NewsProps {
   news: INewsElement;
@@ -21,6 +23,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   const { user } = useUser(Number(user_id));
   const { id } = router.query;
   const { newsDetail, newsDetailMutate } = useNewsDetail(Number(id));
+  const [liked, setLiked] = useState<boolean>();
 
   const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
@@ -94,6 +97,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         }),
       });
       newsDetailMutate(newsDetail);
+      toast.success("link copied!");
     } catch (error) {
       console.log(error, "error from catch");
     }
@@ -175,14 +179,10 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         )}
       </div>
       <div className="flex items-center space-x-2 mt-8">
-        <button onClick={handleLike} className="btn btn-sm btn-neutral">
-          like this post
-        </button>
+        <Heart onClick={handleLike} className="cursor-pointer" />
         <p>{newsDetail?.likes?.length}</p>
+        <Share2 onClick={handleShares} className="cursor-pointer" />
 
-        <button className="btn btn-neutral btn-sm" onClick={handleShares}>
-          share this post
-        </button>
         <p>{newsDetail?.shares}</p>
       </div>
 
@@ -190,11 +190,11 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         <h2 className="text-xl mt-10 font-semibold">
           Recommended from Medium Lite
         </h2>
-        <ul className="md:grid md:grid-cols-3 md:gap-3 items-center space-y-3 md:space-y-0 mt-5 mb-10">
+        <ul className="md:grid md:grid-cols-3 md:gap-3 items-center space-y-3 md:space-y-clear0 mt-5 mb-10">
           {recommendedNews
             ?.map((item) => (
               <li key={item.id}>
-                <Link href={`news/${item.id}`}>
+                <Link href={`/news/${item.id}`}>
                   <Card
                     className=""
                     news={{

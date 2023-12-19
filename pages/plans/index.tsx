@@ -35,54 +35,26 @@ const PlansPage = () => {
     try {
       const transactionPost = {
         profileId: profileId,
-        id: transactionId,
         type: subscriptionType,
         trans_date: new Date(),
         status: "processed",
         totalPaid: totalAmount,
       };
 
-      if (transaction?.status === "deactivated") {
-        const responseTransactionPatch = await fetch(
-          `${BASE_URL}/transactions/${transactionId}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transactionPost),
-          }
-        );
-        if (!responseTransactionPatch.ok) {
-          throw new Error("Failed to create transaction record");
-        }
-      } else {
-        const responseTransactionPost = await fetch(
-          `${BASE_URL}/transactions`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transactionPost),
-          }
-        );
-        if (!responseTransactionPost.ok) {
-          throw new Error("Failed to create transaction record");
-        }
+      const responseTransactionPost = await fetch(`${BASE_URL}/transactions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transactionPost),
+      });
+      if (!responseTransactionPost.ok) {
+        throw new Error("Failed to create transaction record");
       }
-
-      // const responseTransaction = await fetch(`${BASE_URL}/transactions`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(transactionPost),
-      // });
 
       transactionMutate(transaction);
 
-      return transactionId;
+      // return transactionId;
     } catch (error: any) {
       console.error("Error requesting payment:", error.message);
       throw error;
@@ -155,7 +127,6 @@ const PlansPage = () => {
                     "monthly",
                     20
                   );
-                  console.log("Transaction ID:", transactionId);
                 }}
               >
                 <div className="mx-auto flex flex-col justify-center items-center">
@@ -174,7 +145,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6 "
-                      value={`192.168.223.65:3000/plans/payment`}
+                      value={`10.20.191.157:3000/plans/payment`}
                     />
                   )}
                 </div>
@@ -255,10 +226,9 @@ const PlansPage = () => {
                 onSubmit={async () => {
                   const transactionId = await requestPayment(
                     Number(profileId),
-                    "monthly",
+                    "yearly",
                     30
                   );
-                  console.log("Transaction ID:", transactionId);
                 }}
               >
                 <div className="mx-auto flex flex-col justify-center items-center">
@@ -273,7 +243,7 @@ const PlansPage = () => {
                     size={256}
                     style={{ height: "auto" }}
                     className="mb-6 mt-6 "
-                    value="hey"
+                    value={`10.20.191.157:3000/plans/payment`}
                   />
                 </div>
               </Modal>

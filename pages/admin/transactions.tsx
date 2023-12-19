@@ -214,7 +214,7 @@ const TransactionPage = () => {
                                   handleAcceptOrReject(
                                     item.id,
                                     "canceled",
-                                    "canceled",
+                                    "",
                                     "N/A"
                                   )
                                 }

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db": " json-server --watch db.json --port 8000",
+    "db": " json-server --watch db.json --port 8000 --host 10.20.191.157",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
