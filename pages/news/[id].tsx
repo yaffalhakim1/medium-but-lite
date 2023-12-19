@@ -9,6 +9,7 @@ import useSWR from "swr";
 import Card from "@/components/Card";
 import { useUser } from "@/lib/useUser";
 import { useNewsDetail } from "@/lib/useNews";
+import Link from "next/link";
 
 interface NewsProps {
   news: INewsElement;
@@ -19,8 +20,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   const user_id = Cookie.get("user_id");
   const { user } = useUser(Number(user_id));
   const { id } = router.query;
-
-  const { newsDetail } = useNewsDetail(Number(id));
+  const { newsDetail, newsDetailMutate } = useNewsDetail(Number(id));
 
   const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
 
@@ -37,6 +37,21 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             likes: [...news.likes, Number(user_id)],
           }),
         });
+
+        const responseUserLike = await fetch(
+          `${BASE_URL}/profile/${Number(user_id)}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              like: [...user?.like!, Number(id)],
+            }),
+          }
+        );
+        newsDetailMutate(newsDetail);
       } else {
         const like = news.likes?.filter((item) => item !== Number(user_id));
         const response = await fetch(`${BASE_URL}/news/${news.id}`, {
@@ -48,6 +63,19 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             likes: like,
           }),
         });
+        const responseUserUnlike = await fetch(
+          `${BASE_URL}/profile/${Number(user_id)}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              like: like,
+            }),
+          }
+        );
+        newsDetailMutate(newsDetail);
       }
     } catch (error) {
       console.log(error, "error from catch");
@@ -163,21 +191,23 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           {recommendedNews
             ?.map((item) => (
               <li key={item.id}>
-                <Card
-                  className=""
-                  news={{
-                    title: item.title,
-                    image: item.img,
-                    isPremium: item.isPremium,
-                    content: item.content,
-                  }}
-                  classNames={{
-                    title: "font-semibold mt-3",
-                    image: "object-cover w-65 h-56",
-                    content: "line-clamp-1",
-                    premium: "mt-3",
-                  }}
-                />
+                <Link href={`news/${item.id}`}>
+                  <Card
+                    className=""
+                    news={{
+                      title: item.title,
+                      image: item.img,
+                      isPremium: item.isPremium,
+                      content: item.content,
+                    }}
+                    classNames={{
+                      title: "font-semibold mt-3",
+                      image: "object-cover w-65 h-56",
+                      content: "line-clamp-1",
+                      premium: "mt-3",
+                    }}
+                  />
+                </Link>
               </li>
             ))
             .slice(0, 3)}
