@@ -54,12 +54,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     }
   }
 
-  async function handleLikeInLikedNews() {
-    try {
-      const response = await fetch(`${BASE_URL}/news/${news.id}`);
-    } catch (error) {}
-  }
-
   async function handleShares() {
     try {
       const res = await fetch(`${BASE_URL}/news/${news.id}`, {
@@ -88,6 +82,12 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     return data;
   }
 
+  async function fetchAllNews() {
+    const response = await fetch(`${BASE_URL}/news`);
+    const data = await response.json();
+    return data;
+  }
+
   async function recommendNewsForUser() {
     try {
       const likedNews = await fetchLikedNews(Number(user_id));
@@ -112,12 +112,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     }
   }
 
-  async function fetchAllNews() {
-    const response = await fetch(`${BASE_URL}/news`);
-    const data = await response.json();
-    return data;
-  }
-
   const { data: recommendedNews } = useSWR(
     user_id ? ["recommendNews", user_id] : null,
     recommendNewsForUser
@@ -125,52 +119,68 @@ const NewsDetailPage = ({ news }: NewsProps) => {
 
   return (
     <>
-      <div>
-        <img src={news.img} alt="" className="w-60" />
-        <h2 className="text-3xl font-semibold">{news.title}</h2>
+      <div className="flex flex-col justify-center items-center ">
+        <div className=" ">
+          <img src={news.img} alt="" className="w-60 mx-auto" />
+          <h2 className="text-3xl font-semibold text-center">{news.title}</h2>
+        </div>
 
         {user?.isPremiumUser === true ? (
-          <p className="text-lg leading-relaxed">{news.content}</p>
+          <p className="text-lg leading-relaxed mt-10">{news.content}</p>
         ) : (
           <>
-            <p className="text-lg line-clamp-3">{news.content}</p>
-            <button onClick={() => router.push("/plans")}>
-              Subscribe to see the full post
+            <p className="text-lg line-clamp-3 mt-10 text-center md:text-start ">
+              {news.content}
+            </p>
+            <button
+              onClick={() => router.push("/plans")}
+              className="text-xl mt-5 md:mt-0"
+            >
+              Become a member - and all the best content coming to you only on{" "}
+              <br />
+              <span className="font-semibold">🌟 Medium Lite 🌟</span>
             </button>
           </>
         )}
+      </div>
+      <div className="flex items-center space-x-2 mt-8">
+        <button onClick={handleLike} className="btn btn-sm btn-neutral">
+          like this post
+        </button>
+        <p>{newsDetail?.likes?.length}</p>
 
-        <div>
-          <button onClick={handleLike} className="btn btn-neutral">
-            like this post
-          </button>
-          <p>{newsDetail?.likes?.length}</p>
-
-          <button className="btn btn-neutral" onClick={handleShares}>
-            share this post
-          </button>
-          <p>{newsDetail?.shares}</p>
-        </div>
+        <button className="btn btn-neutral btn-sm" onClick={handleShares}>
+          share this post
+        </button>
+        <p>{newsDetail?.shares}</p>
       </div>
 
       <div>
-        <h2>Recommended News</h2>
-        <ul className="flex justify-evenly">
-          {recommendedNews?.map((item) => (
-            <li key={item.id}>
-              <Card
-                className="flex"
-                news={{
-                  title: item.title,
-                  image: item.img,
-                  isPremium: item.isPremium,
-                }}
-                classNames={{
-                  image: "object-cover w-56",
-                }}
-              />
-            </li>
-          ))}
+        <h2 className="text-xl mt-10 font-semibold">
+          Recommended from Medium Lite
+        </h2>
+        <ul className="md:grid md:grid-cols-3 md:gap-3 items-center space-y-3 md:space-y-0 mt-5 mb-10">
+          {recommendedNews
+            ?.map((item) => (
+              <li key={item.id}>
+                <Card
+                  className=""
+                  news={{
+                    title: item.title,
+                    image: item.img,
+                    isPremium: item.isPremium,
+                    content: item.content,
+                  }}
+                  classNames={{
+                    title: "font-semibold mt-3",
+                    image: "object-cover w-65 h-56",
+                    content: "line-clamp-1",
+                    premium: "mt-3",
+                  }}
+                />
+              </li>
+            ))
+            .slice(0, 3)}
         </ul>
       </div>
     </>

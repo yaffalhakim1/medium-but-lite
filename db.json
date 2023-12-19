@@ -110,7 +110,7 @@
     },
     {
       "title": "Bla bla bla is not a subtype of type blabla",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "content": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit",
       "isPremium": true,
       "category": ["Anime", "Tech"],
       "shares": 2,
@@ -121,7 +121,7 @@
     },
     {
       "title": "Si paling types",
-      "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "content": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit",
       "isPremium": false,
       "category": ["Anime"],
       "likes": [2],
