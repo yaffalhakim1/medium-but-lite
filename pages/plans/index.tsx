@@ -8,14 +8,17 @@ import { useTransactionById } from "@/lib/useTransaction";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Newspaper } from "lucide-react";
 
 const PlansPage = () => {
   const profileId = Cookie.get("user_id");
   const transactionId = Cookie.get("user_id");
   const router = useRouter();
+  const [showQr, setShowQr] = React.useState(false);
 
-  const { transaction } = useTransactionById(Number(profileId));
+  const { transaction, transactionMutate } = useTransactionById(
+    Number(profileId)
+  );
 
   // if (transaction?.status === "success") {
   //   router.push("/plans/success");
@@ -30,7 +33,7 @@ const PlansPage = () => {
     totalAmount: number
   ) {
     try {
-      const transaction = {
+      const transactionPost = {
         profileId: profileId,
         id: transactionId,
         type: subscriptionType,
@@ -44,12 +47,14 @@ const PlansPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(transaction),
+        body: JSON.stringify(transactionPost),
       });
 
       if (!responseTransaction.ok) {
         throw new Error("Failed to create transaction record");
       }
+
+      transactionMutate(transaction);
 
       return transactionId;
     } catch (error: any) {
@@ -59,12 +64,12 @@ const PlansPage = () => {
   }
 
   return (
-    <div className="max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16 ">
+    <div className="max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-8 ">
       <div className="flex justify-center items-center">
-        <NewsLogo />
+        <Newspaper size={60} />
       </div>
-      <h2 className="text-4xl text-center">
-        Support great writing and access all stories on Medium.
+      <h2 className="text-3xl text-center">
+        Support great writing and access all news on Medium Lite.
       </h2>
 
       {transaction?.status === "success" && (
@@ -134,13 +139,18 @@ const PlansPage = () => {
                   </p>
                   <span className="font-bold text-blue-600 text-2xl">20$</span>
                   <p>For now we only have QRIS Payment Method</p>
-                  {/* value should be an url ip */}
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto" }}
-                    className="mb-6 mt-6 "
-                    value="hey"
-                  />
+                  <button onClick={() => setShowQr(!showQr)}>
+                    Click here to show QR
+                  </button>
+
+                  {showQr && (
+                    <QRCode
+                      size={256}
+                      style={{ height: "auto" }}
+                      className="mb-6 mt-6 "
+                      value={`192.168.223.65:3000/plans/payment`}
+                    />
+                  )}
                 </div>
               </Modal>
             </div>

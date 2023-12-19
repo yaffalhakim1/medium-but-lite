@@ -2,11 +2,11 @@ import { useUser } from "@/lib/useUser";
 import React from "react";
 import Cookie from "js-cookie";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
+import { useRouter } from "next/router";
 
 const ProfilePage = () => {
-  // including  phone number, and address.
-
   const profileId = Cookie.get("user_id");
+  const router = useRouter();
   const { user } = useUser(Number(profileId));
   return (
     <>
@@ -28,6 +28,17 @@ const ProfilePage = () => {
           )}
         </div>
         <p>Valid until :{formatExpirationDate(user?.expiredDate)}</p>
+
+        {!user?.isPremiumUser && (
+          <div>
+            <h2
+              onClick={() => router.push("/plans")}
+              className="cursor-pointer"
+            >
+              Become a member to enjoy our best quality news!
+            </h2>
+          </div>
+        )}
       </div>
     </>
   );

@@ -11,22 +11,17 @@ const PaymentPage = () => {
     totalAmount: number
   ) {
     try {
-      const transaction = {
-        profileId: profileId,
-        id: transactionId,
-        type: subscriptionType,
-        trans_date: new Date(),
-        status: "processed",
-        totalPaid: totalAmount,
-      };
-
       const responseTransaction = await fetch(`${BASE_URL}/transactions`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(transaction),
+        body: JSON.stringify({
+          status: "processed",
+        }),
       });
+
+      console.log(responseTransaction);
 
       if (!responseTransaction.ok) {
         throw new Error("Failed to create transaction record");
@@ -40,8 +35,8 @@ const PaymentPage = () => {
   }
 
   useEffect(() => {
-    requestPayment(Number(profileId), "monthly", 20);
-  }, [profileId]);
+    requestPayment(Number(profileId), "monthly", 100);
+  }, [profileId, transactionId]);
 
   return <div>payment here</div>;
 };

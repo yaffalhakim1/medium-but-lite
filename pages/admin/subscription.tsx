@@ -47,6 +47,18 @@ export default function SubscriptionPage() {
           },
         }
       );
+
+      const changeInTrans = await axios.patch(
+        `${BASE_URL}/transactions/${id}`,
+        {
+          status: "deactivated",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       usersMutate(users);
       toast.success(
         `User subscription ${newStatus ? "activated" : "deactivated"}`
