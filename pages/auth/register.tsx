@@ -21,6 +21,11 @@ const RegisterPage = () => {
     role: "user",
     isPremiumUser: false,
     news: [],
+    referral: "",
+    subscriptionPlan: {
+      type: "",
+      expired_date: "",
+    },
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
