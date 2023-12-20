@@ -12,6 +12,7 @@ import Card from "@/components/Card";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { useUser } from "@/lib/useUser";
 import { toast } from "sonner";
+import { SlidersHorizontal } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const response = await fetch(
@@ -37,7 +38,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
 
-  const { newsList } = useNews({
+  const { newsList, newsLoading, newsResetFilters } = useNews({
     search,
     premium: type,
     category: selectedCat,
@@ -51,6 +52,14 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       setAuthed(true);
     }
   }, [setAuthed, token]);
+
+  const handleResetFilters = () => {
+    newsResetFilters();
+    setSearch("");
+    setType(undefined);
+    setSelectedCat([]);
+    setSortByDate("desc");
+  };
 
   async function handleNewsCountEverytimeUserOpenIt(newsId: number) {
     try {
@@ -71,7 +80,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   return (
     <>
       {!authed && (
-        <section className="">
+        <section className=" animate-fade-up">
           <div className="mx-auto  px-4 py-32 lg:flex lg:min-h-screen lg:items-center">
             <div className="mx-auto max-w-xl text-center">
               <h1 className="text-3xl font-extrabold sm:text-5xl leading-relaxed">
@@ -94,12 +103,12 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
           </div>
         </section>
       )}
-      <div className="flex items-center space-x-2 mt-9">
+      <div className="flex items-center space-x-2 mt-9 animate-fade-up">
         <TrendingUp />
         <p className="text-2xl font-semibold ">Trending on Medium Lite</p>
       </div>
 
-      <div className="md:grid md:grid-cols-3 md:gap-3   items-center space-y-3 md:space-y-0 mt-5">
+      <div className="md:grid md:grid-cols-3 md:gap-3 animate-fade-up  items-center space-y-3 md:space-y-0 mt-5">
         {data.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
@@ -119,17 +128,20 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         ))}
       </div>
 
-      <div className="md:flex items-center space-x-2 mt-9 justify-between">
+      <div className=" items-center mt-9 justify-between animate-fade-up">
         <p className="text-2xl font-semibold ">News Your Selection</p>
-        <div className="flex items-center space-x-2 md:mt-0 mt-5">
-          <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1">
-              <FilterIcons />
-              Type
+        <div className="flex items-center space-x-2 md:mt-3 mt-5">
+          <div className="dropdown dropdown-top">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-sm rounded-sm m-1"
+            >
+              <SlidersHorizontal size={16} className="md:block hidden  " /> Type
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content z-[1]  menu p-2 shadow bg-base-100 rounded-sm w-52"
             >
               <li onClick={() => setType(false)}>
                 <a>Free</a>
@@ -139,14 +151,18 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
               </li>
             </ul>
           </div>
-          <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1">
-              <FilterIcons />
+          <div className="dropdown dropdown-top">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-sm rounded-sm m-1"
+            >
+              <SlidersHorizontal size={16} className="md:block hidden" />
               Category
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-sm w-52"
             >
               <li onClick={() => setSelectedCat(["Tech"])}>
                 <a>Tech</a>
@@ -156,14 +172,18 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
               </li>
             </ul>
           </div>
-          <div className="dropdown dropdown-bottom">
-            <div tabIndex={0} role="button" className="btn m-1 flex">
-              <FilterIcons />
+          <div className="dropdown dropdown-top">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-sm m-1 rounded-sm"
+            >
+              <SlidersHorizontal size={16} className="md:block hidden" />
               Date
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content  z-[1] menu p-2 shadow bg-base-100 rounded-sm w-52"
             >
               <li onClick={() => setSortByDate("asc")}>
                 <a>Asc</a>
@@ -173,15 +193,21 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
               </li>
             </ul>
           </div>
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-neutral input-md input-bordered"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <button
+            className="btn btn-sm btn-neutral"
+            onClick={handleResetFilters}
+          >
+            Reset Filter
+          </button>
         </div>
+        <input
+          type="text"
+          placeholder="Search"
+          className="input input-neutral input-sm input-bordered mt-5"
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </div>
-      <div className="items-center space-y-3 mt-5">
+      <div className="items-center space-y-3 mt-5 animate-fade-up">
         {newsList?.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>

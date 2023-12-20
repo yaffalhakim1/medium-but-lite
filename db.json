@@ -20,17 +20,30 @@
       "name": "Alice Smith",
       "email": "alice@example.com",
       "password": "alice",
-      "like": [3, 5],
       "role": "user",
-      "isPremiumUser": false,
+      "isPremiumUser": true,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-03-15"
       },
-      "expiredDate": "",
-      "news": [6, 2, 2, 6, 4],
+      "expiredDate": "2024-12-19",
+      "news": [
+        6,
+        2,
+        2,
+        6,
+        4,
+        2,
+        1,
+        6
+      ],
       "phone": "012345678910",
-      "address": "Klipang Permai Blok I No 448"
+      "address": "Klipang Permai Blok I No 448",
+      "likes": [
+        3,
+        2,
+        3
+      ]
     },
     {
       "id": 3,
@@ -38,7 +51,9 @@
       "name": "Yafi Smith",
       "email": "yafi@example.com",
       "password": "yafi",
-      "like": [3],
+      "likes": [
+        3
+      ],
       "role": "user",
       "isPremiumUser": true,
       "subscriptionPlan": {
@@ -46,7 +61,11 @@
         "expired_date": null
       },
       "expiredDate": "N/A",
-      "news": [1, 5, 4]
+      "news": [
+        1,
+        5,
+        4
+      ]
     }
   ],
   "news": [
@@ -54,7 +73,9 @@
       "title": "News 1",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Anime"],
+      "category": [
+        "Anime"
+      ],
       "created_at": "2023-12-15T02:01:43.978Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605714/awuawocrwlf4wqoy68pa.jpg",
       "id": 1,
@@ -62,55 +83,78 @@
       "shares": 2
     },
     {
-      "title": "PPPPPPPPP",
+      "title": "News id Ke 2",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Anime"],
+      "category": [
+        "Anime"
+      ],
       "created_at": "2023-12-15T02:02:15.186Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605744/jyaukxz2pe0u9407fbdl.jpg",
       "id": 2,
-      "likes": [3, 2],
-      "shares": 6
+      "likes": [
+        3,
+        2
+      ],
+      "shares": 7
     },
     {
-      "title": "Yafi Alhakim",
+      "title": "News 3",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": true,
-      "category": ["Tech"],
+      "category": [
+        "Tech"
+      ],
       "created_at": "2023-12-15T02:02:41.817Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605769/smdt1mn7y6wadnawvucw.jpg",
       "id": 3,
-      "likes": [2, 3],
-      "shares": 3
+      "likes": [
+        3,
+        2
+      ],
+      "shares": 6
     },
     {
-      "title": "Yafi Smith",
+      "title": "News 4",
       "content": "A major event occurred today. \n\nLorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, explicabo. Expedita, temporibus molestiae quia aliquam labore libero consequatur dignissimos illum id odit accusamus porro nobis quaerat reiciendis laudantium ad. Voluptatibus non, sit necessitatibus, eum cumque, commodi nesciunt voluptatum vel velit alias aliquam perferendis? Sunt reiciendis rem a autem nihil cumque molestias nobis laudantium praesentium ex. Dolorem, ipsa tempora?",
       "isPremium": false,
-      "category": ["Tech"],
+      "category": [
+        "Tech"
+      ],
       "created_at": "2023-12-15T02:03:07.751Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605795/ie7gxhxt6gcym89npn4y.jpg",
       "id": 4,
-      "likes": [3],
+      "likes": [
+        3
+      ],
       "shares": 1
     },
     {
-      "title": "Bla bla bla is not a subtype of type blabla",
+      "title": "News 5",
       "content": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit",
       "isPremium": true,
-      "category": ["Anime", "Tech"],
-      "shares": 4,
-      "likes": [3, 2],
+      "category": [
+        "Anime",
+        "Tech"
+      ],
+      "shares": 5,
+      "likes": [
+        3
+      ],
       "created_at": "2023-12-18T06:13:32.868Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702880022/o31c7wntefxafzp1fyil.png",
       "id": 5
     },
     {
-      "title": "Si paling types",
+      "title": "News 6",
       "content": "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit",
       "isPremium": false,
-      "category": ["Anime"],
-      "likes": [2],
+      "category": [
+        "Anime"
+      ],
+      "likes": [
+        2
+      ],
       "created_at": "2023-12-18T07:44:05.155Z",
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702885418/pgh2ny5mmhfs4alf6a4e.png",
       "id": 6
@@ -183,15 +227,28 @@
     },
     {
       "profileId": 2,
-      "type": "monthly",
-      "trans_date": "2024-01-18",
-      "status": "deactivated",
+      "type": "yearly",
+      "trans_date": "2024-12-19",
+      "status": "success",
       "totalPaid": 30,
       "id": 2
+    },
+    {
+      "profileId": 2,
+      "type": "yearly",
+      "trans_date": "2023-12-20T02:39:39.878Z",
+      "status": "processed",
+      "totalPaid": 30,
+      "id": 3
     }
   ],
   "likedNews": {
-    "2": [1, 3],
-    "3": [3]
+    "2": [
+      1,
+      3
+    ],
+    "3": [
+      3
+    ]
   }
 }

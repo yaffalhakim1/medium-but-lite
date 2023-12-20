@@ -8,8 +8,7 @@ export interface User {
   isPremiumUser: boolean;
   subscriptionPlan: SubscriptionPlan;
   expiredDate: Date;
-  // transactions: Transaction[];
-  like?: number[];
+  likes?: number[];
   "subscriptionPlan.expired_date"?: null;
   transactions?: Transaction;
   news: number[];

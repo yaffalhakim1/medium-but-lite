@@ -2,7 +2,7 @@
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
 import { GetStaticPaths, GetStaticProps } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -23,13 +23,20 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   const { user } = useUser(Number(user_id));
   const { id } = router.query;
   const { newsDetail, newsDetailMutate } = useNewsDetail(Number(id));
-  const [liked, setLiked] = useState<boolean>();
 
-  const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
+  const [isThisNewsLiked, setIsThisNewsLiked] = useState<boolean>();
 
   async function handleLike() {
+    function checkIsLiked() {
+      const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
+      return isLiked;
+    }
+
     try {
+      const isLiked = checkIsLiked();
+
       if (isLiked === -1) {
+        setIsThisNewsLiked(true);
         const response = await fetch(`${BASE_URL}/news/${news.id}`, {
           method: "PATCH",
           headers: {
@@ -41,6 +48,8 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           }),
         });
 
+        console.log(response, "response from like");
+
         const responseUserLike = await fetch(
           `${BASE_URL}/profile/${Number(user_id)}`,
           {
@@ -50,36 +59,48 @@ const NewsDetailPage = ({ news }: NewsProps) => {
             },
 
             body: JSON.stringify({
-              like: [...user?.like!, Number(id)],
+              likes: [...user?.likes!, Number(id)],
             }),
           }
         );
+
+        console.log(responseUserLike, "response from user like");
         newsDetailMutate(newsDetail);
-      } else {
-        const like = news.likes?.filter((item) => item !== Number(user_id));
-        const response = await fetch(`${BASE_URL}/news/${news.id}`, {
+        toast.success("liked!");
+      }
+    } catch (error) {
+      console.log(error, "error from catch");
+    }
+  }
+
+  async function handleUnlike() {
+    try {
+      const like = news.likes?.filter((item) => item !== Number(user_id));
+      const userLike = user?.likes?.filter((item) => item !== Number(id));
+      setIsThisNewsLiked(false);
+      const response = await fetch(`${BASE_URL}/news/${news.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          likes: like,
+        }),
+      });
+      const responseUserUnlike = await fetch(
+        `${BASE_URL}/profile/${Number(user_id)}`,
+        {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            likes: like,
+            likes: userLike,
           }),
-        });
-        const responseUserUnlike = await fetch(
-          `${BASE_URL}/profile/${Number(user_id)}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              like: like,
-            }),
-          }
-        );
-        newsDetailMutate(newsDetail);
-      }
+        }
+      );
+      newsDetailMutate(newsDetail);
+      toast.success("unliked!");
     } catch (error) {
       console.log(error, "error from catch");
     }
@@ -106,7 +127,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   async function fetchLikedNews(profileId: number) {
     const response = await fetch(`${BASE_URL}/profile/${Number(user_id)}`);
     const data = await response.json();
-    return data.like || [];
+    return data.likes || [];
   }
 
   async function fetchNewsById(newsId: number) {
@@ -155,7 +176,9 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       <div className="flex flex-col justify-center items-center ">
         <div className=" ">
           <img src={news.img} alt="" className="w-60 mx-auto" />
-          <h2 className="text-3xl font-semibold text-center">{news.title}</h2>
+          <h2 className="text-3xl font-semibold text-center">
+            {newsDetail?.title}
+          </h2>
         </div>
 
         {user?.isPremiumUser === true ? (
@@ -163,7 +186,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         ) : (
           <>
             <p className="text-lg line-clamp-3 mt-10 text-center md:text-start ">
-              {news.content}
+              {newsDetail?.content}
             </p>
             <div className="backdrop-blur-sm">
               <button
@@ -179,7 +202,12 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         )}
       </div>
       <div className="flex items-center space-x-2 mt-8">
-        <Heart onClick={handleLike} className="cursor-pointer" />
+        {isThisNewsLiked === false ? (
+          <Heart onClick={handleLike} className="cursor-pointer" />
+        ) : (
+          <Heart onClick={handleUnlike} className="cursor-pointer" />
+        )}
+
         <p>{newsDetail?.likes?.length}</p>
         <Share2 onClick={handleShares} className="cursor-pointer" />
 
