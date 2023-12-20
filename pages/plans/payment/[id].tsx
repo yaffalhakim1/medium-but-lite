@@ -2,21 +2,25 @@ import { BASE_URL } from "@/config/api";
 import React, { useEffect } from "react";
 import Cookie from "js-cookie";
 import { useTransactionById } from "@/lib/useTransaction";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
+import { toast } from "sonner";
 
 const PaymentPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
   const profileId = Cookie.get("user_id");
-  const transactionId = Cookie.get("user_id");
   const { transaction, transactionMutate } = useTransactionById(
     Number(profileId)
   );
   async function requestPayment(
     profileId: number,
-    subscriptionType: any,
+    subscriptionType: string,
     totalAmount: number
   ) {
     try {
       const transactionPost = {
-        profileId: profileId,
+        profileId: id,
         type: subscriptionType,
         trans_date: new Date(),
         status: "processed",
@@ -36,10 +40,8 @@ const PaymentPage = () => {
 
       transactionMutate(transaction);
       console.log("transaction", transaction);
-
-      // return transactionId;
     } catch (error: any) {
-      console.error("Error requesting payment:", error.message);
+      toast.error(`Payment failed`, error.message);
       // throw error;
     }
   }

@@ -19,7 +19,7 @@ export const useNews = (filters: NewsFilters) => {
   if (premium !== undefined) url += `isPremium=${premium}&`;
   if (category && category.length > 0) url += `category=${category.join(",")}`;
   if (sortByDate) url += `&_sort=created_at&_order=${sortByDate}`;
-  if (page) url += `&_page=${page}`;
+  if (page) url += `&_page=${page}&_limit=8`;
 
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
     url,

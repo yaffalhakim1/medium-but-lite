@@ -5,27 +5,16 @@ import React from "react";
 import QRCode from "react-qr-code";
 import Cookie from "js-cookie";
 import { useTransactionById } from "@/lib/useTransaction";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { CheckCircle2, Newspaper } from "lucide-react";
 
 const PlansPage = () => {
   const profileId = Cookie.get("user_id");
-  const transactionId = Cookie.get("user_id");
-  const router = useRouter();
   const [showQr, setShowQr] = React.useState(false);
-
   const { transaction, transactionMutate } = useTransactionById(
     Number(profileId)
   );
-
-  // if (transaction?.status === "success") {
-  //   router.push("/plans/success");
-  // }
-  // if (transaction?.status === "canceled") {
-  //   router.push("/plans/failed");
-  // }
 
   async function requestPayment(
     profileId: number,
@@ -53,8 +42,6 @@ const PlansPage = () => {
       }
 
       transactionMutate(transaction);
-
-      // return transactionId;
     } catch (error: any) {
       console.error("Error requesting payment:", error.message);
       throw error;
@@ -145,7 +132,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6 "
-                      value={`10.20.191.157:3000/plans/payment`}
+                      value={`10.20.191.157:3000/plans/payment/${profileId}`}
                     />
                   )}
                 </div>

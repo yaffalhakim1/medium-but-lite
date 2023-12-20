@@ -19,18 +19,26 @@ const TransactionPage = () => {
   const [status, setStatus] = useState<boolean>();
   const [type, setType] = useState<"processed" | "success" | "cancelled">();
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("asc");
+  const [page, setPage] = useState(1);
+
   const {
     transaction,
     transactionLoading,
     transactionError,
     transactionMutate,
+    transactionResetFilter,
   } = useTransaction({
     search,
     premium: type,
     sortByDate,
+    page: page,
   });
-
-  const [page, setPage] = useState(1);
+  const handleResetFilters = () => {
+    transactionResetFilter();
+    setSearch("");
+    setType(undefined);
+    setPage(1);
+  };
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -138,6 +146,9 @@ const TransactionPage = () => {
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
+            <button onClick={handleResetFilters} className="btn btn-neutral">
+              Reset
+            </button>
           </div>
         </div>
         <div className="flex flex-col h-full w-full mt-4">

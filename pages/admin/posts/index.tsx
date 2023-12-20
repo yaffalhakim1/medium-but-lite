@@ -151,7 +151,7 @@ export default function PostPage() {
               <tbody>
                 {newsList?.map((item: INewsElement, idx) => (
                   <tr key={item.id}>
-                    <th>{idx++}</th>
+                    <th>{(idx += 1)}</th>
                     <td>{item.title}</td>
                     <td>
                       {item.isPremium ? (

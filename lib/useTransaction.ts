@@ -8,26 +8,32 @@ interface TransactionFilters {
   premium?: "processed" | "success" | "cancelled";
   category?: string[];
   sortByDate?: "asc" | "desc";
+  page?: number;
 }
 
 export const useTransaction = (filters: TransactionFilters) => {
-  const { search, premium, category, sortByDate } = filters;
+  const { search, premium, sortByDate, page } = filters;
 
   let url = `${BASE_URL}/transactions?`;
   if (search) url += `q=${search}&`;
   if (premium !== undefined) url += `status=${premium}&`;
   if (sortByDate) url += `&_sort=trans_date&_order=${sortByDate}`;
+  if (page) url += `&_page=${page}&_limit=8`;
 
   const { data, error, mutate, isLoading } = useSWR<ITransaction[]>(
     url,
     fetcher
   );
+  const resetFilters = () => {
+    mutate();
+  };
 
   return {
     transaction: data,
     transactionLoading: isLoading,
     transactionError: error,
     transactionMutate: mutate,
+    transactionResetFilter: resetFilters,
   };
 };
 

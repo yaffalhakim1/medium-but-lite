@@ -26,7 +26,7 @@
         "type": "monthly",
         "expired_date": "2023-03-15"
       },
-      "expiredDate": "2024-12-19",
+      "expiredDate": "2024-01-19",
       "news": [
         6,
         2,
@@ -227,19 +227,43 @@
     },
     {
       "profileId": 2,
-      "type": "yearly",
-      "trans_date": "2024-12-19",
+      "type": "monthly",
+      "trans_date": "2024-01-19",
       "status": "success",
       "totalPaid": 30,
       "id": 2
     },
     {
       "profileId": 2,
-      "type": "yearly",
+      "type": "",
       "trans_date": "2023-12-20T02:39:39.878Z",
-      "status": "processed",
+      "status": "canceled",
       "totalPaid": 30,
       "id": 3
+    },
+    {
+      "profileId": null,
+      "type": "",
+      "trans_date": "2023-12-20T06:41:43.501Z",
+      "status": "canceled",
+      "totalPaid": 20,
+      "id": 4
+    },
+    {
+      "profileId": null,
+      "type": "",
+      "trans_date": "2023-12-20T06:45:54.264Z",
+      "status": "canceled",
+      "totalPaid": 20,
+      "id": 5
+    },
+    {
+      "profileId": "2",
+      "type": "monthly",
+      "trans_date": "2023-12-20T06:48:07.635Z",
+      "status": "processed",
+      "totalPaid": 20,
+      "id": 6
     }
   ],
   "likedNews": {

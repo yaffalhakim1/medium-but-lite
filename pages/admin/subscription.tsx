@@ -12,12 +12,20 @@ import { toast } from "sonner";
 export default function SubscriptionPage() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState<boolean | undefined>();
+  const [page, setPage] = useState(1);
 
-  const { users, usersMutate } = useUsers({
+  const { users, usersMutate, usersResetFilter } = useUsers({
     search,
     premium: type,
+    page: page,
   });
-  const [page, setPage] = useState(1);
+
+  const handleResetFilters = () => {
+    usersResetFilter();
+    setSearch("");
+    setType(undefined);
+    setPage(1);
+  };
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -77,13 +85,6 @@ export default function SubscriptionPage() {
         </p>
         <div className="md:flex md:justify-between">
           <div className="flex space-x-2 ml-auto items-center">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-neutral input-md input-bordered"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            {/* use Menu from headless */}
             <div className="dropdown dropdown-bottom">
               <div tabIndex={0} role="button" className="btn m-1">
                 <FilterIcons />
@@ -101,6 +102,15 @@ export default function SubscriptionPage() {
                 </li>
               </ul>
             </div>
+            <input
+              type="text"
+              placeholder="Search"
+              className="input input-neutral input-md input-bordered"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button onClick={handleResetFilters} className="btn btn-neutral">
+              Reset
+            </button>
           </div>
         </div>
         <div className="flex flex-col h-full w-full mt-4">
@@ -121,7 +131,7 @@ export default function SubscriptionPage() {
               <tbody>
                 {users?.map((item: User, idx) => (
                   <tr key={item.id}>
-                    <th>{idx++}</th>
+                    <th>{(idx += 1)}</th>
                     <td>{item.name}</td>
                     <td>{item.email}</td>
                     <td>
