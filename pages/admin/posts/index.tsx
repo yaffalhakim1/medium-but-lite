@@ -29,6 +29,15 @@ export default function PostPage() {
       page: currentPage,
     });
 
+  const handleResetFilters = () => {
+    newsResetFilters();
+    setSearch("");
+    setType(undefined);
+    setSelectedCat([]);
+    setSortByDate("desc");
+    setCurrentPage(1);
+  };
+
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
@@ -117,6 +126,12 @@ export default function PostPage() {
               className="input input-neutral input-md input-bordered"
               onChange={(e) => setSearch(e.target.value)}
             />
+            <button
+              onClick={handleResetFilters}
+              className="btn btn-neutral  text-white"
+            >
+              Reset
+            </button>
           </div>
           <div className="form-control"></div>
         </div>
