@@ -9,7 +9,6 @@ export interface User {
   subscriptionPlan: SubscriptionPlan;
   expiredDate: Date;
   likes?: number[];
-  "subscriptionPlan.expired_date"?: null;
   transactions?: Transaction;
   news: number[];
   phone: number;

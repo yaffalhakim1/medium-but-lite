@@ -155,7 +155,9 @@ export default function SubscriptionPage() {
                         </div>
                       )}
                     </td>
-                    <td>{formatExpirationDate(item.expiredDate)}</td>
+                    <td>
+                      {formatExpirationDate(item.subscriptionPlan.expired_date)}
+                    </td>
                     <td>
                       <div className="dropdown dropdown-bottom">
                         <div tabIndex={0} role="" className="btn btn-sm">

@@ -27,7 +27,10 @@ const ProfilePage = () => {
             </p>
           )}
         </div>
-        <p>Valid until :{formatExpirationDate(user?.expiredDate)}</p>
+        <p>
+          Valid until :
+          {formatExpirationDate(user?.subscriptionPlan.expired_date)}
+        </p>
 
         {!user?.isPremiumUser && (
           <div>
