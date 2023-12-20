@@ -4,12 +4,13 @@ import { Fragment, useState } from "react";
 
 interface IModal {
   onClick?: () => void;
-  openButton: ReactNode;
+  openButton?: ReactNode;
   modalTitle?: string;
   children?: ReactNode;
   modalDescription?: string;
   type?: "danger" | "success";
-  modalButton: string;
+  modalButton?: string;
+  modalButtonClassname?: string;
   onSubmit?: () => void;
   openButtonClassname?: string;
 }
@@ -77,7 +78,11 @@ const Modal = (props: IModal) => {
                   }
                 >
                   {loading ? (
-                    <div className="flex flex-wrap">Changing...</div>
+                    <div
+                      className={`flex flex-wrap ${props.modalButtonClassname}`}
+                    >
+                      Changing...
+                    </div>
                   ) : (
                     props.modalButton
                   )}

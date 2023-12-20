@@ -1,7 +1,7 @@
 import { FilterIcons } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
-import { useTransaction } from "@/lib/useTransaction";
+import { useTransaction, useTransactionById } from "@/lib/useTransaction";
 import {
   calculateNewExpiredDateForMonthly,
   calculateNewExpiredDateForYearly,
@@ -33,6 +33,8 @@ const TransactionPage = () => {
     sortByDate,
     page: page,
   });
+  // const { transaction, transactionMutate } = useTransactionById(Number(id));
+
   const handleResetFilters = () => {
     transactionResetFilter();
     setSearch("");

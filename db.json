@@ -21,12 +21,12 @@
       "email": "alice@example.com",
       "password": "alice",
       "role": "user",
-      "isPremiumUser": true,
+      "isPremiumUser": false,
       "subscriptionPlan": {
         "type": "monthly",
         "expired_date": "2023-03-15"
       },
-      "expiredDate": "2024-01-19",
+      "expiredDate": "",
       "news": [
         6,
         2,
@@ -40,8 +40,8 @@
       "phone": "012345678910",
       "address": "Klipang Permai Blok I No 448",
       "likes": [
-        3,
         2,
+        4,
         3
       ]
     },
@@ -125,7 +125,8 @@
       "img": "https://res.cloudinary.com/dywbf3czv/image/upload/v1702605795/ie7gxhxt6gcym89npn4y.jpg",
       "id": 4,
       "likes": [
-        3
+        3,
+        2
       ],
       "shares": 1
     },
@@ -137,7 +138,7 @@
         "Anime",
         "Tech"
       ],
-      "shares": 5,
+      "shares": 7,
       "likes": [
         3
       ],
@@ -227,43 +228,27 @@
     },
     {
       "profileId": 2,
-      "type": "monthly",
-      "trans_date": "2024-01-19",
-      "status": "success",
+      "type": "yearly",
+      "trans_date": "2024-12-19",
+      "status": "deactivated",
       "totalPaid": 30,
       "id": 2
     },
     {
       "profileId": 2,
-      "type": "",
-      "trans_date": "2023-12-20T02:39:39.878Z",
-      "status": "canceled",
-      "totalPaid": 30,
+      "type": "monthly",
+      "trans_date": "2023-12-20T10:36:54.254Z",
+      "status": "",
+      "totalPaid": 20,
       "id": 3
     },
     {
-      "profileId": null,
-      "type": "",
-      "trans_date": "2023-12-20T06:41:43.501Z",
-      "status": "canceled",
+      "profileId": 2,
+      "type": "monthly",
+      "trans_date": "2023-12-20T10:37:27.291Z",
+      "status": "",
       "totalPaid": 20,
       "id": 4
-    },
-    {
-      "profileId": null,
-      "type": "",
-      "trans_date": "2023-12-20T06:45:54.264Z",
-      "status": "canceled",
-      "totalPaid": 20,
-      "id": 5
-    },
-    {
-      "profileId": "2",
-      "type": "monthly",
-      "trans_date": "2023-12-20T06:48:07.635Z",
-      "status": "processed",
-      "totalPaid": 20,
-      "id": 6
     }
   ],
   "likedNews": {

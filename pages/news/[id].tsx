@@ -48,8 +48,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           }),
         });
 
-        console.log(response, "response from like");
-
         const responseUserLike = await fetch(
           `${BASE_URL}/profile/${Number(user_id)}`,
           {
@@ -64,7 +62,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           }
         );
 
-        console.log(responseUserLike, "response from user like");
         newsDetailMutate(newsDetail);
         toast.success("liked!");
       }
@@ -74,9 +71,18 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   }
 
   async function handleUnlike() {
-    try {
+    function checkIsNewsUnliked() {
       const like = news.likes?.filter((item) => item !== Number(user_id));
+      return like;
+    }
+    function checkIsUserUnliked() {
       const userLike = user?.likes?.filter((item) => item !== Number(id));
+      return userLike;
+    }
+
+    try {
+      const like = checkIsNewsUnliked();
+      const userLike = checkIsUserUnliked();
       setIsThisNewsLiked(false);
       const response = await fetch(`${BASE_URL}/news/${news.id}`, {
         method: "PATCH",
@@ -145,20 +151,15 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   async function recommendNewsForUser() {
     try {
       const likedNews = await fetchLikedNews(Number(user_id));
-
       let recommendedNews: any[] = [];
-
       for (const id of likedNews) {
         const news = await fetchNewsById(id);
-
         const recommended = (await fetchAllNews()).filter(
           (rec: any) =>
             rec.category[0] === news.category[0] && !likedNews.includes(rec.id)
         );
-
         recommendedNews = recommendedNews.concat(recommended.slice(0, 3));
       }
-
       return recommendedNews;
     } catch (error) {
       console.error(error);
@@ -210,7 +211,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
 
         <p>{newsDetail?.likes?.length}</p>
         <Share2 onClick={handleShares} className="cursor-pointer" />
-
         <p>{newsDetail?.shares}</p>
       </div>
 
