@@ -8,27 +8,34 @@ interface NewsFilters {
   premium?: boolean;
   category?: string[];
   sortByDate?: "asc" | "desc";
+  page?: number;
 }
 
 export const useNews = (filters: NewsFilters) => {
-  const { search, premium, category, sortByDate } = filters;
+  const { search, premium, category, sortByDate, page } = filters;
 
   let url = `${BASE_URL}/news?`;
   if (search) url += `q=${search}&`;
   if (premium) url += `isPremium=${premium}&`;
   if (category && category.length > 0) url += `category=${category.join(",")}`;
   if (sortByDate) url += `&_sort=created_at&_order=${sortByDate}`;
+  if (page) url += `&_page=${page}`;
 
   const { data, isLoading, error, mutate } = useSWR<INewsElement[]>(
     url,
     fetcher
   );
 
+  const resetFilters = () => {
+    mutate();
+  };
+
   return {
     newsList: data,
     newsLoading: isLoading,
     newsError: error,
     newsMutate: mutate,
+    newsResetFilters: resetFilters,
   };
 };
 

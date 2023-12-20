@@ -43,7 +43,7 @@ const TransactionPage = () => {
     id: number,
     status: string,
     type: string,
-    trans_date: string
+    trans_date?: string
   ) => {
     try {
       const res = await axios.patch<ITransaction>(
@@ -211,12 +211,7 @@ const TransactionPage = () => {
                               <button
                                 className="btn btn-error no-animation btn-sm text-white"
                                 onClick={() =>
-                                  handleAcceptOrReject(
-                                    item.id,
-                                    "canceled",
-                                    "",
-                                    "N/A"
-                                  )
+                                  handleAcceptOrReject(item.id, "canceled", "")
                                 }
                               >
                                 Reject

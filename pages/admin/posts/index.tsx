@@ -17,23 +17,24 @@ export default function PostPage() {
   const [type, setType] = useState<boolean | undefined>();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
-
-  const { newsError, newsList, newsLoading, newsMutate } = useNews({
-    search,
-    premium: type,
-    category: selectedCat,
-    sortByDate,
-  });
-  const [page, setPage] = useState(1);
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const router = useRouter();
 
+  const { newsError, newsList, newsLoading, newsMutate, newsResetFilters } =
+    useNews({
+      search,
+      premium: type,
+      category: selectedCat,
+      sortByDate,
+      page: currentPage,
+    });
+
   const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   const handlePrevPage = () => {
-    setPage((prevPage) => prevPage - 1);
+    setCurrentPage((prevPage) => prevPage - 1);
   };
 
   const handleDelete = async (id: number) => {
@@ -214,7 +215,7 @@ export default function PostPage() {
             </table>
           </div>
           <div className="flex space-x-1 mt-5 mx-auto">
-            {page >= 1 && (
+            {currentPage >= 1 && (
               <button
                 className="btn btn-primary btn-outline btn-sm capitalize"
                 onClick={handlePrevPage}
@@ -223,20 +224,7 @@ export default function PostPage() {
               </button>
             )}
             <div className=" mx-auto items-center justify-center ">
-              <div className="btn-group">
-                {/* {pageNumbers.map((pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => setPage(pageNumber)}
-                    disabled={pageNumber === page}
-                    className={`btn btn-outline btn-primary btn-sm ${
-                      pageNumber === page ? "btn-active" : ""
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                ))} */}
-              </div>
+              <div className="btn-group"></div>
             </div>
 
             <button

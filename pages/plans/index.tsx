@@ -238,13 +238,18 @@ const PlansPage = () => {
                   </p>
                   <span className="font-bold text-blue-600 text-2xl">30$</span>
                   <p>For now we only have QRIS Payment Method</p>
-                  {/* value should be an url ip */}
-                  <QRCode
-                    size={256}
-                    style={{ height: "auto" }}
-                    className="mb-6 mt-6 "
-                    value={`10.20.191.157:3000/plans/payment`}
-                  />
+                  <button onClick={() => setShowQr(!showQr)}>
+                    Click here to show QR
+                  </button>
+
+                  {showQr && (
+                    <QRCode
+                      size={256}
+                      style={{ height: "auto" }}
+                      className="mb-6 mt-6 "
+                      value={`10.20.191.157:3000/plans/payment`}
+                    />
+                  )}
                 </div>
               </Modal>
             </div>
