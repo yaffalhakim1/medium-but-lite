@@ -44,7 +44,7 @@ export const useTransactionById = (id: number) => {
   );
 
   return {
-    transaction: data,
+    transactionDetail: data,
     transactionLoading: isLoading,
     transactionError: error,
     transactionMutate: mutate,

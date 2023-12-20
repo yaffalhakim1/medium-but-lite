@@ -1,6 +1,7 @@
 import { FilterIcons } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import { BASE_URL } from "@/config/api";
+import { useTransaction } from "@/lib/useTransaction";
 import { useUsers } from "@/lib/useUser";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { User } from "@/types/user-types";
@@ -20,6 +21,8 @@ export default function SubscriptionPage() {
     page: page,
   });
 
+  const { transaction } = useTransaction({});
+
   const handleResetFilters = () => {
     usersResetFilter();
     setSearch("");
@@ -35,8 +38,11 @@ export default function SubscriptionPage() {
     setPage((prevPage) => prevPage - 1);
   };
 
+  const lastElement = transaction?.[transaction.length - 1];
+
   const handleSubscriptionToggle = async (
     id: number,
+    trans_id: number,
     isPremiumUser: boolean
   ) => {
     try {
@@ -47,7 +53,10 @@ export default function SubscriptionPage() {
         `${BASE_URL}/profile/${id}`,
         {
           isPremiumUser: newStatus,
-          expiredDate: newExpiredDate,
+          subscriptionPlan: {
+            type: "",
+            expired_date: "",
+          },
         },
         {
           headers: {
@@ -57,9 +66,9 @@ export default function SubscriptionPage() {
       );
 
       const changeInTrans = await axios.patch(
-        `${BASE_URL}/transactions/${id}`,
+        `${BASE_URL}/transactions/${trans_id}`,
         {
-          status: "deactivated",
+          status: "",
         },
         {
           headers: {
@@ -67,6 +76,7 @@ export default function SubscriptionPage() {
           },
         }
       );
+
       usersMutate(users);
       toast.success(
         `User subscription ${newStatus ? "activated" : "deactivated"}`
@@ -163,6 +173,7 @@ export default function SubscriptionPage() {
                               onSubmit={() =>
                                 handleSubscriptionToggle(
                                   item.id,
+                                  lastElement?.id!,
                                   item.isPremiumUser
                                 )
                               }

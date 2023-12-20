@@ -3,31 +3,36 @@ import Modal from "@/components/Modal";
 import React from "react";
 import QRCode from "react-qr-code";
 import Cookie from "js-cookie";
-import { useTransactionById } from "@/lib/useTransaction";
+import { useTransaction, useTransactionById } from "@/lib/useTransaction";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { CheckCircle2, Newspaper } from "lucide-react";
 import { BASE_URL } from "@/config/api";
 import { toast } from "sonner";
+import { useUser, useUsers } from "@/lib/useUser";
 
 const PlansPage = () => {
-  const profileId = Cookie.get("user_id");
+  const userId = Cookie.get("user_id");
   const [showQr, setShowQr] = React.useState(false);
-  const { transaction, transactionMutate } = useTransactionById(
-    Number(profileId)
+  const { transaction } = useTransaction({});
+  const lastElement = transaction?.[transaction.length - 1];
+  const { user } = useUser(Number(userId));
+
+  const { transactionDetail, transactionMutate } = useTransactionById(
+    lastElement?.id!
   );
 
   async function requestPayment(
-    profileId: number,
+    // profileId: number,
     subscriptionType: string,
     totalAmount: number
   ) {
     try {
       const transactionPost = {
-        profileId: profileId,
         type: subscriptionType,
         trans_date: new Date(),
         status: "",
         totalPaid: totalAmount,
+        profileId: Number(userId),
       };
 
       const responseTransactionPost = await fetch(`${BASE_URL}/transactions`, {
@@ -41,8 +46,8 @@ const PlansPage = () => {
         throw new Error("Failed to create transaction record");
       }
 
-      transactionMutate(transaction);
-      console.log("transaction", transaction);
+      transactionMutate(transactionDetail);
+      console.log("transaction first on qr", transactionPost);
     } catch (error: any) {
       toast.error(`Payment failed`, error.message);
     }
@@ -57,22 +62,25 @@ const PlansPage = () => {
         Support great writing and access all news on Medium Lite.
       </h2>
 
-      {transaction?.status === "success" && (
+      {user?.isPremiumUser === true && (
         <div className="flex justify-center items-center  mt-8">
           <CheckCircle2 className="text-green-500" size={60} />
           <div className=" flex flex-col justify-center items-center">
             <h2>
               Your Current subscription is{" "}
               <span className="font-semibold capitalize">
-                {transaction.type}
+                {user?.subscriptionPlan.type}
               </span>
             </h2>
-            <p>Valid until {formatExpirationDate(transaction.trans_date)}</p>
+            <p>
+              Valid until{" "}
+              {formatExpirationDate(user?.subscriptionPlan.expired_date)}
+            </p>
           </div>
         </div>
       )}
 
-      {transaction?.status === "processed" ? (
+      {transactionDetail?.status === "processed" ? (
         <div className="flex space-x-2  justify-center items-center mt-8 container bg-yellow-500 p-8 rounded-md">
           <InfoCircle />
           <p className="text-center ">
@@ -120,7 +128,7 @@ const PlansPage = () => {
                   <button
                     onClick={() => {
                       setShowQr(!showQr);
-                      requestPayment(Number(profileId), "monthly", 20);
+                      requestPayment("monthly", 20);
                     }}
                   >
                     Click here to show QR
@@ -131,7 +139,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6"
-                      value={`10.20.191.157:3000/plans/payment/${profileId}`}
+                      value={`10.20.191.157:3000/plans/payment/${userId}`}
                     />
                   )}
                 </div>
@@ -200,9 +208,7 @@ const PlansPage = () => {
                   30${" "}
                 </strong>
 
-                <span className="text-sm font-medium text-gray-700">
-                  /month
-                </span>
+                <span className="text-sm font-medium text-gray-700">/year</span>
               </p>
 
               <Modal
@@ -221,7 +227,7 @@ const PlansPage = () => {
                   <button
                     onClick={() => {
                       setShowQr(!showQr);
-                      requestPayment(Number(profileId), "yearly", 30);
+                      requestPayment("yearly", 30);
                     }}
                   >
                     Click here to show QR
@@ -232,7 +238,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6 "
-                      value={`10.20.191.157:3000/plans/payment/${profileId}`}
+                      value={`10.20.191.157:3000/plans/payment/${userId}`}
                     />
                   )}
                 </div>

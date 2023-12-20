@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 const TransactionPage = () => {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<boolean>();
   const [type, setType] = useState<"processed" | "success" | "cancelled">();
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
@@ -33,6 +32,9 @@ const TransactionPage = () => {
     sortByDate,
     page: page,
   });
+
+  // const lastElement = transaction?.[transaction.length - 1];
+
   // const { transaction, transactionMutate } = useTransactionById(Number(id));
 
   const handleResetFilters = () => {
@@ -51,13 +53,14 @@ const TransactionPage = () => {
 
   const handleAcceptOrReject = async (
     id: number,
+    trans_id: number,
     status: string,
     type: string,
     trans_date?: string
   ) => {
     try {
       const res = await axios.patch<ITransaction>(
-        `${BASE_URL}/transactions/${id}`,
+        `${BASE_URL}/transactions/${trans_id}`,
         {
           status: status,
           type: type,
@@ -74,7 +77,10 @@ const TransactionPage = () => {
         `${BASE_URL}/profile/${id}`,
         {
           isPremiumUser: true,
-          expiredDate: trans_date,
+          subscriptionPlan: {
+            type: type,
+            expired_date: trans_date,
+          },
         },
         {
           headers: {
@@ -204,14 +210,17 @@ const TransactionPage = () => {
                                   item.type === "monthly"
                                     ? () =>
                                         handleAcceptOrReject(
-                                          item.profileId,
+                                          item.profileId!,
+                                          item?.id!,
                                           "success",
                                           "monthly",
                                           calculateNewExpiredDateForMonthly()
                                         )
                                     : () =>
                                         handleAcceptOrReject(
-                                          item.profileId,
+                                          item.profileId!,
+                                          item?.id!,
+
                                           "success",
                                           "yearly",
                                           calculateNewExpiredDateForYearly()
@@ -224,7 +233,13 @@ const TransactionPage = () => {
                               <button
                                 className="btn btn-error no-animation btn-sm text-white"
                                 onClick={() =>
-                                  handleAcceptOrReject(item.id, "canceled", "")
+                                  handleAcceptOrReject(
+                                    item.profileId!,
+                                    item?.id!,
+
+                                    "canceled",
+                                    ""
+                                  )
                                 }
                               >
                                 Reject
