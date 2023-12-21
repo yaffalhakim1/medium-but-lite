@@ -23,11 +23,13 @@ const PlansPage = () => {
 
   async function requestPayment(
     // profileId: number,
+    // email: string,
     subscriptionType: string,
     totalAmount: number
   ) {
     try {
       const transactionPost = {
+        email: user?.email,
         type: subscriptionType,
         trans_date: new Date(),
         status: "",
@@ -47,7 +49,6 @@ const PlansPage = () => {
       }
 
       transactionMutate(transactionDetail);
-      console.log("transaction first on qr", transactionPost);
     } catch (error: any) {
       toast.error(`Payment failed`, error.message);
     }

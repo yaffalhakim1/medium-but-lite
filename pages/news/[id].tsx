@@ -31,7 +31,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
       return isLiked;
     }
-
     try {
       const isLiked = checkIsLiked();
 
@@ -131,7 +130,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   }
 
   async function fetchLikedNews(profileId: number) {
-    const response = await fetch(`${BASE_URL}/profile/${Number(user_id)}`);
+    const response = await fetch(`${BASE_URL}/profile/${profileId}`);
     const data = await response.json();
     return data.likes || [];
   }
@@ -162,7 +161,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       }
       return recommendedNews;
     } catch (error) {
-      console.error(error);
       return [];
     }
   }
@@ -176,10 +174,17 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     <>
       <div className="flex flex-col justify-center items-center ">
         <div className=" ">
+          {news.isPremium ? (
+            <div>
+              <span className="px-2 py-1 text-xs font-bold uppercase bg-yellow-500 text-white rounded-full">
+                Premium News
+              </span>
+            </div>
+          ) : (
+            <></>
+          )}
           <img src={news.img} alt="" className="w-60 mx-auto" />
-          <h2 className="text-3xl font-semibold text-center">
-            {newsDetail?.title}
-          </h2>
+          <h2 className="text-3xl font-semibold text-center">{news?.title}</h2>
         </div>
 
         {user?.isPremiumUser === true ? (
@@ -187,7 +192,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         ) : (
           <>
             <p className="text-lg line-clamp-3 mt-10 text-center md:text-start ">
-              {newsDetail?.content}
+              {news?.content}
             </p>
             <div className="backdrop-blur-sm">
               <button
@@ -204,9 +209,12 @@ const NewsDetailPage = ({ news }: NewsProps) => {
       </div>
       <div className="flex items-center space-x-2 mt-8">
         {isThisNewsLiked === false ? (
-          <Heart onClick={handleLike} className="cursor-pointer" />
+          <Heart onClick={handleLike} className="cursor-pointer   " />
         ) : (
-          <Heart onClick={handleUnlike} className="cursor-pointer" />
+          <Heart
+            onClick={handleUnlike}
+            className="cursor-pointer text-red-900"
+          />
         )}
 
         <p>{newsDetail?.likes?.length}</p>

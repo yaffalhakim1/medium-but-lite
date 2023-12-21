@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
@@ -39,6 +39,13 @@ const LoginPage = () => {
   }
 
   async function handleLogin(e: SyntheticEvent) {
+    if (validationEmail === "") {
+      return;
+    }
+    if (validationPassword === "") {
+      return;
+    }
+
     e.preventDefault();
     try {
       const response = await axios.get<User[]>(
@@ -67,13 +74,10 @@ const LoginPage = () => {
       }
 
       toast.success("Login berhasil");
-    } catch (error: any) {
-      if (error.response.status === 500) {
-        toast.error("Register gagal, silakan coba lagi");
-      } else if (error.response.status === 401) {
-        toast.error("Anda belum terdaftar");
-      } else if (error.response.status === 400) {
-        toast.error("email atau password salah");
+    } catch (error) {
+      const err = error as AxiosError;
+      if (err.status === 404) {
+        toast.error("login gagal, silakan coba lagi");
       }
       setLoading(false);
     }

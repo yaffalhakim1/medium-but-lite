@@ -7,8 +7,6 @@ import { toast } from "sonner";
 import { CheckCircle2 } from "lucide-react";
 
 const PaymentPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
   const { transaction } = useTransaction({});
   const lastElement = transaction?.[transaction.length - 1];
   const { transactionDetail, transactionMutate } = useTransactionById(
@@ -33,7 +31,6 @@ const PaymentPage = () => {
         throw new Error("Failed to create transaction record");
       }
       transactionMutate(transactionDetail);
-      // console.log("transaction", transaction);
     } catch (error: any) {
       toast.error(`Payment failed`, error.message);
     }
@@ -60,7 +57,6 @@ const PaymentPage = () => {
           <div>
             <p className="capitalize ">{transactionDetail?.status}</p>
             <p>{transactionDetail?.totalPaid}$</p>
-
             <p className="capitalize font-semibold">
               {transactionDetail?.type}
             </p>
@@ -71,7 +67,7 @@ const PaymentPage = () => {
       <div>
         {transactionDetail?.status === "" && (
           <button
-            className="btn btn-primary"
+            className="btn btn-primary w-full"
             onClick={async () => {
               const transactionId = await requestPayment();
               toast.success(`Payment requested, please wait`);

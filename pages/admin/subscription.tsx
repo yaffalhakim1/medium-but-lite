@@ -47,7 +47,6 @@ export default function SubscriptionPage() {
   ) => {
     try {
       const newStatus = !isPremiumUser;
-      let newExpiredDate = "";
 
       const res = await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
@@ -171,7 +170,7 @@ export default function SubscriptionPage() {
                             <Modal
                               openButton={"Deactivate Subs"}
                               modalTitle={`Are you sure you want to deactivate ${item.name} subs?`}
-                              modalButton={"Change"}
+                              modalButton={"Deactivate"}
                               onSubmit={() =>
                                 handleSubscriptionToggle(
                                   item.id,

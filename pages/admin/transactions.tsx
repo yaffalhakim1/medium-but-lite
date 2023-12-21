@@ -33,10 +33,6 @@ const TransactionPage = () => {
     page: page,
   });
 
-  // const lastElement = transaction?.[transaction.length - 1];
-
-  // const { transaction, transactionMutate } = useTransactionById(Number(id));
-
   const handleResetFilters = () => {
     transactionResetFilter();
     setSearch("");
@@ -177,7 +173,7 @@ const TransactionPage = () => {
                 {transaction?.map((item: ITransaction, idx) => (
                   <tr key={idx}>
                     <th>{idx + 1}</th>
-                    <td>{item.profileId}</td>
+                    <td>{item.email}</td>
 
                     <td>
                       {item.status === "processed" ? (

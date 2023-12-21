@@ -33,6 +33,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const userId = Cookie.get("user_id");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
+  console.log(data);
   const [search, setSearch] = useState("");
   const [type, setType] = useState<boolean | undefined>();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
@@ -52,6 +53,10 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       setAuthed(true);
     }
   }, [setAuthed, token]);
+
+  if (newsLoading) {
+    return <p>Loading...</p>;
+  }
 
   const handleResetFilters = () => {
     newsResetFilters();
@@ -83,7 +88,10 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
         <section className=" animate-fade-up">
           <div className="mx-auto  px-4 py-32 lg:flex lg:min-h-screen lg:items-center">
             <div className="mx-auto max-w-xl text-center">
-              <h1 className="text-3xl font-extrabold sm:text-5xl leading-relaxed">
+              <h1
+                data-testid="hero-section"
+                className="text-3xl font-extrabold sm:text-5xl leading-relaxed"
+              >
                 Stay on top of your business with our{" "}
                 <strong className="font-extrabold text-red-700 sm:block">
                   {""}
@@ -109,7 +117,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       </div>
 
       <div className="md:grid md:grid-cols-3 md:gap-3 animate-fade-up  items-center space-y-3 md:space-y-0 mt-5">
-        {data.map((item) => (
+        {data?.map((item) => (
           <div key={item.id} className="">
             <Link href={`news/${item.id}`}>
               <Card
@@ -117,6 +125,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
                   title: item.title,
                   content: item.content,
                   isPremium: item.isPremium,
+                  category: item.category,
                 }}
                 classNames={{
                   image: "object-cover w-56 h-56",
@@ -209,7 +218,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       </div>
       <div className="items-center space-y-3 mt-5 animate-fade-up">
         {newsList?.map((item) => (
-          <div key={item.id} className="">
+          <div key={item.id} className="" data-testid="news-list">
             <Link href={`news/${item.id}`}>
               <Card
                 onClick={() => handleNewsCountEverytimeUserOpenIt(item.id)}

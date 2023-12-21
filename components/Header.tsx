@@ -4,14 +4,16 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import { NewsLogo } from "./Icons";
 import useAuthStore from "@/store/useAuthStore";
-import { useUsers } from "@/lib/useUser";
+import { useUser } from "@/lib/useUser";
 
 const Navbar = () => {
   const router = useRouter();
+  const profileId = Cookie.get("user_id");
   const token = Cookie.get("token");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
-  // const [isAuthed, setIsAUthed] = React.useState(false);
+
+  const { user } = useUser(Number(profileId));
 
   useEffect(() => {
     if (token) {
@@ -63,7 +65,7 @@ const Navbar = () => {
                           className="avatar placeholder"
                         >
                           <div className="bg-neutral text-neutral-content rounded-full w-10">
-                            <span>SY</span>
+                            <span>{user?.name.charAt(0)}</span>
                           </div>
                         </div>
                         <ul
