@@ -140,7 +140,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6"
-                      value={`10.20.191.157:3000/plans/payment/${userId}`}
+                      value={`${BASE_URL}/plans/payment/${userId}`}
                     />
                   )}
                 </div>
@@ -239,7 +239,7 @@ const PlansPage = () => {
                       size={256}
                       style={{ height: "auto" }}
                       className="mb-6 mt-6 "
-                      value={`10.20.191.157:3000/plans/payment/${userId}`}
+                      value={`${BASE_URL}/plans/payment/${userId}`}
                     />
                   )}
                 </div>
