@@ -15,7 +15,7 @@ interface NewsFilters {
 export const useNews = (filters: NewsFilters) => {
   const { search, premium, category, sortByDate, page } = filters;
 
-  let url = `${BASE_URL}/news?`;
+  let url = `${BASE_URL}news?`;
   if (search) url += `q=${search}&`;
   if (premium !== undefined) url += `isPremium=${premium}&`;
   if (category && category.length > 0) url += `category=${category.join(",")}`;
