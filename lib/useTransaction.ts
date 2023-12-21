@@ -39,7 +39,7 @@ export const useTransaction = (filters: TransactionFilters) => {
 
 export const useTransactionById = (id: number) => {
   const { data, error, mutate, isLoading } = useSWR<ITransaction>(
-    `${BASE_URL}transactions/${id}`,
+    `${BASE_URL}/transactions/${id}`,
     fetcher
   );
 

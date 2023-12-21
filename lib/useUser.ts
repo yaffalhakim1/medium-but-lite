@@ -14,7 +14,7 @@ interface UserFilters {
 export const useUsers = (filters: UserFilters) => {
   const { search, premium, page } = filters;
 
-  let url = `${BASE_URL}profile?`;
+  let url = `${BASE_URL}/profile?`;
   if (search) url += `q=${search}&`;
   if (premium !== undefined) url += `isPremiumUser=${premium}&`;
   if (page) url += `&_page=${page}&_limit=8`;
