@@ -6,7 +6,7 @@ import { INewsElement } from "@/types/news-types";
 import Cookie from "js-cookie";
 import useAuthStore from "@/store/useAuthStore";
 import { useEffect } from "react";
-import { FilterIcons, TrendingUp } from "@/components/Icons";
+import { TrendingUp } from "@/components/Icons";
 import { useNews } from "@/lib/useNews";
 import Card from "@/components/Card";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
@@ -31,19 +31,22 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const NewsList = ({ data }: { data: INewsElement[] }) => {
   const token = Cookie.get("token");
   const userId = Cookie.get("user_id");
+
+  const LIMIT = 6;
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
-  console.log(data);
   const [search, setSearch] = useState("");
   const [type, setType] = useState<boolean | undefined>();
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { newsList, newsLoading, newsResetFilters } = useNews({
     search,
     premium: type,
     category: selectedCat,
     sortByDate,
+    page: currentPage,
   });
 
   const { user } = useUser(Number(userId));
@@ -81,6 +84,14 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
       toast.error(`error ${error}`);
     }
   }
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
 
   return (
     <>
@@ -125,7 +136,6 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
                   title: item.title,
                   content: item.content,
                   isPremium: item.isPremium,
-                  category: item.category,
                 }}
                 classNames={{
                   image: "object-cover w-56 h-56",
@@ -241,6 +251,26 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
             </Link>
           </div>
         ))}
+        <div className="flex justify-center space-x-1 mt-5 mx-auto pb-3">
+          {currentPage >= 2 && (
+            <button
+              className="btn btn-neutral btn-outline btn-sm capitalize"
+              onClick={handlePrevPage}
+            >
+              Previous
+            </button>
+          )}
+          <div className=" mx-auto items-center justify-center ">
+            <div className="btn-group"></div>
+          </div>
+
+          <button
+            onClick={handleNextPage}
+            className="btn btn-neutral btn-outline btn-sm capitalize"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );
