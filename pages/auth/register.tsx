@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { BASE_URL } from "@/config/api";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import Cookie from "js-cookie";
-import { token } from "@/lib/utils/token";
+
 import { useUsers } from "@/lib/useUser";
 import { toast } from "sonner";
 
@@ -126,12 +125,9 @@ const RegisterPage = () => {
         return router.push("/auth/login");
       }
     } catch (error: any) {
-      if (error.response.status === 500) {
-        console.log(error.response);
-      } else if (error.response.status === 401) {
-        console.log(error.response);
-      } else if (error.response.status === 400) {
-        console.log(error.response);
+      const err = error as AxiosError;
+      if (err.status === 404) {
+        toast.error("register gagal, silakan coba lagi");
       }
       setLoading(false);
     }

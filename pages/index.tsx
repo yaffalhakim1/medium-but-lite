@@ -32,7 +32,6 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const token = Cookie.get("token");
   const userId = Cookie.get("user_id");
 
-  const LIMIT = 6;
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
   const [search, setSearch] = useState("");
