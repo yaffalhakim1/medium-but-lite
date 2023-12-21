@@ -49,7 +49,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.get<User[]>(
-        `${BASE_URL}profile?email=${field.email}&password=${field.password}`,
+        `${BASE_URL}/profile?email=${field.email}&password=${field.password}`,
         {
           headers: {
             "Content-Type": "application/json",
