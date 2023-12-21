@@ -50,17 +50,3 @@ export const useTransactionById = (id: number) => {
     transactionMutate: mutate,
   };
 };
-
-// export const useTransactionForAdmin(search? :string) => {
-//   const { data, error, mutate, isLoading } = useSWR<ITransaction[]>(
-//     `${BASE_URL}/`,
-//     fetcher
-//   );
-
-//   return {
-//     transaction: data,
-//     transactionLoading: isLoading,
-//     transactionError: error,
-//     transactionMutate: mutate,
-//   };
-// }

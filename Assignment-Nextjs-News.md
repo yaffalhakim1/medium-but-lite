@@ -119,4 +119,4 @@ Using the next.js tech stack, you are asked to create a website for the selected
 - Create a REST API server using JSON Server. (v)
 - Define endpoints to fulfill application features with appropriate URL parameters, URL query, header, request body, response status, and response body. (v)
 - Document API for each endpoint.
-- Simulate authentication and authorization flow using JSON Server.
+- Simulate authentication and authorization flow using JSON Server. (v)

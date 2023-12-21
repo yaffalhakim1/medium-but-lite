@@ -270,11 +270,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   });
 
-  return { paths, fallback: true };
+  return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {
-  const id = context.params?.id?.toString()!;
+  const id = context.params?.id?.toString();
   if (!id) {
     return { notFound: true };
   }
@@ -290,6 +290,6 @@ export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {
     props: {
       news,
     },
-    revalidate: 1,
+    revalidate: 5,
   };
 };
