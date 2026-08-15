@@ -2,7 +2,6 @@ import { BASE_URL } from "@/config/api";
 import { fetcher } from "@/config/fetcher";
 import { INewsElement } from "@/types/news-types";
 import useSWR from "swr";
-import useSWRInfinite from "swr/infinite";
 
 interface NewsFilters {
   search?: string;

@@ -1,51 +1,85 @@
 # Medium Lite
 
-A website that you can put your minds into it!
+A Medium-style news portal built with Next.js — user portal (news, likes, shares,
+subscription/payment demo) + admin CMS (posts, subscriptions, transactions).
 
-## Description
-
-This is a website that provide space to your minds, along with management dashboard.
+This is the implementation of the [Next.js News Portal assignment](./Assignment-Nextjs-News.md).
 
 ## Tech Used
 
-- Next.js
-- Tailwind CSS
-- json-server
-- Cloudinary
-- pnpm
-- react-hook-form
-- swr
+- **Next.js 14** (TypeScript, App Router pages, ISR for news details)
+- **Tailwind CSS** + daisyUI
+- **SWR** for data fetching & caching
+- **Zustand** for UI auth state
+- **json-server** (mock REST API backend, `db.json`)
+- **Cloudinary** (unsigned preset — image uploads for posts)
+- **Jest** + React Testing Library
 
 ## How to run
 
-In order to run the application, you need to run both the frontend and the backend. The backend is located in the `db.json` and served using `json-server`. The frontend is located in the `src` folder and served using `Next.js`.
+You need two processes: the JSON Server mock API and the Next.js app.
 
-### Frontend
+### 1. Backend (JSON Server)
 
-1. Clone the repository
-2. Navigate to the directory where you cloned the repository
-3. Run `pnpm install` to install dependencies
-4. Run `pnpm dev` to start the application
-5. Navigate to `http://localhost:3000` in your browser to access the application
+```bash
+pnpm install
+pnpm db        # serves db.json at http://localhost:8080
+```
 
-### env
+### 2. Frontend (Next.js)
 
-Env is used to hide the base url of the backend.
+```bash
+cp .env.example .env.local   # set NEXT_PUBLIC_API_URL=http://localhost:8080
+pnpm dev                     # http://localhost:3000
+```
 
-1. create .env file in root folder
-2. copy the content of .env.example to .env
+Without a `.env.local`, the app falls back to the hosted mock API
+(`https://jsonmedium.vercel.app`).
 
-### Backend
+### Tests
 
-The schema of the backend is one user can have many portfolios. You can see the structure in db.json file after you fullfill the form.
+```bash
+pnpm test       # unit tests (validators, smoke)
+pnpm coverage   # HTML coverage report in /coverage
+```
 
-How to run:
+## Mock auth & payments (important)
 
-1. split terminal
-2. type `pnpm run db` to start the backend
-3. You should see `http://localhost:3001/` running in your terminal
+This project uses **mock authentication** via JSON Server (per the assignment spec):
 
-Notes:
-For the images, i use personal Cloudinary. the reason is because it is easy to store the images and i can get the image url easily. **Be careful** what image you upload because i can see it in my cloudinary dashboard.
+- `POST /api/auth/login` verifies credentials server-side against JSON Server and
+  issues an **HttpOnly session cookie** backed by a `sessions` collection — the
+  browser never generates tokens and can never claim a role itself.
+- `POST /api/auth/register` validates input and **forces the `user` role**
+  (self-registration as admin is not possible).
+- Admin routes are protected by `middleware.ts`, which checks the session row
+  **and** the `admin` role before serving `/admin/*`.
+- Passwords are stored in plain text in `db.json` — this is a mock backend, not
+  production auth. Do not use real credentials here.
+- **Payments are a demo**: the QR code encodes the invoice URL, and transaction
+  status is advanced manually by an admin (process → success/cancelled). No real
+  money moves.
 
-I did not deploy the application since the **backend won't work properly because of json-server can't be deployed**.
+## Demo accounts (from db.json)
+
+| Role  | Email             | Password |
+| ----- | ----------------- | -------- |
+| admin | john@example.com  | admin    |
+| user  | alice@example.com | alice    |
+
+## Assignment feature checklist
+
+- [x] Admin: login/logout, manage subscriptions (view/deactivate)
+- [x] Admin: manage posts (list, detail, create, edit, delete) with title ≤20,
+  description ≤200, max 2 categories, one 1920x1080 image, max 1 premium post
+- [x] Admin: manage transactions (list, accept/reject processed, filter by date/status)
+- [x] Admin: role-based authorization (server-enforced via session)
+- [x] User: login, logout, register (name/email/password/confirm/address/phone/referral)
+- [x] User: home — trending (top 5 by likes), search, category + paid/unpaid filters,
+      date sorting, pagination, reading history (deduped)
+- [x] User: news detail — like/share counters, premium gating for guests,
+      recommended news (3 items based on likes)
+- [x] User: subscription plans → QR payment (demo) → invoice + success/failure dialog
+- [x] User: profile page
+- [x] Next.js + TS, responsive, reusable components (Card, Modal, PostForm, Table)
+- [x] Tests (validators + smoke), deployed via Vercel

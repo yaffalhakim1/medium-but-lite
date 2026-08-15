@@ -111,7 +111,7 @@ describe("Home page", () => {
         content: "string",
         created_at: Date,
         updated_at: Date,
-        category: "string",
+        category: ["Tech"],
         likes: [0],
         shares: 0,
       },
