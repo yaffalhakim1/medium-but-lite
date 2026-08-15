@@ -70,7 +70,7 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
 
   async function handleNewsCountEverytimeUserOpenIt(newsId: number) {
     try {
-      const res = await fetch(`${BASE_URL}/profile/${userId}`, {
+      await fetch(`${BASE_URL}/profile/${userId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

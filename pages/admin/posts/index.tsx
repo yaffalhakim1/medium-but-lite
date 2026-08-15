@@ -48,7 +48,7 @@ export default function PostPage() {
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await axios.delete(`${BASE_URL}/news/${id}`);
+      await axios.delete(`${BASE_URL}/news/${id}`);
       toast.success("News deleted successfully");
       newsMutate();
     } catch (error) {
