@@ -1,56 +1,64 @@
 import { CheckCircle, InfoCircle, NewsLogo, XCircle } from "@/components/Icons";
 import Modal from "@/components/Modal";
 import React from "react";
-import QRCode from "react-qr-code";
 import Cookie from "js-cookie";
-import { useTransaction, useTransactionById } from "@/lib/useTransaction";
+import { useTransaction } from "@/lib/useTransaction";
 import { formatExpirationDate } from "@/lib/utils/user-subs";
 import { CheckCircle2, Newspaper } from "lucide-react";
 import { BASE_URL } from "@/config/api";
 import { toast } from "sonner";
-import { useUser, useUsers } from "@/lib/useUser";
+import { useUser } from "@/lib/useUser";
+import { useRouter } from "next/router";
 
 const PlansPage = () => {
+  const router = useRouter();
   const userId = Cookie.get("user_id");
-  const [showQr, setShowQr] = React.useState(false);
+  const [paying, setPaying] = React.useState<"monthly" | "yearly" | null>(null);
   const { transaction } = useTransaction({});
-  const lastElement = transaction?.[transaction.length - 1];
   const { user } = useUser(Number(userId));
 
-  const { transactionDetail, transactionMutate } = useTransactionById(
-    lastElement?.id!
+  // An "ongoing" transaction belongs to the current user — not the last
+  // row in the whole database.
+  const hasOngoingTransaction = transaction?.some(
+    (t) => t.profileId === Number(userId) && t.status === "processed"
   );
 
-  async function requestPayment(
-    // profileId: number,
-    // email: string,
-    subscriptionType: string,
-    totalAmount: number
-  ) {
+  async function requestPayment(subscriptionType: string, totalAmount: number) {
+    if (!userId) {
+      toast.error("Silakan login terlebih dahulu");
+      router.push("/auth/login");
+      return;
+    }
+
+    setPaying(subscriptionType as "monthly" | "yearly");
     try {
       const transactionPost = {
         email: user?.email,
         type: subscriptionType,
-        trans_date: new Date(),
+        trans_date: new Date().toISOString(),
         status: "",
         totalPaid: totalAmount,
         profileId: Number(userId),
       };
 
-      const responseTransactionPost = await fetch(`${BASE_URL}/transactions`, {
+      const response = await fetch(`${BASE_URL}/transactions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(transactionPost),
       });
-      if (!responseTransactionPost.ok) {
+      if (!response.ok) {
         throw new Error("Failed to create transaction record");
       }
+      const created = await response.json();
 
-      transactionMutate(transactionDetail);
+      // Move to the invoice/payment page for this specific transaction.
+      setPaying(null);
+      router.push(`/plans/payment/${created.id}`);
     } catch (error: any) {
-      toast.error(`Payment failed`, error.message);
+      setPaying(null);
+      toast.error(`Payment failed: ${error.message}`);
     }
   }
 
@@ -81,7 +89,7 @@ const PlansPage = () => {
         </div>
       )}
 
-      {transactionDetail?.status === "processed" ? (
+      {hasOngoingTransaction ? (
         <div className="flex space-x-2  justify-center items-center mt-8 container bg-yellow-500 p-8 rounded-md">
           <InfoCircle />
           <p className="text-center ">
@@ -114,10 +122,11 @@ const PlansPage = () => {
               </p>
 
               <Modal
-                openButton={"Get Started"}
+                openButton={paying === "monthly" ? "Processing..." : "Get Started"}
                 openButtonClassname="btn btn-primary w-full"
-                modalButton="Done"
+                modalButton="Continue to Payment"
                 modalButtonClassname="justify-center items-center"
+                onSubmit={() => requestPayment("monthly", 20)}
               >
                 <div className="mx-auto flex flex-col justify-center items-center">
                   <p>
@@ -125,24 +134,10 @@ const PlansPage = () => {
                     <span className=" font-bold">Monthly</span> plans for{" "}
                   </p>
                   <span className="font-bold text-blue-600 text-2xl">20$</span>
-                  <p>For now we only have QRIS Payment Method</p>
-                  <button
-                    onClick={() => {
-                      setShowQr(!showQr);
-                      requestPayment("monthly", 20);
-                    }}
-                  >
-                    Click here to show QR
-                  </button>
-
-                  {showQr && (
-                    <QRCode
-                      size={256}
-                      style={{ height: "auto" }}
-                      className="mb-6 mt-6"
-                      value={`${BASE_URL}/plans/payment/${userId}`}
-                    />
-                  )}
+                  <p className="mt-2">
+                    For now we only have QRIS Payment Method — you will be
+                    redirected to the invoice page where the QR is generated.
+                  </p>
                 </div>
               </Modal>
             </div>
@@ -173,19 +168,16 @@ const PlansPage = () => {
 
                 <li className="flex items-center gap-1">
                   <XCircle />
-
                   <span className="text-gray-700"> Help center access </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <XCircle />
-
                   <span className="text-gray-700"> Phone support </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <XCircle />
-
                   <span className="text-gray-700"> Community access </span>
                 </li>
               </ul>
@@ -213,10 +205,11 @@ const PlansPage = () => {
               </p>
 
               <Modal
-                openButton={"Get Started"}
+                openButton={paying === "yearly" ? "Processing..." : "Get Started"}
                 openButtonClassname="btn btn-primary w-full"
-                modalButton="Done"
+                modalButton="Continue to Payment"
                 modalButtonClassname="justify-center items-center"
+                onSubmit={() => requestPayment("yearly", 30)}
               >
                 <div className="mx-auto flex flex-col justify-center items-center">
                   <p>
@@ -224,24 +217,10 @@ const PlansPage = () => {
                     plans for{" "}
                   </p>
                   <span className="font-bold text-blue-600 text-2xl">30$</span>
-                  <p>For now we only have QRIS Payment Method</p>
-                  <button
-                    onClick={() => {
-                      setShowQr(!showQr);
-                      requestPayment("yearly", 30);
-                    }}
-                  >
-                    Click here to show QR
-                  </button>
-
-                  {showQr && (
-                    <QRCode
-                      size={256}
-                      style={{ height: "auto" }}
-                      className="mb-6 mt-6 "
-                      value={`${BASE_URL}/plans/payment/${userId}`}
-                    />
-                  )}
+                  <p className="mt-2">
+                    For now we only have QRIS Payment Method — you will be
+                    redirected to the invoice page where the QR is generated.
+                  </p>
                 </div>
               </Modal>
             </div>
@@ -254,37 +233,31 @@ const PlansPage = () => {
               <ul className="mt-2 space-y-2 sm:mt-4">
                 <li className="flex items-center gap-1">
                   <CheckCircle />
-
                   <span className="text-gray-700"> 20 users </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <CheckCircle />
-
                   <span className="text-gray-700"> 5GB of storage </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <CheckCircle />
-
                   <span className="text-gray-700"> Email support </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <CheckCircle />
-
                   <span className="text-gray-700"> Help center access </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <XCircle />
-
                   <span className="text-gray-700"> Phone support </span>
                 </li>
 
                 <li className="flex items-center gap-1">
                   <XCircle />
-
                   <span className="text-gray-700"> Community access </span>
                 </li>
               </ul>

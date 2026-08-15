@@ -9,6 +9,12 @@ import Select from "react-select";
 import { useRouter } from "next/router";
 import { validateTitle, validateContent } from "@/lib/helper/validators";
 
+// Cloudinary credentials — override locally via env (see .env.example).
+const CLOUDINARY_CLOUD_NAME =
+  process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "dywbf3czv";
+const CLOUDINARY_UPLOAD_PRESET =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "ruvcqm7j";
+
 interface INews {
   id: number;
   isPremium: boolean;
@@ -80,6 +86,10 @@ const PostForm = (data: { data?: INews }) => {
   };
 
   const handleSelectChange = (value: any) => {
+    if (value.length > 2) {
+      toast.error("Maximum 2 categories per post");
+      return;
+    }
     const selectedValue = value.map((item: any) => item.value);
     if (product?.id) {
       setEditedPost((prev) => ({ ...prev, category: selectedValue }));
@@ -88,10 +98,27 @@ const PostForm = (data: { data?: INews }) => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedImages = e.target.files[0];
-      setImage(selectedImages);
-    }
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Assignment spec: exactly one image at 1920x1080 resolution.
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      if (img.width !== 1920 || img.height !== 1080) {
+        toast.error("Image must be 1920x1080 (please resize and try again)");
+        e.target.value = "";
+      } else {
+        setImage(file);
+      }
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      toast.error("Could not read the selected image");
+      e.target.value = "";
+    };
+    img.src = url;
   };
 
   async function handleImageUpload() {
@@ -100,12 +127,13 @@ const PostForm = (data: { data?: INews }) => {
     const data = new FormData();
     if (!image) {
       toast.error("No image selected");
+      setLoading(false);
       return;
     }
     data.append("file", image!);
-    data.append("upload_preset", "ruvcqm7j");
+    data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
     const response = await fetch(
-      `https://api.cloudinary.com/v1_1/dywbf3czv/image/upload`,
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
       {
         method: "POST",
         body: data,
@@ -113,6 +141,11 @@ const PostForm = (data: { data?: INews }) => {
     );
 
     const file = await response.json();
+    if (!response.ok || !file.secure_url) {
+      toast.error("Image upload failed");
+      setLoading(false);
+      return;
+    }
     setImageUrl(file.secure_url);
     setFormPost((prev) => ({ ...prev, img: file.secure_url }));
     setEditedPost((prev) => ({ ...prev, img: file.secure_url }));
@@ -124,8 +157,22 @@ const PostForm = (data: { data?: INews }) => {
     e.preventDefault();
 
     try {
+      // Assignment spec: max one premium post at a time.
+      if (formPost.isPremium || editedPost.isPremium) {
+        const existing = await fetch(`${BASE_URL}/news?isPremium=true`);
+        const premiumPosts = await existing.json();
+        const otherPremium = (Array.isArray(premiumPosts) ? premiumPosts : [])
+          .filter((n: INewsElement) => n.id !== data.data?.id);
+        if (otherPremium.length > 0) {
+          toast.error(
+            "Only one premium post is allowed — deactivate the existing one first"
+          );
+          return;
+        }
+      }
+
       if (data.data?.id) {
-        const res = await axios.patch<INewsElement>(
+        await axios.patch<INewsElement>(
           `${BASE_URL}/news/${data.data?.id}`,
           {
             title: editedPost.title,
@@ -144,7 +191,7 @@ const PostForm = (data: { data?: INews }) => {
         toast.success("News updated successfully");
         return router.push("/admin");
       } else {
-        const res = await axios.post<INewsElement>(
+        await axios.post<INewsElement>(
           `${BASE_URL}/news`,
           {
             title: formPost.title,
@@ -209,7 +256,7 @@ const PostForm = (data: { data?: INews }) => {
               options={[
                 { value: "Tech", label: "Tech" },
                 { value: "Anime", label: "Anime" },
-                { value: "Polithics", label: "Polithics" },
+                { value: "Politics", label: "Politics" },
               ]}
               defaultValue={product?.category?.map((item) => ({
                 value: item,

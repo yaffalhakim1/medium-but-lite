@@ -24,66 +24,56 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   const { id } = router.query;
   const { newsDetail, newsDetailMutate } = useNewsDetail(Number(id));
 
-  const [isThisNewsLiked, setIsThisNewsLiked] = useState<boolean>();
+  // Derive initial like state from the data instead of an undefined default
+  // (previously the heart always rendered as "liked").
+  const [isThisNewsLiked, setIsThisNewsLiked] = useState<boolean>(
+    news.likes?.includes(Number(user_id)) ?? false
+  );
 
   async function handleLike() {
-    function checkIsLiked() {
-      const isLiked = news.likes?.findIndex((item) => item === Number(user_id));
-      return isLiked;
-    }
+    if (!user_id) return;
     try {
-      const isLiked = checkIsLiked();
+      setIsThisNewsLiked(true);
+      const likedSet = new Set([...(news.likes ?? []), Number(user_id)]);
+      await fetch(`${BASE_URL}/news/${news.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          likes: [...likedSet],
+        }),
+      });
 
-      if (isLiked === -1) {
-        setIsThisNewsLiked(true);
-        const response = await fetch(`${BASE_URL}/news/${news.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const userLikedSet = new Set([...(user?.likes ?? []), Number(id)]);
+      await fetch(`${BASE_URL}/profile/${Number(user_id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          likes: [...userLikedSet],
+        }),
+      });
 
-          body: JSON.stringify({
-            likes: [...news.likes, Number(user_id)],
-          }),
-        });
-
-        const responseUserLike = await fetch(
-          `${BASE_URL}/profile/${Number(user_id)}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-
-            body: JSON.stringify({
-              likes: [...user?.likes!, Number(id)],
-            }),
-          }
-        );
-
-        newsDetailMutate(newsDetail);
-        toast.success("liked!");
-      }
+      newsDetailMutate(newsDetail);
+      toast.success("liked!");
     } catch (error) {
       console.log(error, "error from catch");
     }
   }
 
   async function handleUnlike() {
-    function checkIsNewsUnliked() {
-      const like = news.likes?.filter((item) => item !== Number(user_id));
-      return like;
-    }
-    function checkIsUserUnliked() {
-      const userLike = user?.likes?.filter((item) => item !== Number(id));
-      return userLike;
-    }
-
+    if (!user_id) return;
     try {
-      const like = checkIsNewsUnliked();
-      const userLike = checkIsUserUnliked();
+      const like = (news.likes ?? []).filter(
+        (item) => item !== Number(user_id)
+      );
+      const userLike = (user?.likes ?? []).filter(
+        (item) => item !== Number(id)
+      );
       setIsThisNewsLiked(false);
-      const response = await fetch(`${BASE_URL}/news/${news.id}`, {
+      await fetch(`${BASE_URL}/news/${news.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -92,18 +82,15 @@ const NewsDetailPage = ({ news }: NewsProps) => {
           likes: like,
         }),
       });
-      const responseUserUnlike = await fetch(
-        `${BASE_URL}/profile/${Number(user_id)}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            likes: userLike,
-          }),
-        }
-      );
+      await fetch(`${BASE_URL}/profile/${Number(user_id)}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          likes: userLike,
+        }),
+      });
       newsDetailMutate(newsDetail);
       toast.success("unliked!");
     } catch (error) {
@@ -113,13 +100,14 @@ const NewsDetailPage = ({ news }: NewsProps) => {
 
   async function handleShares() {
     try {
-      const res = await fetch(`${BASE_URL}/news/${news.id}`, {
+      const shares = (news.shares ?? 0) + 1;
+      await fetch(`${BASE_URL}/news/${news.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          shares: news.shares + 1,
+          shares,
         }),
       });
       newsDetailMutate(newsDetail);
@@ -135,12 +123,6 @@ const NewsDetailPage = ({ news }: NewsProps) => {
     return data.likes || [];
   }
 
-  async function fetchNewsById(newsId: number) {
-    const response = await fetch(`${BASE_URL}/news/${newsId}`);
-    const data = await response.json();
-    return data;
-  }
-
   async function fetchAllNews() {
     const response = await fetch(`${BASE_URL}/news`);
     const data = await response.json();
@@ -148,18 +130,26 @@ const NewsDetailPage = ({ news }: NewsProps) => {
   }
 
   async function recommendNewsForUser() {
+    if (!user_id) return [];
     try {
-      const likedNews = await fetchLikedNews(Number(user_id));
-      let recommendedNews: any[] = [];
-      for (const id of likedNews) {
-        const news = await fetchNewsById(id);
-        const recommended = (await fetchAllNews()).filter(
-          (rec: any) =>
-            rec.category[0] === news.category[0] && !likedNews.includes(rec.id)
-        );
-        recommendedNews = recommendedNews.concat(recommended.slice(0, 3));
-      }
-      return recommendedNews;
+      // Single round trip: fetch liked ids + all news once, then filter
+      // in memory (previously: N+1 fetches per liked article).
+      const [likedNews, allNews] = await Promise.all([
+        fetchLikedNews(Number(user_id)),
+        fetchAllNews(),
+      ]);
+      if (!likedNews.length) return [];
+
+      const likedSet = new Set(likedNews);
+      const likedNewsItems = allNews.filter((n: any) => likedSet.has(n.id));
+      const recommended = allNews.filter(
+        (rec: any) =>
+          !likedSet.has(rec.id) &&
+          likedNewsItems.some(
+            (liked: any) => liked.category?.[0] === rec.category?.[0]
+          )
+      );
+      return recommended.slice(0, 3);
     } catch (error) {
       return [];
     }
@@ -228,7 +218,7 @@ const NewsDetailPage = ({ news }: NewsProps) => {
         </h2>
         <ul className="md:grid md:grid-cols-3 md:gap-3 items-center space-y-3 md:space-y-clear0 mt-5 mb-10">
           {recommendedNews
-            ?.map((item) => (
+            ?.map((item: INewsElement) => (
               <li key={item.id}>
                 <Link href={`/news/${item.id}`}>
                   <Card
@@ -270,7 +260,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   });
 
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps<NewsProps> = async (context) => {

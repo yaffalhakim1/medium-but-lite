@@ -47,18 +47,18 @@ const TransactionPage = () => {
     setPage((prevPage) => prevPage - 1);
   };
 
-  const handleAcceptOrReject = async (
+  // Accept: mark the transaction success AND grant the user premium.
+  const handleAccept = async (
     id: number,
     trans_id: number,
-    status: string,
     type: string,
-    trans_date?: string
+    trans_date: string
   ) => {
     try {
-      const res = await axios.patch<ITransaction>(
+      await axios.patch<ITransaction>(
         `${BASE_URL}/transactions/${trans_id}`,
         {
-          status: status,
+          status: "success",
           type: type,
           trans_date: trans_date,
         },
@@ -69,7 +69,7 @@ const TransactionPage = () => {
         }
       );
 
-      const resp = await axios.patch<User>(
+      await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
         {
           isPremiumUser: true,
@@ -84,8 +84,29 @@ const TransactionPage = () => {
           },
         }
       );
-      transactionMutate(transaction);
-      toast.success(`Transaction ${status}`);
+      transactionMutate();
+      toast.success("Transaction accepted");
+    } catch (err) {
+      toast.error("Failed to update transaction");
+    }
+  };
+
+  // Reject: cancel the transaction ONLY — must not grant premium.
+  const handleReject = async (trans_id: number) => {
+    try {
+      await axios.patch<ITransaction>(
+        `${BASE_URL}/transactions/${trans_id}`,
+        {
+          status: "cancelled",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      transactionMutate();
+      toast.success("Transaction cancelled");
     } catch (err) {
       toast.error("Failed to update transaction");
     }
@@ -194,7 +215,8 @@ const TransactionPage = () => {
                     <td>{item.type}</td>
                     <td>{formatExpirationDate(item.trans_date)}</td>
                     <td className="space-x-2">
-                      {item.status === "success" && "cancelled" ? (
+                      {item.status === "success" ||
+                      item.status === "cancelled" ? (
                         <></>
                       ) : (
                         <>
@@ -205,19 +227,16 @@ const TransactionPage = () => {
                                 onClick={
                                   item.type === "monthly"
                                     ? () =>
-                                        handleAcceptOrReject(
+                                        handleAccept(
                                           item.profileId!,
                                           item?.id!,
-                                          "success",
                                           "monthly",
                                           calculateNewExpiredDateForMonthly()
                                         )
                                     : () =>
-                                        handleAcceptOrReject(
+                                        handleAccept(
                                           item.profileId!,
                                           item?.id!,
-
-                                          "success",
                                           "yearly",
                                           calculateNewExpiredDateForYearly()
                                         )
@@ -227,15 +246,9 @@ const TransactionPage = () => {
                               </button>
 
                               <button
-                                className="btn btn-error no-animation btn-sm text-white"
+                                className="btn btn-error no-animation text-white btn-sm"
                                 onClick={() =>
-                                  handleAcceptOrReject(
-                                    item.profileId!,
-                                    item?.id!,
-
-                                    "canceled",
-                                    ""
-                                  )
+                                  handleReject(item?.id!)
                                 }
                               >
                                 Reject

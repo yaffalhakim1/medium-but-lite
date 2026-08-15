@@ -1,12 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
-import { BASE_URL } from "@/config/api";
 import axios, { AxiosError } from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-
-import { useUsers } from "@/lib/useUser";
 import { toast } from "sonner";
+import {
+  validateAddress,
+  validateConfirmPassword,
+  validateEmail,
+  validateName,
+  validatePassword,
+  validatePhone,
+} from "@/lib/helper/validators";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -14,124 +19,103 @@ const RegisterPage = () => {
     name: "",
     email: "",
     password: "",
-    password_confirmation: "",
-    phone: Number,
+    confirm_password: "",
+    phone: "",
     address: "",
-    role: "user",
-    isPremiumUser: false,
-    news: [],
     referral: "",
-    subscriptionPlan: {
-      type: "",
-      expired_date: "",
-    },
   });
   const [loading, setLoading] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [validationEmail, setvalidationEmailError] = useState<string | null>(
+  const [validationEmail, setValidationEmailError] = useState<string | null>(
     null
   );
-  const [validationPassword, setvalidationPasswordError] = useState<
+  const [validationPassword, setValidationPasswordError] = useState<
     string | null
   >(null);
   const [validationConfirmPass, setValidationConfirmPassError] = useState<
     string | null
   >(null);
-
-  const [validationPhone, setvalidationPhoneError] = useState<string | null>(
+  const [validationPhone, setValidationPhoneError] = useState<string | null>(
     null
   );
-  const [validationAddress, setvalidationAddressError] = useState<
+  const [validationAddress, setValidationAddressError] = useState<
     string | null
   >(null);
 
   function fieldHandler(e: ChangeEvent<HTMLInputElement>) {
-    const ev = e.target;
+    const { name, value } = e.target;
 
-    setField({
-      ...field,
-      [e.target.name]: e.target.value,
-    });
+    setField((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
-    if (ev.name === "name") {
-      const nameValue = ev.value;
-      const error = nameValue.includes("@")
-        ? "Name cannot contain any symbol or number"
-        : null;
-      setValidationError(error);
+    if (name === "name") {
+      setValidationError(validateName(value));
     }
 
-    if (ev.name === "email") {
-      const email = ev.value;
-
-      const emailError =
-        !email.includes("@") || !email.includes(".")
-          ? "Email must include @ symbol"
-          : null;
-      setvalidationEmailError(emailError);
+    if (name === "email") {
+      setValidationEmailError(validateEmail(value));
     }
 
-    if (ev.name === "phone") {
-      const phone = ev.value;
-      const phoneError =
-        Number(phone) < 10 ? "The minimum character is 10" : null;
-
-      setvalidationPhoneError(phoneError);
+    if (name === "phone") {
+      setValidationPhoneError(validatePhone(value));
     }
 
-    if (ev.name === "address") {
-      const address = ev.value;
-      const addressError =
-        address.length < 10 ? "The minimum character is 10" : null;
-
-      setvalidationAddressError(addressError);
+    if (name === "address") {
+      setValidationAddressError(validateAddress(value));
     }
 
-    const pass = ev.name === "password";
-    const conf_pass = ev.name === "confirm_password";
-
-    if (conf_pass) {
-      const confirmPassError =
-        conf_pass != pass ? "Confirmation Password didn't match" : null;
-      setValidationConfirmPassError(confirmPassError);
+    if (name === "password") {
+      setValidationPasswordError(validatePassword(value));
+      // Re-validate the confirmation field against the new password.
+      if (field.confirm_password) {
+        setValidationConfirmPassError(
+          validateConfirmPassword(field.confirm_password, value)
+        );
+      }
     }
 
-    if (pass) {
-      const pass = ev.value;
-      const passError = Number(pass) < 8 ? "The minimum character is 8" : null;
-
-      setvalidationPasswordError(passError);
+    if (name === "confirm_password") {
+      setValidationConfirmPassError(validateConfirmPassword(value, field.password));
     }
   }
-
-  const { users } = useUsers({});
 
   async function handleRegister(e: SyntheticEvent) {
     e.preventDefault();
+
+    if (
+      validationError ||
+      validationEmail ||
+      validationPassword ||
+      validationConfirmPass ||
+      validationPhone ||
+      validationAddress
+    ) {
+      return;
+    }
+
+    setLoading(true);
     try {
-      const register = await axios.post(`${BASE_URL}/profile`, field, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      // Registration is validated server-side; role is enforced as "user"
+      // (pages/api/auth/register.ts) — the client cannot self-assign admin.
+      const register = await axios.post("/api/auth/register", field, {
+        headers: { "Content-Type": "application/json" },
       });
-      setLoading(false);
 
-      if (users?.find((user) => user.email === field.email)) {
-        toast.error("Email sudah terdaftar");
-        return;
-      }
-
-      if (register) {
+      if (register.status === 201) {
+        toast.success("Akun berhasil dibuat, silakan login");
         return router.push("/auth/login");
       }
-    } catch (error: any) {
-      const err = error as AxiosError;
-      if (err.status === 404) {
-        toast.error("register gagal, silakan coba lagi");
-      }
+    } catch (error) {
+      const err = error as AxiosError<{ message?: string }>;
+      toast.error(
+        err.response?.data?.message || "Register gagal, silakan coba lagi"
+      );
       setLoading(false);
     }
   }
+
   return (
     <>
       <Head>
@@ -240,7 +224,6 @@ const RegisterPage = () => {
                   placeholder="Password (minimum 8 characters)"
                   name="password"
                   onChange={fieldHandler}
-                  // pattern=".{8,}"
                   title="Password must be at least 8 characters long"
                   required
                 />
@@ -269,25 +252,17 @@ const RegisterPage = () => {
               </div>
               <div className="pb-2 pt-4">
                 <input
-                  type="email"
-                  className={`block w-full p-4 text-lg rounded-sm bg-black focus:border-indigo-500 ${
-                    validationEmail && "input-error "
-                  }`}
-                  placeholder="Referral"
+                  type="text"
+                  className="block w-full p-4 text-lg rounded-sm bg-black focus:border-indigo-500"
+                  placeholder="Referral (optional)"
                   name="referral"
                   onChange={fieldHandler}
-                  required
                 />
-                {validationEmail && (
-                  <p className="mt-2 text-start  text-sm text-red-500 border-red-400">
-                    {validationEmail}
-                  </p>
-                )}
               </div>
               <button
                 type="submit"
                 className="btn mt-5 btn-primary w-full capitalize text-white"
-                onClick={() => setLoading(true)}
+                disabled={loading}
               >
                 {loading ? (
                   <div className="flex flex-row items-center">

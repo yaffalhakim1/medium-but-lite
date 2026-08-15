@@ -1,23 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import axios, { Axios, AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, SyntheticEvent, useState } from "react";
-import Cookie from "js-cookie";
 import { toast } from "sonner";
-import { BASE_URL } from "@/config/api";
-import { token } from "@/lib/utils/token";
-import { User } from "@/types/user-types";
 import { validateEmail, validatePassword } from "@/lib/helper/validators";
 
 const LoginPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [field, setField] = useState({ email: "", password: "" });
-  const [validationEmail, setvalidationEmailError] = useState<string | null>(
+  const [validationEmail, setValidationEmailError] = useState<string | null>(
     null
   );
-  const [validationPassword, setvalidationPasswordError] = useState<
+  const [validationPassword, setValidationPasswordError] = useState<
     string | null
   >(null);
 
@@ -26,59 +22,51 @@ const LoginPage = () => {
 
     setField({
       ...field,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
 
     if (name === "email") {
-      setvalidationEmailError(validateEmail(value));
+      setValidationEmailError(validateEmail(value));
     }
 
     if (name === "password") {
-      setvalidationPasswordError(validatePassword(value));
+      setValidationPasswordError(validatePassword(value));
     }
   }
 
   async function handleLogin(e: SyntheticEvent) {
-    if (validationEmail === "") {
-      return;
-    }
-    if (validationPassword === "") {
-      return;
-    }
-
     e.preventDefault();
+
+    if (validationEmail || validationPassword) {
+      return;
+    }
+
+    setLoading(true);
     try {
-      const response = await axios.get<User[]>(
-        `${BASE_URL}/profile?email=${field.email}&password=${field.password}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setLoading(false);
-
-      if (response.data[0].role === "user") {
-        Cookie.set("token", token());
-        Cookie.set("role", "user");
-        Cookie.set("user_id", response.data[0].id.toString());
-        Cookie.set("isPremium", response.data[0].isPremiumUser.toString());
-        return router.push("/");
-      }
-
-      if (response.data[0].role === "admin") {
-        Cookie.set("token", token());
-        Cookie.set("role", "admin");
-
-        return router.push("/admin");
-      }
+      // Credentials are verified server-side (pages/api/auth/login.ts);
+      // the server issues the session cookie — the client never sees or
+      // generates tokens, and can never claim a role by itself.
+      const response = await axios.post<{
+        id: number;
+        role: string;
+        name: string;
+        isPremiumUser: boolean;
+      }>("/api/auth/login", field, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       toast.success("Login berhasil");
-    } catch (error) {
-      const err = error as AxiosError;
-      if (err.status === 404) {
-        toast.error("login gagal, silakan coba lagi");
+      if (response.data.role === "admin") {
+        return router.push("/admin");
       }
+      return router.push("/");
+    } catch (error) {
+      const err = error as AxiosError<{ message?: string }>;
+      const message =
+        err.response?.status === 401
+          ? "Email atau password salah"
+          : err.response?.data?.message || "Login gagal, silakan coba lagi";
+      toast.error(message);
       setLoading(false);
     }
   }
@@ -153,7 +141,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 className="btn mt-5 btn-primary w-full capitalize text-white"
-                onClick={() => setLoading(true)}
+                disabled={loading}
               >
                 {loading ? (
                   <div className="flex flex-row items-center">
@@ -168,8 +156,6 @@ const LoginPage = () => {
                   Not a member? Sign up now
                 </p>
               </button>
-
-              <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden "></div>
             </form>
           </div>
         </div>

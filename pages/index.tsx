@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { GetServerSideProps } from "next";
 import { BASE_URL } from "@/config/api";
 import { INewsElement } from "@/types/news-types";
@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const NewsList = ({ data }: { data: INewsElement[] }) => {
-  const token = Cookie.get("token");
   const userId = Cookie.get("user_id");
 
   const authed = useAuthStore((state) => state.isLoggedIn);
@@ -39,6 +38,9 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const [selectedCat, setSelectedCat] = useState<string[]>([]);
   const [sortByDate, setSortByDate] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Dedupe reading history across re-renders (no duplicate news IDs).
+  const historyRef = useRef<Set<number>>(new Set());
 
   const { newsList, newsLoading, newsResetFilters } = useNews({
     search,
@@ -51,10 +53,12 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   const { user } = useUser(Number(userId));
 
   useEffect(() => {
-    if (token) {
+    if (userId) {
       setAuthed(true);
+    } else {
+      setAuthed(false);
     }
-  }, [setAuthed, token]);
+  }, [setAuthed, userId]);
 
   if (newsLoading) {
     return <p>Loading...</p>;
@@ -69,14 +73,22 @@ const NewsList = ({ data }: { data: INewsElement[] }) => {
   };
 
   async function handleNewsCountEverytimeUserOpenIt(newsId: number) {
+    if (!userId) return;
+    // Skip duplicates and only record each article once.
+    if (historyRef.current.has(newsId)) return;
+    historyRef.current.add(newsId);
+
     try {
-      const res = await fetch(`${BASE_URL}/profile/${userId}`, {
+      const current = user?.news ?? [];
+      if (current.includes(newsId)) return;
+
+      await fetch(`${BASE_URL}/profile/${userId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          news: [...user?.news!, newsId],
+          news: [...current, newsId],
         }),
       });
     } catch (error) {

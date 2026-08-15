@@ -9,19 +9,22 @@ import { useUser } from "@/lib/useUser";
 const Navbar = () => {
   const router = useRouter();
   const profileId = Cookie.get("user_id");
-  const token = Cookie.get("token");
   const authed = useAuthStore((state) => state.isLoggedIn);
   const setAuthed = useAuthStore((state) => state.setIsLoggedIn);
 
   const { user } = useUser(Number(profileId));
 
   useEffect(() => {
-    if (token) {
+    if (profileId) {
       setAuthed(true);
+    } else {
+      setAuthed(false);
     }
-  }, [setAuthed, token]);
+  }, [setAuthed, profileId]);
 
   function handleLogout() {
+    // Revoke the server-side session, then clear the local cookies.
+    fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     Cookie.remove("token");
     Cookie.remove("role");
     Cookie.remove("user_id");

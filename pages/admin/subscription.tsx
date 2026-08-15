@@ -38,20 +38,12 @@ export default function SubscriptionPage() {
     setPage((prevPage) => prevPage - 1);
   };
 
-  const lastElement = transaction?.[transaction.length - 1];
-
-  const handleSubscriptionToggle = async (
-    id: number,
-    trans_id: number,
-    isPremiumUser: boolean
-  ) => {
+  const handleDeactivate = async (id: number) => {
     try {
-      const newStatus = !isPremiumUser;
-
-      const res = await axios.patch<User>(
+      await axios.patch<User>(
         `${BASE_URL}/profile/${id}`,
         {
-          isPremiumUser: newStatus,
+          isPremiumUser: false,
           subscriptionPlan: {
             type: "",
             expired_date: "",
@@ -64,22 +56,27 @@ export default function SubscriptionPage() {
         }
       );
 
-      const changeInTrans = await axios.patch(
-        `${BASE_URL}/transactions/${trans_id}`,
-        {
-          status: "",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      // Cancel the user's latest non-cancelled transaction (if any) — the
+      // transaction linked to THIS user, not the last row in the database.
+      const userTx = transaction?.find(
+        (t) => t.profileId === id && t.status !== "cancelled"
+      );
+      if (userTx?.id) {
+        await axios.patch(
+          `${BASE_URL}/transactions/${userTx.id}`,
+          {
+            status: "cancelled",
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      }
 
-      usersMutate(users);
-      toast.success(
-        `User subscription ${newStatus ? "activated" : "deactivated"}`
-      );
+      usersMutate();
+      toast.success("User subscription deactivated");
     } catch (err) {
       toast.error("Failed to update user subscription");
     }
@@ -171,13 +168,7 @@ export default function SubscriptionPage() {
                               openButton={"Deactivate Subs"}
                               modalTitle={`Are you sure you want to deactivate ${item.name} subs?`}
                               modalButton={"Deactivate"}
-                              onSubmit={() =>
-                                handleSubscriptionToggle(
-                                  item.id,
-                                  lastElement?.id!,
-                                  item.isPremiumUser
-                                )
-                              }
+                              onSubmit={() => handleDeactivate(item.id)}
                             ></Modal>
                           </li>
                         </ul>
