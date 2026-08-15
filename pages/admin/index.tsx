@@ -1,6 +1,7 @@
 import { SetStateAction, useState } from "react";
 import Head from "next/head";
 import Cookie from "js-cookie";
+import { useUser } from "@/lib/useUser";
 
 import SubscriptionPage from "./subscription";
 import PostsPage from "./posts";
@@ -12,14 +13,19 @@ export default function DashboardAdmin() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const userId = Cookie.get("user_id");
+  const { user } = useUser(Number(userId));
 
   const handleClick = (item: SetStateAction<number>) => {
     setSelectedItem(item);
   };
 
   function handleLogout() {
+    fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     Cookie.remove("token");
     Cookie.remove("role");
+    Cookie.remove("user_id");
+    Cookie.remove("isPremium");
     return router.push("/auth/login");
   }
 
@@ -48,8 +54,8 @@ export default function DashboardAdmin() {
                 </div>
               </div>
               <div>
-                <div className="font-bold">{"userName"}</div>
-                <div className="text-sm opacity-50">{"email"}</div>
+                <div className="font-bold">{user?.name}</div>
+                <div className="text-sm opacity-50">{user?.email}</div>
               </div>
             </div>
           </div>
