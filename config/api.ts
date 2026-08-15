@@ -1,2 +1,3 @@
-// export const BASE_URL = "http://10.20.191.157:8080";
-export const BASE_URL = "https://jsonmedium.vercel.app";
+// JSON Server base URL — override locally with NEXT_PUBLIC_API_URL (see .env.example)
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://jsonmedium.vercel.app";

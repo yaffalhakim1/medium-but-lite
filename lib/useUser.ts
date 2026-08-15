@@ -36,10 +36,9 @@ export const useUsers = (filters: UserFilters) => {
 // use users details
 
 export const useUser = (id: number) => {
-  const { data, isLoading, error, mutate } = useSWR<User>(
-    `${BASE_URL}/profile/${id}`,
-    fetcher
-  );
+  // Guard: guests / missing cookie produce NaN — skip the fetch entirely.
+  const key = Number.isFinite(id) && id > 0 ? `${BASE_URL}/profile/${id}` : null;
+  const { data, isLoading, error, mutate } = useSWR<User>(key, fetcher);
 
   return {
     user: data,

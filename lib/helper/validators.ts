@@ -26,16 +26,35 @@ export const validatePhone = (value: string): string | null => {
   return null;
 };
 
-export const validateTitle = (value: string): string | null => {
-  if (value.length > 15) {
-    return "The maximal character is 15";
+export const validateAddress = (value: string): string | null => {
+  if (value.length < 10) {
+    return "The minimum character is 10";
   }
   return null;
 };
 
+export const validateConfirmPassword = (
+  value: string,
+  password: string
+): string | null => {
+  if (value !== password) {
+    return "Confirmation password didn't match";
+  }
+  return null;
+};
+
+// Assignment spec: title max 20 chars
+export const validateTitle = (value: string): string | null => {
+  if (value.length > 20) {
+    return "The maximal character is 20";
+  }
+  return null;
+};
+
+// Assignment spec: description/content max 200 chars
 export const validateContent = (value: string): string | null => {
-  if (value.length > 2000) {
-    return "The maximal character is 2000";
+  if (value.length > 200) {
+    return "The maximal character is 200";
   }
   return null;
 };
